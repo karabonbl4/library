@@ -31,10 +31,10 @@ public class Book extends ParentEntity {
     private String unit;
 
     @JoinColumn(name = "publisher_id")
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Publisher publisher;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany()
     @JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"),
                                      inverseJoinColumns = @JoinColumn(name = "author_id"))
     private List<Author> authors;
