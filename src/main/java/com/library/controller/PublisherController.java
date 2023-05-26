@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,6 +23,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class PublisherController {
 
     private final PublisherService publisherService;
+
+    @GetMapping
+    public List<PublisherDto> getAllWithPageable(@RequestParam Integer page, @RequestParam Integer sizeOnPage){
+        return publisherService.findAllWithPageable(page, sizeOnPage);
+    }
 
     @GetMapping(value = "/{id}")
     public PublisherDto getPublisher(@PathVariable(name = "id") Long publisherId){

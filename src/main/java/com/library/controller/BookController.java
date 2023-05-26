@@ -3,7 +3,6 @@ package com.library.controller;
 import com.library.model.dto.BookDto;
 import com.library.service.BookService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,7 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/books")
@@ -21,6 +23,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class BookController {
 
     private final BookService bookService;
+
+    @GetMapping
+    public List<BookDto> getAllBooks(@RequestParam Integer page, @RequestParam Integer sizeOnPage){
+        return bookService.findAllWithPagination(page, sizeOnPage);
+    }
 
     @GetMapping(value = "/{id}")
     public BookDto getBookById(@PathVariable("id") Long bookId){
