@@ -41,7 +41,7 @@ public class Publisher extends ParentEntity {
     @Transient
     private String fullAddress;
 
-    @OneToMany(mappedBy = "publisher", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "publisher")
     private List<Book> books;
 
     @PostLoad
