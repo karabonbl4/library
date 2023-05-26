@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CustomDto {
+public class ParentDto {
 
     protected Long id;
 

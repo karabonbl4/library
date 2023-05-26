@@ -1,28 +1,22 @@
 package com.library.model.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.library.model.mapper.shortDto.BookTitleDto;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class AuthorDto extends CustomDto{
-
-    private String name;
-
-    private String surname;
+public class AuthorDto extends ParentDto {
 
     private String fullName;
 
     private LocalDate birthDay;
 
     private LocalDate ripDay;
+
+    private List<BookTitleDto> books;
 
 }

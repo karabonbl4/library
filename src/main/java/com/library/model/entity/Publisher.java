@@ -5,7 +5,10 @@ import jakarta.persistence.Entity;
 
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PostLoad;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,9 +18,10 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Publisher extends CustomEntity{
+public class Publisher extends ParentEntity {
 
     @Column
     private String title;
@@ -34,7 +38,15 @@ public class Publisher extends CustomEntity{
     @Column(name = "build_num")
     private String buildNumber;
 
+    @Transient
+    private String fullAddress;
+
     @OneToMany(mappedBy = "publisher", fetch = FetchType.LAZY)
     private List<Book> books;
+
+    @PostLoad
+    private void setFullAddress(){
+        this.fullAddress = country.concat(", ").concat(city + ", ").concat(street + ", ").concat(buildNumber);
+    }
 
 }

@@ -20,10 +20,8 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class Author extends CustomEntity {
+public class Author extends ParentEntity {
 
     @Column
     private String name;

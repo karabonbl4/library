@@ -6,15 +6,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PublisherDto extends CustomDto{
+public class PublisherDto extends ParentDto {
 
     private String title;
 
-    private String country;
-
-    private String city;
-
-    private String street;
-
-    private String buildNumber;
+    private String fullAddress;
 }

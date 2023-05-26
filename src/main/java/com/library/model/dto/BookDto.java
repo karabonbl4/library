@@ -1,17 +1,14 @@
 package com.library.model.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.library.model.mapper.shortDto.AuthorFullNameDto;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class BookDto extends CustomDto{
+public class BookDto extends ParentDto {
 
     private String title;
 
@@ -20,5 +17,7 @@ public class BookDto extends CustomDto{
     private Integer stack;
 
     private String unit;
+
+    private List<AuthorFullNameDto> authors;
 
 }

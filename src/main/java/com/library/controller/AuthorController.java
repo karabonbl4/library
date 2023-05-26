@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,6 +23,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthorController {
 
     private final AuthorService authorService;
+
+    @GetMapping
+    public List<AuthorDto> getAllAuthors(@RequestParam Integer page, @RequestParam Integer sizeOnPage){
+        return authorService.findAllWithPageable(page, sizeOnPage);
+    }
 
     @GetMapping(value = "/{id}")
     public AuthorDto getAuthorById(@PathVariable("id") Long authorId){
@@ -44,6 +52,6 @@ public class AuthorController {
 
     @PutMapping(value = "/delete")
     public ResponseEntity<AuthorDto> softDeleteAuthor(@RequestBody AuthorDto authorDto){
-        return new ResponseEntity<>(authorService.saveOrUpdate(authorDto), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(authorService.softDelete(authorDto), HttpStatus.ACCEPTED);
     }
 }

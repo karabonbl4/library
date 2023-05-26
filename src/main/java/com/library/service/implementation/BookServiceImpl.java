@@ -6,9 +6,14 @@ import com.library.repository.BookRepository;
 import com.library.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +23,13 @@ public class BookServiceImpl implements BookService {
 
     private final ModelMapper modelMapper;
 
+    @Override
+    public List<BookDto> findAllWithPagination(Integer page, Integer sizeOnPage) {
+        Pageable paging = PageRequest.of(page - 1, sizeOnPage);
+        return bookRepository.findAll(paging).stream()
+                .map(book -> modelMapper.map(book, BookDto.class))
+                .collect(Collectors.toList());
+    }
 
     @Override
     public BookDto findById(Long id) {

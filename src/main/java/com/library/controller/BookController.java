@@ -45,6 +45,6 @@ public class BookController {
 
     @PutMapping(value = "/delete")
     public ResponseEntity<BookDto> softDeleteBook(@RequestBody BookDto bookDto){
-        return new ResponseEntity<>(bookService.saveOrUpdate(bookDto), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(bookService.softDelete(bookDto), HttpStatus.ACCEPTED);
     }
 }

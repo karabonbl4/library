@@ -44,6 +44,6 @@ public class PublisherController {
 
     @PutMapping(value = "/delete")
     public ResponseEntity<PublisherDto> softDeletePublisher(@RequestBody PublisherDto publisherDto){
-        return new ResponseEntity<>(publisherService.saveOrUpdate(publisherDto), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(publisherService.softDelete(publisherDto), HttpStatus.ACCEPTED);
     }
 }

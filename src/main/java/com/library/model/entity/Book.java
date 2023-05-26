@@ -16,7 +16,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-public class Book extends CustomEntity{
+public class Book extends ParentEntity {
 
     @Column
     private String title;
