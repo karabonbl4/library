@@ -5,7 +5,6 @@ services:
     container_name: library
     image: eclipse-temurin:17-jdk-alpine
     build: .
-    entrypoint: ["java","-jar","library-0.1.jar"]
     ports:
       - "8080:8080"
     depends_on:
