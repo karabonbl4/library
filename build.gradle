@@ -27,6 +27,7 @@ dependencies {
 	implementation 'ch.qos.logback:logback-core:1.4.6'
 	implementation 'ch.qos.logback:logback-classic:1.4.6'
 	implementation 'org.slf4j:slf4j-api:2.0.5'
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'

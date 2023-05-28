@@ -24,7 +24,7 @@
 
     </appender>
 
-    <logger name="com.senla.exceptions" level="error">
+    <logger name="com.library.exceptions" level="error">
         <appender-ref ref="FILE"/>
     </logger>
     <root level="info">
