@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.web.client.HttpClientErrorException;
+
 import java.time.LocalDateTime;
 
 @Slf4j
@@ -17,6 +19,14 @@ public class DefaultAdviceController {
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleNotFoundException(EntityNotFoundException e) {
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), LocalDateTime.now(), HttpStatus.NOT_FOUND);
+        log.error(e.getClass().getSimpleName().concat(":").concat(String.valueOf(errorResponse)));
+        return errorResponse;
+    }
+
+    @ExceptionHandler(HttpClientErrorException.NotFound.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handlePageNotFoundException(HttpClientErrorException.NotFound e){
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), LocalDateTime.now(), HttpStatus.NOT_FOUND);
         log.error(e.getClass().getSimpleName().concat(":").concat(String.valueOf(errorResponse)));
         return errorResponse;
