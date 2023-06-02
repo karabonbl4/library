@@ -2,7 +2,6 @@ package com.library.model.dto;
 
 import com.library.model.mapper.shortDto.BookTitleDto;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

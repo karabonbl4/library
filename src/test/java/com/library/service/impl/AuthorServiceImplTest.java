@@ -4,7 +4,6 @@ import com.library.model.dto.AuthorDto;
 import com.library.model.entity.Author;
 import com.library.model.mapper.AuthorMapper;
 import com.library.repository.AuthorRepository;
-import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
