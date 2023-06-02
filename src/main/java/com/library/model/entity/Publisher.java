@@ -17,9 +17,8 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Publisher extends ParentEntity {
 
     @Column
@@ -37,15 +36,7 @@ public class Publisher extends ParentEntity {
     @Column(name = "build_num")
     private String buildNumber;
 
-    @Transient
-    private String fullAddress;
-
     @OneToMany(mappedBy = "publisher")
     private List<Book> books;
-
-    @PostLoad
-    private void setFullAddress(){
-        this.fullAddress = country.concat(", ").concat(city + ", ").concat(street + ", ").concat(buildNumber);
-    }
 
 }

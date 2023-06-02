@@ -1,7 +1,6 @@
-package com.library.service.implementation;
+package com.library.service.impl;
 
 import com.library.model.dto.PublisherDto;
-import com.library.model.entity.Publisher;
 import com.library.model.mapper.PublisherMapper;
 import com.library.repository.PublisherRepository;
 import com.library.service.PublisherService;
@@ -39,8 +38,7 @@ public class PublisherServiceImpl implements PublisherService {
 
     @Override
     public PublisherDto saveOrUpdate(PublisherDto publisherDto) {
-        Publisher savedPublisher = publisherMapper.mapToPublisher(publisherDto);
-        return publisherMapper.mapToPublisherDto(publisherRepository.save(savedPublisher));
+        return publisherMapper.mapToPublisherDto(publisherRepository.save(publisherMapper.mapToPublisher(publisherDto)));
     }
 
     @Override

@@ -20,4 +20,13 @@ public class BookDto extends ParentDto {
 
     private List<AuthorFullNameDto> authors;
 
+//    @Builder
+//    public BookDto(Long id, Boolean deleted, String title, Short publicationYear, Integer stack, String unit, List<AuthorFullNameDto> authors) {
+//        super(id, deleted);
+//        this.title = title;
+//        this.publicationYear = publicationYear;
+//        this.stack = stack;
+//        this.unit = unit;
+//        this.authors = authors;
+//    }
 }

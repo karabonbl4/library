@@ -2,33 +2,62 @@ package com.library.model.mapper;
 
 import com.library.model.dto.AuthorDto;
 import com.library.model.entity.Author;
-import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+
+
 @Component
-@RequiredArgsConstructor
 public class AuthorMapper {
 
     private final ModelMapper modelMapper;
 
-    public Author mapToAuthor(AuthorDto authorDto){
-        String[] fullNameArray = authorDto.getFullName().split(" ");
-        Author mappedAuthor = modelMapper.map(authorDto, Author.class);
-        mappedAuthor.setName(fullNameArray[0]);
-        String surname = null;
-        for (int i = 1; i < fullNameArray.length; i++) {
-            surname = fullNameArray[i];
-            if (i != fullNameArray.length - 1){
-                surname = surname.concat(" ");
-            }
-        }
-        mappedAuthor.setSurname(surname);
+    public AuthorMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
 
-        return mappedAuthor;
+        modelMapper.createTypeMap(Author.class, AuthorDto.class)
+                .addMappings(new PropertyMap<Author, AuthorDto>() {
+                    @Override
+                    protected void configure() {
+                        using(context -> generatedFullName(
+                                ((Author)context.getSource()).getName(),
+                                ((Author)context.getSource()).getSurname()))
+                                .map(source, destination.getFullName());
+                    }
+                });
+
+        modelMapper.createTypeMap(AuthorDto.class, Author.class)
+                .addMappings(new PropertyMap<AuthorDto, Author>() {
+                    @Override
+                    protected void configure() {
+                        using(context -> getNameOrSurnameFromFullName(
+                                ((AuthorDto)context.getSource()).getFullName(),
+                                0))
+                                .map(source, destination.getName());
+                        using(context -> getNameOrSurnameFromFullName(
+                                ((AuthorDto)context.getSource()).getFullName(),
+                                1))
+                                .map(source, destination.getSurname());
+                    }
+                });
+
+    }
+
+    public Author mapToAuthor(AuthorDto authorDto){
+        return modelMapper.map(authorDto, Author.class);
     }
 
     public AuthorDto mapToAuthorDto(Author author){
         return modelMapper.map(author, AuthorDto.class);
+    }
+
+    private String generatedFullName(String name, String surname){
+        return name.concat(" ").concat(surname);
+    }
+
+    private String getNameOrSurnameFromFullName(String fullname, int element){
+        return Arrays.stream(fullname.split(" ")).toList().get(element);
     }
 }

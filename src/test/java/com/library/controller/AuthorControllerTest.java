@@ -1,7 +1,7 @@
 package com.library.controller;
 
 import com.library.model.dto.AuthorDto;
-import com.library.service.implementation.AuthorServiceImpl;
+import com.library.service.impl.AuthorServiceImpl;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +32,6 @@ class AuthorControllerTest {
     @Test
     @SneakyThrows
     void getAuthorById() {
-        AuthorDto authorDto = new AuthorDto();
-        when(authorService.findById(ID)).thenReturn(authorDto);
         MvcResult mvcResult = mockMvc.perform(get("/authors/{id}", "1"))
                 .andDo(print())
                 .andExpect(status().isOk())

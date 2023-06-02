@@ -1,7 +1,10 @@
 package com.library.model.entity;
 
 import jakarta.persistence.Column;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import jakarta.persistence.Entity;
@@ -15,6 +18,8 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Book extends ParentEntity {
 
     @Column
@@ -33,8 +38,9 @@ public class Book extends ParentEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Publisher publisher;
 
-    @ManyToMany()
+    @ManyToMany
     @JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"),
                                      inverseJoinColumns = @JoinColumn(name = "author_id"))
     private List<Author> authors;
+
 }

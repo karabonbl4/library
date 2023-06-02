@@ -4,9 +4,9 @@ package com.library.model.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.PostLoad;
-import jakarta.persistence.Transient;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,6 +18,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Author extends ParentEntity {
 
     @Column
@@ -25,9 +26,6 @@ public class Author extends ParentEntity {
 
     @Column
     private String surname;
-
-    @Transient
-    private String fullName;
 
     @Column(name = "date_of_birth")
     private LocalDate birthDay;
@@ -38,9 +36,8 @@ public class Author extends ParentEntity {
     @ManyToMany(mappedBy = "authors")
     private List<Book> books;
 
-    @PostLoad
-    private void setFullName(){
-        this.fullName = name.concat(" ").concat(surname);
+    public Author(String name, String surname) {
+        this.name = name;
+        this.surname = surname;
     }
-
 }

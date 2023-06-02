@@ -35,23 +35,23 @@ public class AuthorController {
     }
 
     @PostMapping
-    public ResponseEntity<AuthorDto> saveAuthor(@RequestBody AuthorDto authorDto){
-        return new ResponseEntity<>(authorService.saveOrUpdate(authorDto), HttpStatus.CREATED);
+    public AuthorDto saveAuthor(@RequestBody AuthorDto authorDto){
+        return authorService.saveOrUpdate(authorDto);
     }
 
     @PutMapping
-    public ResponseEntity<AuthorDto> updateAuthor(@RequestBody AuthorDto authorDto){
-        return new ResponseEntity<>(authorService.saveOrUpdate(authorDto), HttpStatus.ACCEPTED);
+    public AuthorDto updateAuthor(@RequestBody AuthorDto authorDto){
+        return authorService.saveOrUpdate(authorDto);
     }
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> deleteAuthor(@PathVariable("id") Long authorId){
         authorService.deleteById(authorId);
-        return new ResponseEntity<>("", HttpStatus.ACCEPTED);
+        return new ResponseEntity<>("Author is deleted successfully!", HttpStatus.ACCEPTED);
     }
 
     @PutMapping(value = "/delete")
-    public ResponseEntity<AuthorDto> softDeleteAuthor(@RequestBody AuthorDto authorDto){
-        return new ResponseEntity<>(authorService.softDelete(authorDto), HttpStatus.ACCEPTED);
+    public AuthorDto softDeleteAuthor(@RequestBody AuthorDto authorDto){
+        return authorService.softDelete(authorDto);
     }
 }

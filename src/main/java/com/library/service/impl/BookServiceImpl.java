@@ -1,4 +1,4 @@
-package com.library.service.implementation;
+package com.library.service.impl;
 
 import com.library.model.dto.BookDto;
 import com.library.model.entity.Book;
