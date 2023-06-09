@@ -60,9 +60,9 @@ class AuthorServiceImplTest {
     @Test
     void shouldFindAllWithPageable() {
         Page<Author> page = new PageImpl<>(new ArrayList<>(List.of(
-                new Author("vasya", "vasiliev"),
-                new Author("ivan", "ivanov"),
-                new Author("petya", "petrov"))));
+                testAuthor,
+                testAuthor,
+                testAuthor)));
         Pageable paging = PageRequest.of(0, 5);
 
         when(authorRepository.findAll(paging)).thenReturn(page);

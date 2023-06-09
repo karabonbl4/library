@@ -2,11 +2,13 @@ package com.library.model.mapper;
 
 import com.library.model.dto.AuthorDto;
 import com.library.model.entity.Author;
+import com.library.model.entity.Book;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 
 @Component
@@ -25,6 +27,10 @@ public class AuthorMapper {
                                 ((Author)context.getSource()).getName(),
                                 ((Author)context.getSource()).getSurname()))
                                 .map(source, destination.getFullName());
+                        using(context ->
+                                ((Author) context.getSource()).getBooks().stream()
+                                        .map(Book::getTitle).collect(Collectors.toList()))
+                                .map(source, destination.getBooksTitle());
                     }
                 });
 
@@ -53,7 +59,7 @@ public class AuthorMapper {
         return modelMapper.map(author, AuthorDto.class);
     }
 
-    private String generatedFullName(String name, String surname){
+    public String generatedFullName(String name, String surname){
         return name.concat(" ").concat(surname);
     }
 

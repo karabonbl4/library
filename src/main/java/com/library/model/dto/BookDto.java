@@ -1,6 +1,5 @@
 package com.library.model.dto;
 
-import com.library.model.mapper.shortDto.AuthorFullNameDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,15 +17,5 @@ public class BookDto extends ParentDto {
 
     private String unit;
 
-    private List<AuthorFullNameDto> authors;
-
-//    @Builder
-//    public BookDto(Long id, Boolean deleted, String title, Short publicationYear, Integer stack, String unit, List<AuthorFullNameDto> authors) {
-//        super(id, deleted);
-//        this.title = title;
-//        this.publicationYear = publicationYear;
-//        this.stack = stack;
-//        this.unit = unit;
-//        this.authors = authors;
-//    }
+    private List<String> authorsFullName;
 }

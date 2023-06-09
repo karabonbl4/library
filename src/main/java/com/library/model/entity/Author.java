@@ -5,7 +5,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,7 +16,6 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Author extends ParentEntity {
 
     @Column
@@ -34,9 +32,4 @@ public class Author extends ParentEntity {
 
     @ManyToMany(mappedBy = "authors")
     private List<Book> books;
-
-    public Author(String name, String surname) {
-        this.name = name;
-        this.surname = surname;
-    }
 }

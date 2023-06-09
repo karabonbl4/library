@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface BookService {
 
-    List<BookDto> findAllWithPagination(Integer page, Integer sizeOnPage);
+    List<BookDto> findAllWithPageable(Integer page, Integer sizeOnPage);
 
     BookDto findById(Long id);
 

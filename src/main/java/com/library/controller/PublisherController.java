@@ -3,7 +3,6 @@ package com.library.controller;
 import com.library.model.dto.PublisherDto;
 import com.library.service.PublisherService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/publisher")
+@RequestMapping(value = "/publishers")
 public class PublisherController {
 
     private final PublisherService publisherService;
@@ -36,22 +35,22 @@ public class PublisherController {
 
     @PostMapping
     public ResponseEntity<PublisherDto> savePublisher(@RequestBody PublisherDto publisherDto){
-        return new ResponseEntity<>(publisherService.saveOrUpdate(publisherDto), HttpStatus.CREATED);
+        return ResponseEntity.ok(publisherService.saveOrUpdate(publisherDto));
     }
 
     @PutMapping
     public ResponseEntity<PublisherDto> updatePublisher(@RequestBody PublisherDto publisherDto){
-        return new ResponseEntity<>(publisherService.saveOrUpdate(publisherDto), HttpStatus.ACCEPTED);
+        return ResponseEntity.ok(publisherService.saveOrUpdate(publisherDto));
     }
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> deletePublisher(@PathVariable("id") Long publisherId){
         publisherService.deleteById(publisherId);
-        return new ResponseEntity<>("", HttpStatus.ACCEPTED);
+        return ResponseEntity.ok("Publisher deleted successfully!");
     }
 
     @PutMapping(value = "/delete")
     public ResponseEntity<PublisherDto> softDeletePublisher(@RequestBody PublisherDto publisherDto){
-        return new ResponseEntity<>(publisherService.softDelete(publisherDto), HttpStatus.ACCEPTED);
+        return ResponseEntity.ok(publisherService.softDelete(publisherDto));
     }
 }

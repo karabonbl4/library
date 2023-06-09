@@ -3,7 +3,6 @@ package com.library.controller;
 import com.library.model.dto.BookDto;
 import com.library.service.BookService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,33 +24,33 @@ public class BookController {
     private final BookService bookService;
 
     @GetMapping
-    public List<BookDto> getAllBooks(@RequestParam Integer page, @RequestParam Integer sizeOnPage){
-        return bookService.findAllWithPagination(page, sizeOnPage);
+    public List<BookDto> getAllBooks(@RequestParam Integer page, @RequestParam Integer sizeOnPage) {
+        return bookService.findAllWithPageable(page, sizeOnPage);
     }
 
     @GetMapping(value = "/{id}")
-    public BookDto getBookById(@PathVariable("id") Long bookId){
+    public BookDto getBookById(@PathVariable("id") Long bookId) {
         return bookService.findById(bookId);
     }
 
     @PostMapping
-    public ResponseEntity<BookDto> saveBook(@RequestBody BookDto bookDto){
-        return new ResponseEntity<>(bookService.saveOrUpdate(bookDto), HttpStatus.CREATED);
+    public ResponseEntity<BookDto> saveBook(@RequestBody BookDto bookDto) {
+        return ResponseEntity.ok(bookService.saveOrUpdate(bookDto));
     }
 
     @PutMapping
-    public ResponseEntity<BookDto> updateBook(@RequestBody BookDto bookDto){
-        return new ResponseEntity<>(bookService.saveOrUpdate(bookDto), HttpStatus.ACCEPTED);
+    public ResponseEntity<BookDto> updateBook(@RequestBody BookDto bookDto) {
+        return ResponseEntity.ok(bookService.saveOrUpdate(bookDto));
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<String> deleteBook(@PathVariable("id") Long bookId){
+    public ResponseEntity<String> deleteBook(@PathVariable("id") Long bookId) {
         bookService.deleteById(bookId);
-        return new ResponseEntity<>("", HttpStatus.ACCEPTED);
+        return ResponseEntity.ok("Book deleted successfully!");
     }
 
     @PutMapping(value = "/delete")
-    public ResponseEntity<BookDto> softDeleteBook(@RequestBody BookDto bookDto){
-        return new ResponseEntity<>(bookService.softDelete(bookDto), HttpStatus.ACCEPTED);
+    public ResponseEntity<BookDto> softDeleteBook(@RequestBody BookDto bookDto) {
+        return ResponseEntity.ok(bookService.softDelete(bookDto));
     }
 }
