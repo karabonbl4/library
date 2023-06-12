@@ -95,6 +95,7 @@ class AuthorServiceImplTest {
 
     @Test
     void shouldSaveOrUpdateAuthorSuccessful() {
+
         when(authorRepository.save(testAuthor)).thenReturn(testAuthor);
 
         AuthorDto actualAuthor = authorService.saveOrUpdate(testAuthorDto);
