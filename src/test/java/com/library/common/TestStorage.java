@@ -13,17 +13,19 @@ import java.util.List;
 @Getter
 public class TestStorage {
 
-    private Author testAuthor;
+    private final Author testAuthor;
 
-    private Book testBook;
+    private final Book testBook;
 
-    private Publisher testPublisher;
+    private final Publisher testPublisher;
 
-    private BookDto bookDto;
+    private final BookDto bookDto;
 
-    private List<Author> testAuthors;
-    private List<Book> testBooks;
-    private List<Publisher> testPublishers;
+    private final List<Author> testAuthors;
+    private final List<Book> testBooks;
+    private final List<Publisher> testPublishers;
+
+    private final List<BookDto> bookDtos;
 
     public TestStorage(){
         testAuthor = new Author();
@@ -46,6 +48,7 @@ public class TestStorage {
         testBook.setId(1L);
         testBook.setDeleted(false);
         testBook.setTitle("War and peace");
+        testBook.setPublicationYear(Short.parseShort("2010"));
         testBook.setPublisher(testPublisher);
         testBook.setStack(1);
         testBook.setUnit("A");
@@ -62,9 +65,11 @@ public class TestStorage {
         bookDto.setId(1L);
         bookDto.setDeleted(false);
         bookDto.setTitle("War and peace");
-        bookDto.setAuthorsFullName(List.of("Alexandr Pushkin"));
+        bookDto.setAuthorsFullName(List.of("Lev Tolstoy"));
         bookDto.setStack(1);
         bookDto.setUnit("A");
+
+        bookDtos = new ArrayList<>(List.of(bookDto, bookDto, bookDto));
     }
 
 }

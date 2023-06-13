@@ -26,7 +26,6 @@ public class BookMapper {
 
                     }
                 });
-
     }
 
     public BookDto mapToBookDto(Book book) {

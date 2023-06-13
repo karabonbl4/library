@@ -1,33 +1,34 @@
 package com.library.controller;
 
-import com.library.model.dto.BookDto;
-import com.library.model.entity.Book;
-import com.library.repository.BookRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.library.common.TestStorage;
+import com.library.model.dto.BookDto;
 import com.library.service.impl.BookServiceImpl;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.SneakyThrows;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -38,25 +39,26 @@ class BookControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Mock
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Autowired
+    private DefaultExceptionHandler defaultExceptionHandler;
+
+    @MockBean
     private BookServiceImpl bookService;
 
-    @InjectMocks
-    private BookController bookController;
     private TestStorage testStorage;
 
-    private JacksonTester<BookDto> jsonBook;
-
     @BeforeEach
-    public void init(){
+    public void init() {
         testStorage = new TestStorage();
     }
 
     @SneakyThrows
     @Test
     void getAllBooks() {
-
-        when(bookRepository.findAll(PageRequest.of(0, 5))).thenReturn(new PageImpl<Book>(testStorage.getTestBooks()));
+        when(bookService.findAllWithPageable(1, 5)).thenReturn(testStorage.getBookDtos());
 
         MockHttpServletResponse response = mockMvc.perform(get("/books")
                         .param("page", "1")
@@ -78,7 +80,7 @@ class BookControllerTest {
     @SneakyThrows
     @Test
     void getBookById() {
-        when(bookRepository.findById(1L)).thenReturn(Optional.ofNullable(testStorage.getTestBook()));
+        when(bookService.findById(1L)).thenReturn(testStorage.getBookDto());
 
         MockHttpServletResponse response = mockMvc.perform(get("/books/{id}", "1"))
                 .andDo(print())
@@ -94,11 +96,29 @@ class BookControllerTest {
 
     @SneakyThrows
     @Test
+    void getBookByIdFailed() {
+        when(bookService.findById(1L)).thenThrow(EntityNotFoundException.class);
+
+        MockHttpServletResponse response = mockMvc.perform(get("/books/{id}", "1"))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andReturn()
+                .getResponse();
+        JSONObject jsonObject = new JSONObject(response.getContentAsString());
+
+        assertEquals("application/json", response.getContentType());
+        assertEquals(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm:ss")), jsonObject.get("timestamp"));
+    }
+
+    @SneakyThrows
+    @Test
     void saveBook() {
-        when(bookRepository.save(testStorage.getTestBook())).thenReturn(testStorage.getTestBook());
+        when(bookService.saveOrUpdate(any(BookDto.class))).thenReturn(testStorage.getBookDto());
 
         MockHttpServletResponse response = mockMvc.perform(post("/books")
-                .content(jsonBook.write(testStorage.getBookDto()).getJson()))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(testStorage.getBookDto())))
+                .andExpect(status().isOk())
                 .andReturn()
                 .getResponse();
 
@@ -108,16 +128,55 @@ class BookControllerTest {
         assertEquals("War and peace", jsonObject.get("title"));
     }
 
+    @SneakyThrows
     @Test
     void updateBook() {
+        BookDto bookDto = testStorage.getBookDto();
+        bookDto.setTitle("update");
+        when(bookService.saveOrUpdate(any(BookDto.class))).thenReturn(bookDto);
 
+        MockHttpServletResponse response = mockMvc.perform(put("/books")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(testStorage.getBookDto())))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse();
+
+        JSONObject jsonObject = new JSONObject(response.getContentAsString());
+
+        assertNotNull(response);
+        assertEquals("update", jsonObject.get("title"));
     }
 
+    @SneakyThrows
     @Test
     void deleteBook() {
+        MvcResult mvcResult = mockMvc.perform(delete("/books/{id}", "1"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+        String response = mvcResult.getResponse().getContentAsString();
+
+        assertEquals(response, "Book deleted successfully!");
     }
 
+    @SneakyThrows
     @Test
     void softDeleteBook() {
+        BookDto bookDto = testStorage.getBookDto();
+        bookDto.setDeleted(true);
+        when(bookService.saveOrUpdate(any(BookDto.class))).thenReturn(bookDto);
+
+        MockHttpServletResponse response = mockMvc.perform(put("/books")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(testStorage.getBookDto())))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse();
+
+        JSONObject jsonObject = new JSONObject(response.getContentAsString());
+
+        assertNotNull(response);
+        assertEquals(true, jsonObject.get("deleted"));
     }
 }

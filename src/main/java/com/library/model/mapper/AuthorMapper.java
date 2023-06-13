@@ -63,7 +63,7 @@ public class AuthorMapper {
         return name.concat(" ").concat(surname);
     }
 
-    private String getNameOrSurnameFromFullName(String fullname, int element){
+    String getNameOrSurnameFromFullName(String fullname, int element){
         return Arrays.stream(fullname.split(" ")).toList().get(element);
     }
 }
