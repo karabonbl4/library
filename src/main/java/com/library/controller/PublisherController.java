@@ -44,13 +44,8 @@ public class PublisherController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<String> deletePublisher(@PathVariable("id") Long publisherId){
-        publisherService.deleteById(publisherId);
-        return ResponseEntity.ok("Publisher deleted successfully!");
-    }
-
-    @PutMapping(value = "/delete")
-    public ResponseEntity<PublisherDto> softDeletePublisher(@RequestBody PublisherDto publisherDto){
-        return ResponseEntity.ok(publisherService.softDelete(publisherDto));
+    public ResponseEntity<String> softDeletePublisher(@PathVariable(name = "id") Long publisherId){
+        publisherService.softDelete(publisherId);
+        return ResponseEntity.ok("Publisher is deleted successfully!");
     }
 }

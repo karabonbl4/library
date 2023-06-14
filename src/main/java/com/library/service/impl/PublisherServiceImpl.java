@@ -42,13 +42,7 @@ public class PublisherServiceImpl implements PublisherService {
     }
 
     @Override
-    public void deleteById(Long id) {
-        publisherRepository.deleteById(id);
-    }
-
-    @Override
-    public PublisherDto softDelete(PublisherDto publisherDto) {
-        publisherDto.setDeleted(true);
-        return this.saveOrUpdate(publisherDto);
+    public void softDelete(Long publisherId) {
+        publisherRepository.delete(publisherId);
     }
 }

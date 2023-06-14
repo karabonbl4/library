@@ -44,13 +44,8 @@ public class AuthorController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<String> deleteAuthor(@PathVariable("id") Long authorId) {
-        authorService.deleteById(authorId);
+    public ResponseEntity<String> softDeleteAuthor(@PathVariable(name = "id") Long authorId) {
+        authorService.softDelete(authorId);
         return ResponseEntity.ok("Author is deleted successfully!");
-    }
-
-    @PutMapping(value = "/delete")
-    public AuthorDto softDeleteAuthor(@RequestBody AuthorDto authorDto) {
-        return authorService.softDelete(authorDto);
     }
 }

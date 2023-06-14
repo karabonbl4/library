@@ -12,8 +12,6 @@ public interface PublisherService {
 
     PublisherDto saveOrUpdate(PublisherDto publisherDto);
 
-    void deleteById(Long id);
-
-    PublisherDto softDelete(PublisherDto publisherDto);
+    void softDelete(Long publisherId);
 
 }

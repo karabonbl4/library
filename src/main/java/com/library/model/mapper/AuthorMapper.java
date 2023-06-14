@@ -3,6 +3,7 @@ package com.library.model.mapper;
 import com.library.model.dto.AuthorDto;
 import com.library.model.entity.Author;
 import com.library.model.entity.Book;
+import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,7 @@ public class AuthorMapper {
         this.modelMapper = modelMapper;
 
         modelMapper.createTypeMap(Author.class, AuthorDto.class)
+                .addMappings(mapping -> mapping.when(Conditions.isNull()).skip(Author::getBooks, AuthorDto::setBooksTitle))
                 .addMappings(new PropertyMap<Author, AuthorDto>() {
                     @Override
                     protected void configure() {
@@ -28,8 +30,10 @@ public class AuthorMapper {
                                 ((Author)context.getSource()).getSurname()))
                                 .map(source, destination.getFullName());
                         using(context ->
-                                ((Author) context.getSource()).getBooks().stream()
-                                        .map(Book::getTitle).collect(Collectors.toList()))
+                                ((Author)context.getSource()).getBooks()
+                                        .stream()
+                                        .map(Book::getTitle)
+                                        .collect(Collectors.toList()))
                                 .map(source, destination.getBooksTitle());
                     }
                 });
@@ -48,7 +52,6 @@ public class AuthorMapper {
                                 .map(source, destination.getSurname());
                     }
                 });
-
     }
 
     public Author mapToAuthor(AuthorDto authorDto){

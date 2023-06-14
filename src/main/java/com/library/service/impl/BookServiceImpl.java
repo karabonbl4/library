@@ -43,13 +43,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void deleteById(Long id) {
-        bookRepository.deleteById(id);
-    }
-
-    @Override
-    public BookDto softDelete(BookDto bookDto) {
-        bookDto.setDeleted(true);
-        return this.saveOrUpdate(bookDto);
+    public void softDelete(Long bookId) {
+        bookRepository.delete(bookId);
     }
 }

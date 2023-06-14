@@ -9,6 +9,4 @@ import lombok.Setter;
 public class ParentDto {
 
     protected Long id;
-
-    protected Boolean deleted;
 }

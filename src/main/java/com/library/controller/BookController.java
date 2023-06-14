@@ -2,6 +2,7 @@ package com.library.controller;
 
 import com.library.model.dto.BookDto;
 import com.library.service.BookService;
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -44,13 +45,8 @@ public class BookController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<String> deleteBook(@PathVariable("id") Long bookId) {
-        bookService.deleteById(bookId);
-        return ResponseEntity.ok("Book deleted successfully!");
-    }
-
-    @PutMapping(value = "/delete")
-    public ResponseEntity<BookDto> softDeleteBook(@RequestBody BookDto bookDto) {
-        return ResponseEntity.ok(bookService.softDelete(bookDto));
+    public ResponseEntity<String> softDeleteBook(@PathVariable(name = "id") Long bookId) {
+        bookService.softDelete(bookId);
+        return ResponseEntity.ok("Book is deleted successfully!");
     }
 }

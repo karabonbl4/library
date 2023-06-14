@@ -22,7 +22,9 @@ public class TestStorage {
     private final BookDto bookDto;
 
     private final List<Author> testAuthors;
+
     private final List<Book> testBooks;
+
     private final List<Publisher> testPublishers;
 
     private final List<BookDto> bookDtos;
@@ -33,11 +35,9 @@ public class TestStorage {
         testAuthor.setName("Name");
         testAuthor.setSurname("Surname");
         testAuthor.setBirthDay(LocalDate.of(1999, 5, 17));
-        testAuthor.setDeleted(false);
 
         testPublisher = new Publisher();
         testPublisher.setId(1L);
-        testPublisher.setDeleted(false);
         testPublisher.setTitle("Printing house");
         testPublisher.setCountry("Republic of Belarus");
         testPublisher.setCity("Grodno");
@@ -46,7 +46,6 @@ public class TestStorage {
 
         testBook = new Book();
         testBook.setId(1L);
-        testBook.setDeleted(false);
         testBook.setTitle("War and peace");
         testBook.setPublicationYear(Short.parseShort("2010"));
         testBook.setPublisher(testPublisher);
@@ -63,7 +62,6 @@ public class TestStorage {
 
         bookDto = new BookDto();
         bookDto.setId(1L);
-        bookDto.setDeleted(false);
         bookDto.setTitle("War and peace");
         bookDto.setAuthorsFullName(List.of("Lev Tolstoy"));
         bookDto.setStack(1);
@@ -71,5 +69,4 @@ public class TestStorage {
 
         bookDtos = new ArrayList<>(List.of(bookDto, bookDto, bookDto));
     }
-
 }

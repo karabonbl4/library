@@ -14,7 +14,5 @@ public interface AuthorService {
 
     AuthorDto saveOrUpdate(AuthorDto authorDto);
 
-    void deleteById(Long id);
-
-    AuthorDto softDelete(AuthorDto authorDto);
+    void softDelete(Long authorId);
 }

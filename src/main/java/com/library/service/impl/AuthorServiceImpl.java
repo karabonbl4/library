@@ -41,13 +41,7 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public void deleteById(Long id) {
-        authorRepository.deleteById(id);
-    }
-
-    @Override
-    public AuthorDto softDelete(AuthorDto authorDto) {
-        authorDto.setDeleted(true);
-        return this.saveOrUpdate(authorDto);
+    public void softDelete(Long authorId) {
+        authorRepository.delete(authorId);
     }
 }
