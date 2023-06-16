@@ -1,7 +1,7 @@
 package com.library.model.mapper;
 
 import com.library.model.dto.AuthorDto;
-import com.library.model.dto.embedded.EmbeddedAuthorDto;
+import com.library.model.dto.AuthorNameDto;
 import com.library.model.entity.Author;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
@@ -29,8 +29,8 @@ public class AuthorMapper {
                     }
                 });
 
-        modelMapper.createTypeMap(Author.class, EmbeddedAuthorDto.class)
-                .addMappings(new PropertyMap<Author, EmbeddedAuthorDto>() {
+        modelMapper.createTypeMap(Author.class, AuthorNameDto.class)
+                .addMappings(new PropertyMap<Author, AuthorNameDto>() {
                     @Override
                     protected void configure() {
                         using(context -> generatedFullName(
