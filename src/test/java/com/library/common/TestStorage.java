@@ -13,57 +13,67 @@ import java.util.List;
 @Getter
 public class TestStorage {
 
-    private final Author testAuthor;
+    private final Author author;
 
-    private final Book testBook;
+    private final Book book;
 
-    private final Publisher testPublisher;
+    private final Book newBook;
+
+    private final Publisher publisher;
 
     private final BookDto bookDto;
 
-    private final List<Author> testAuthors;
+    private final List<Author> authors;
 
-    private final List<Book> testBooks;
+    private final List<Book> books;
 
-    private final List<Publisher> testPublishers;
+    private final List<Publisher> publishers;
 
     private final List<BookDto> bookDtos;
 
     public TestStorage(){
-        testAuthor = new Author();
-        testAuthor.setId(1L);
-        testAuthor.setName("Name");
-        testAuthor.setSurname("Surname");
-        testAuthor.setBirthDay(LocalDate.of(1999, 5, 17));
+        author = new Author();
+        author.setId(1L);
+        author.setName("Name");
+        author.setSurname("Surname");
+        author.setBirthDay(LocalDate.of(1999, 5, 17));
 
-        testPublisher = new Publisher();
-        testPublisher.setId(1L);
-        testPublisher.setTitle("Printing house");
-        testPublisher.setCountry("Republic of Belarus");
-        testPublisher.setCity("Grodno");
-        testPublisher.setStreet("Gorkogo");
-        testPublisher.setBuildNumber("12A");
+        publisher = new Publisher();
+        publisher.setId(1L);
+        publisher.setTitle("Printing house");
+        publisher.setCountry("Republic of Belarus");
+        publisher.setCity("Grodno");
+        publisher.setStreet("Gorkogo");
+        publisher.setBuildNumber("12A");
 
-        testBook = new Book();
-        testBook.setId(1L);
-        testBook.setTitle("War and peace");
-        testBook.setPublicationYear(Short.parseShort("2010"));
-        testBook.setPublisher(testPublisher);
-        testBook.setStack(1);
-        testBook.setUnit("A");
-        testBook.setAuthors(List.of(testAuthor));
+        book = new Book();
+        book.setId(1L);
+        book.setTitle("War and peace");
+        book.setPublicationYear(Short.parseShort("2010"));
+        book.setPublisher(publisher);
+        book.setStack(1);
+        book.setUnit("A");
+        book.setAuthors(List.of(author));
 
-        testAuthor.setBooks(List.of(testBook));
-        testPublisher.setBooks(List.of(testBook));
+        newBook = new Book();
+        newBook.setTitle("War and peace");
+        newBook.setPublicationYear(Short.parseShort("2010"));
+        newBook.setPublisher(publisher);
+        newBook.setStack(1);
+        newBook.setUnit("A");
+        newBook.setAuthors(List.of(author));
 
-        testAuthors = new ArrayList<>(List.of(testAuthor, testAuthor, testAuthor));
-        testBooks = new ArrayList<>(List.of(testBook, testBook, testBook));
-        testPublishers = new ArrayList<>(List.of(testPublisher, testPublisher, testPublisher));
+        author.setBooks(List.of(book));
+        publisher.setBooks(List.of(book));
+
+        authors = new ArrayList<>(List.of(author, author, author));
+        books = new ArrayList<>(List.of(book, book, book));
+        publishers = new ArrayList<>(List.of(publisher, publisher, publisher));
 
         bookDto = new BookDto();
         bookDto.setId(1L);
         bookDto.setTitle("War and peace");
-        bookDto.setAuthorsFullName(List.of("Lev Tolstoy"));
+        bookDto.setPublicationYear(Short.parseShort("2010"));
         bookDto.setStack(1);
         bookDto.setUnit("A");
 

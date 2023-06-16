@@ -17,5 +17,7 @@ public class BookDto extends ParentDto {
 
     private String unit;
 
-    private List<String> authorsFullName;
+    private List<AuthorDto> authors;
+
+    private PublisherDto publisher;
 }

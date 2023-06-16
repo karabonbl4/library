@@ -2,8 +2,12 @@ package com.library.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.library.common.TestStorage;
+import com.library.exception.MissingRequiredDataException;
+import com.library.model.dto.BookDto;
 import com.library.model.entity.Book;
+import com.library.model.mapper.BookMapper;
 import com.library.repository.BookRepository;
+import com.library.utils.IsSameLikeBook;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.SneakyThrows;
 import org.json.JSONArray;
@@ -27,7 +31,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -46,10 +51,15 @@ class BookControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private BookMapper bookMapper;
+
     @MockBean
     private BookRepository bookRepository;
 
     private TestStorage testStorage;
+
+    private static final String MISSING_TYPE = "Not entered data: [authors]";
 
     @BeforeEach
     public void init() {
@@ -60,7 +70,7 @@ class BookControllerTest {
     @Test
     void getAllBooks() {
         Pageable paging = PageRequest.of(0, 5);
-        when(bookRepository.findAll(paging)).thenReturn(new PageImpl<Book>(testStorage.getTestBooks()));
+        when(bookRepository.findAll(paging)).thenReturn(new PageImpl<Book>(testStorage.getBooks()));
 
         MockHttpServletResponse response = mockMvc.perform(get("/books")
                         .param("page", "1")
@@ -82,7 +92,7 @@ class BookControllerTest {
     @SneakyThrows
     @Test
     void getBookById() {
-        when(bookRepository.findById(1L)).thenReturn(Optional.of(testStorage.getTestBook()));
+        when(bookRepository.findById(1L)).thenReturn(Optional.of(testStorage.getBook()));
 
         MockHttpServletResponse response = mockMvc.perform(get("/books/{id}", "1"))
                 .andDo(print())
@@ -116,11 +126,16 @@ class BookControllerTest {
     @SneakyThrows
     @Test
     void saveBook() {
-        when(bookRepository.save(any(Book.class))).thenReturn(testStorage.getTestBook());
+        Book newBook = testStorage.getNewBook();
+        BookDto bookDto = bookMapper.mapToBookDto(newBook);
+        newBook.setPublisher(testStorage.getPublisher());
+        newBook.setAuthors(testStorage.getAuthors());
+
+        when(bookRepository.save(argThat(new IsSameLikeBook(newBook)))).thenReturn(newBook);
 
         MockHttpServletResponse response = mockMvc.perform(post("/books")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(testStorage.getBookDto())))
+                        .content(objectMapper.writeValueAsString(bookDto)))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse();
@@ -128,19 +143,43 @@ class BookControllerTest {
         JSONObject jsonObject = new JSONObject(response.getContentAsString());
 
         assertNotNull(response);
-        assertEquals("War and peace", jsonObject.get("title"));
+        assertEquals(testStorage.getBook().getTitle(), jsonObject.get("title"));
+        verify(bookRepository).save(argThat(new IsSameLikeBook(newBook)));
+    }
+
+    @SneakyThrows
+    @Test
+    void saveBookFailed() {
+        Book newBook = testStorage.getNewBook();
+        newBook.setAuthors(null);
+        BookDto bookDto = bookMapper.mapToBookDto(newBook);
+
+
+        MockHttpServletResponse response = mockMvc.perform(post("/books")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(bookDto)))
+                .andExpect(status().isBadRequest())
+                .andReturn()
+                .getResponse();
+
+        JSONObject jsonObject = new JSONObject(response.getContentAsString());
+
+        assertNotNull(response);
+        assertEquals(MISSING_TYPE, jsonObject.get("message"));
     }
 
     @SneakyThrows
     @Test
     void updateBook() {
-        Book book = testStorage.getTestBook();
+        Book book = testStorage.getBook();
         book.setTitle("update");
-        when(bookRepository.save(any(Book.class))).thenReturn(book);
+        BookDto bookDto = bookMapper.mapToBookDto(book);
+
+        when(bookRepository.save(argThat(new IsSameLikeBook(book)))).thenReturn(book);
 
         MockHttpServletResponse response = mockMvc.perform(put("/books")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(testStorage.getBookDto())))
+                        .content(objectMapper.writeValueAsString(bookDto)))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse();
@@ -148,7 +187,8 @@ class BookControllerTest {
         JSONObject jsonObject = new JSONObject(response.getContentAsString());
 
         assertNotNull(response);
-        assertEquals("update", jsonObject.get("title"));
+        assertEquals(book.getTitle(), jsonObject.get("title"));
+        verify(bookRepository).save(argThat(new IsSameLikeBook(book)));
     }
 
     @SneakyThrows

@@ -8,7 +8,9 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -21,7 +23,6 @@ public class AuthorMapper {
         this.modelMapper = modelMapper;
 
         modelMapper.createTypeMap(Author.class, AuthorDto.class)
-                .addMappings(mapping -> mapping.when(Conditions.isNull()).skip(Author::getBooks, AuthorDto::setBooksTitle))
                 .addMappings(new PropertyMap<Author, AuthorDto>() {
                     @Override
                     protected void configure() {
@@ -30,7 +31,9 @@ public class AuthorMapper {
                                 ((Author)context.getSource()).getSurname()))
                                 .map(source, destination.getFullName());
                         using(context ->
-                                ((Author)context.getSource()).getBooks()
+                                (Optional.ofNullable(((Author)context.getSource())
+                                        .getBooks()))
+                                        .orElse(new ArrayList<Book>())
                                         .stream()
                                         .map(Book::getTitle)
                                         .collect(Collectors.toList()))
