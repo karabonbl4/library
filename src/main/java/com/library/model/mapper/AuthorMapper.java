@@ -1,17 +1,13 @@
 package com.library.model.mapper;
 
 import com.library.model.dto.AuthorDto;
+import com.library.model.dto.embedded.EmbeddedAuthorDto;
 import com.library.model.entity.Author;
-import com.library.model.entity.Book;
-import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 
 @Component
@@ -30,14 +26,17 @@ public class AuthorMapper {
                                 ((Author)context.getSource()).getName(),
                                 ((Author)context.getSource()).getSurname()))
                                 .map(source, destination.getFullName());
-                        using(context ->
-                                (Optional.ofNullable(((Author)context.getSource())
-                                        .getBooks()))
-                                        .orElse(new ArrayList<Book>())
-                                        .stream()
-                                        .map(Book::getTitle)
-                                        .collect(Collectors.toList()))
-                                .map(source, destination.getBooksTitle());
+                    }
+                });
+
+        modelMapper.createTypeMap(Author.class, EmbeddedAuthorDto.class)
+                .addMappings(new PropertyMap<Author, EmbeddedAuthorDto>() {
+                    @Override
+                    protected void configure() {
+                        using(context -> generatedFullName(
+                                ((Author)context.getSource()).getName(),
+                                ((Author)context.getSource()).getSurname()))
+                                .map(source, destination.getFullName());
                     }
                 });
 

@@ -1,5 +1,7 @@
 package com.library.model.dto;
 
+import com.library.model.dto.embedded.EmbeddedAuthorDto;
+import com.library.model.dto.embedded.EmbeddedPublisherDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,7 +19,7 @@ public class BookDto extends ParentDto {
 
     private String unit;
 
-    private List<AuthorDto> authors;
+    private List<EmbeddedAuthorDto> authors;
 
-    private PublisherDto publisher;
+    private EmbeddedPublisherDto publisher;
 }

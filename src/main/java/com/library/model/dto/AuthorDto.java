@@ -1,5 +1,6 @@
 package com.library.model.dto;
 
+import com.library.model.dto.embedded.EmbeddedBookDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,5 +19,5 @@ public class AuthorDto extends ParentDto {
 
     private LocalDate ripDay;
 
-    private List<String> booksTitle;
+    private List<EmbeddedBookDto> books;
 }

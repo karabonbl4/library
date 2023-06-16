@@ -51,6 +51,9 @@ public class BookServiceImpl implements BookService {
     public BookDto update(BookDto bookDto) {
         Book updateBook = bookMapper.mapToBook(bookDto);
         this.validateId(bookDto.getId());
+        Book existBook = bookRepository.getReferenceById(bookDto.getId());
+        updateBook.setAuthors(existBook.getAuthors());
+        updateBook.setPublisher(existBook.getPublisher());
         return bookMapper.mapToBookDto(bookRepository.save(updateBook));
     }
 
@@ -60,13 +63,13 @@ public class BookServiceImpl implements BookService {
         bookRepository.delete(bookId);
     }
 
-    private void validateId(Long id){
+    private void validateId(Long id) throws RuntimeException{
         if (id == null || id < 1L) {
             throw new InvalidParameterException("id must be 1 or more");
         }
     }
 
-    private void validateBook(Book book){
+    private void validateBook(Book book) throws RuntimeException{
         List<String> missingType = new ArrayList<>();
         if (book.getAuthors() == null){
             missingType.add("authors");

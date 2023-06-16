@@ -2,7 +2,6 @@ package com.library.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.library.common.TestStorage;
-import com.library.exception.MissingRequiredDataException;
 import com.library.model.dto.BookDto;
 import com.library.model.entity.Book;
 import com.library.model.mapper.BookMapper;
@@ -60,6 +59,8 @@ class BookControllerTest {
     private TestStorage testStorage;
 
     private static final String MISSING_TYPE = "Not entered data: [authors]";
+
+    private static final String DELETED_SUCCESS = "Book is deleted successfully!";
 
     @BeforeEach
     public void init() {
@@ -175,6 +176,7 @@ class BookControllerTest {
         book.setTitle("update");
         BookDto bookDto = bookMapper.mapToBookDto(book);
 
+        when(bookRepository.getReferenceById(book.getId())).thenReturn(book);
         when(bookRepository.save(argThat(new IsSameLikeBook(book)))).thenReturn(book);
 
         MockHttpServletResponse response = mockMvc.perform(put("/books")
@@ -189,6 +191,7 @@ class BookControllerTest {
         assertNotNull(response);
         assertEquals(book.getTitle(), jsonObject.get("title"));
         verify(bookRepository).save(argThat(new IsSameLikeBook(book)));
+        verify(bookRepository).getReferenceById(book.getId());
     }
 
     @SneakyThrows
@@ -200,6 +203,6 @@ class BookControllerTest {
                 .andReturn();
         String response = mvcResult.getResponse().getContentAsString();
 
-        assertEquals(response, "Book is deleted successfully!");
+        assertEquals(DELETED_SUCCESS, response);
     }
 }
