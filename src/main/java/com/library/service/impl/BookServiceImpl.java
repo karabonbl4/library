@@ -6,6 +6,7 @@ import com.library.model.entity.Book;
 import com.library.model.mapper.BookMapper;
 import com.library.repository.BookRepository;
 import com.library.service.BookService;
+import com.library.service.ValidateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,14 +14,13 @@ import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
 
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class BookServiceImpl implements BookService {
+public class BookServiceImpl implements BookService, ValidateService<Book> {
 
     private final BookRepository bookRepository;
 
@@ -36,14 +36,14 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto findById(Long id) {
-        validateId(id);
+        this.validateId(id);
         return bookMapper.mapToBookDto(bookRepository.findById(id).orElseThrow(EntityNotFoundException::new));
     }
 
     @Override
     public BookDto save(BookDto bookDto) {
         Book savedBook = bookMapper.mapToBook(bookDto);
-        this.validateBook(savedBook);
+        this.validateEntity(savedBook);
         return bookMapper.mapToBookDto(bookRepository.save(savedBook));
     }
 
@@ -63,14 +63,18 @@ public class BookServiceImpl implements BookService {
         bookRepository.delete(bookId);
     }
 
-    private void validateId(Long id) throws RuntimeException{
-        if (id == null || id < 1L) {
-            throw new InvalidParameterException("id must be 1 or more");
-        }
-    }
-
-    private void validateBook(Book book) throws RuntimeException{
+    @Override
+    public void validateEntity(Book book) {
         List<String> missingType = new ArrayList<>();
+        if (book.getTitle() == null){
+            missingType.add("title");
+        }
+        if (book.getPublicationYear() == null){
+            missingType.add("publication year");
+        }
+        if (book.getStack() == null){
+            missingType.add("stack");
+        }
         if (book.getAuthors() == null){
             missingType.add("authors");
         }

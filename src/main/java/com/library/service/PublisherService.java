@@ -10,7 +10,8 @@ public interface PublisherService {
 
     PublisherDto findById(Long id);
 
-    PublisherDto saveOrUpdate(PublisherDto publisherDto);
+    PublisherDto save(PublisherDto publisherDto);
+    PublisherDto update(PublisherDto publisherDto);
 
     void softDelete(Long publisherId);
 

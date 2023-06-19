@@ -35,12 +35,12 @@ public class AuthorController {
 
     @PostMapping
     public AuthorDto saveAuthor(@RequestBody AuthorDto authorDto) {
-        return authorService.saveOrUpdate(authorDto);
+        return authorService.save(authorDto);
     }
 
     @PutMapping
     public AuthorDto updateAuthor(@RequestBody AuthorDto authorDto) {
-        return authorService.saveOrUpdate(authorDto);
+        return authorService.update(authorDto);
     }
 
     @DeleteMapping(value = "/{id}")

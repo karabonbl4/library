@@ -35,12 +35,12 @@ public class PublisherController {
 
     @PostMapping
     public ResponseEntity<PublisherDto> savePublisher(@RequestBody PublisherDto publisherDto){
-        return ResponseEntity.ok(publisherService.saveOrUpdate(publisherDto));
+        return ResponseEntity.ok(publisherService.save(publisherDto));
     }
 
     @PutMapping
     public ResponseEntity<PublisherDto> updatePublisher(@RequestBody PublisherDto publisherDto){
-        return ResponseEntity.ok(publisherService.saveOrUpdate(publisherDto));
+        return ResponseEntity.ok(publisherService.update(publisherDto));
     }
 
     @DeleteMapping(value = "/{id}")

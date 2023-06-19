@@ -12,7 +12,8 @@ public interface AuthorService {
 
     AuthorDto findById(Long id);
 
-    AuthorDto saveOrUpdate(AuthorDto authorDto);
+    AuthorDto save(AuthorDto authorDto);
+    AuthorDto update(AuthorDto authorDto);
 
     void softDelete(Long authorId);
 }
