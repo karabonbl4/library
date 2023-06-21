@@ -2,6 +2,7 @@ package com.library.controller;
 
 import com.library.model.dto.AuthorDto;
 import com.library.service.AuthorService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,27 +25,27 @@ public class AuthorController {
     private final AuthorService authorService;
 
     @GetMapping
-    public List<AuthorDto> getAllAuthors(@RequestParam Integer page, @RequestParam Integer sizeOnPage) {
+    public List<AuthorDto> getAllAuthors(@Valid @RequestParam Integer page, @Valid @RequestParam Integer sizeOnPage) {
         return authorService.findAllWithPageable(page, sizeOnPage);
     }
 
     @GetMapping(value = "/{id}")
-    public AuthorDto getAuthorById(@PathVariable("id") Long authorId) {
+    public AuthorDto getAuthorById(@Valid @PathVariable("id") Long authorId) {
         return authorService.findById(authorId);
     }
 
     @PostMapping
-    public AuthorDto saveAuthor(@RequestBody AuthorDto authorDto) {
+    public AuthorDto saveAuthor(@Valid @RequestBody AuthorDto authorDto) {
         return authorService.save(authorDto);
     }
 
     @PutMapping
-    public AuthorDto updateAuthor(@RequestBody AuthorDto authorDto) {
+    public AuthorDto updateAuthor(@Valid @RequestBody AuthorDto authorDto) {
         return authorService.update(authorDto);
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<String> softDeleteAuthor(@PathVariable(name = "id") Long authorId) {
+    public ResponseEntity<String> softDeleteAuthor(@Valid @PathVariable(name = "id") Long authorId) {
         authorService.softDelete(authorId);
         return ResponseEntity.ok("Author is deleted successfully!");
     }

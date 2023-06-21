@@ -2,7 +2,7 @@ package com.library.controller;
 
 import com.library.model.dto.BookDto;
 import com.library.service.BookService;
-import jakarta.websocket.server.PathParam;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,12 +25,12 @@ public class BookController {
     private final BookService bookService;
 
     @GetMapping
-    public List<BookDto> getAllBooks(@RequestParam Integer page, @RequestParam Integer sizeOnPage) {
+    public List<BookDto> getAllBooks(@Valid @RequestParam Integer page, @Valid @RequestParam Integer sizeOnPage) {
         return bookService.findAllWithPageable(page, sizeOnPage);
     }
 
     @GetMapping(value = "/{id}")
-    public BookDto getBookById(@PathVariable("id") Long bookId) {
+    public BookDto getBookById(@Valid @PathVariable("id") Long bookId) {
         return bookService.findById(bookId);
     }
 
@@ -40,12 +40,12 @@ public class BookController {
     }
 
     @PutMapping
-    public ResponseEntity<BookDto> updateBook(@RequestBody BookDto bookDto) {
+    public ResponseEntity<BookDto> updateBook(@Valid @RequestBody BookDto bookDto) {
         return ResponseEntity.ok(bookService.update(bookDto));
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<String> softDeleteBook(@PathVariable(name = "id") Long bookId) {
+    public ResponseEntity<String> softDeleteBook(@Valid @PathVariable(name = "id") Long bookId) {
         bookService.softDelete(bookId);
         return ResponseEntity.ok("Book is deleted successfully!");
     }

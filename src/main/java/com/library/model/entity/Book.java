@@ -1,6 +1,8 @@
 package com.library.model.entity;
 
 import jakarta.persistence.Column;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,6 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+
 import java.util.List;
 
 @Entity
@@ -19,25 +22,31 @@ import java.util.List;
 @NoArgsConstructor
 public class Book extends ParentEntity {
 
+    @NotBlank
     @Column
     private String title;
 
+    @NotBlank
     @Column
     private Short publicationYear;
 
+    @NotBlank
     @Column
     private Integer stack;
 
+    @NotBlank
     @Column
     private String unit;
 
+    @NotBlank
     @JoinColumn(name = "publisher_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Publisher publisher;
 
+    @NotEmpty
     @ManyToMany
     @JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"),
-                                     inverseJoinColumns = @JoinColumn(name = "author_id"))
+            inverseJoinColumns = @JoinColumn(name = "author_id"))
     private List<Author> authors;
 
 }

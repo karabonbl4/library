@@ -6,12 +6,11 @@ import com.library.model.dto.BookDto;
 import com.library.model.entity.Book;
 import com.library.model.mapper.BookMapper;
 import com.library.repository.BookRepository;
-import com.library.utils.IsSameLikeBook;
+import com.library.utils.IsSameLikeEntity;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.SneakyThrows;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -31,6 +30,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -56,22 +56,20 @@ class BookControllerTest {
     @MockBean
     private BookRepository bookRepository;
 
-    private TestStorage testStorage;
+    @Autowired
+    private TestStorage  testStorage;
 
-    private static final String MISSING_TYPE = "Not entered data: [authors]";
+    private static final String MISSING_TYPE = "source cannot be null";
 
     private static final String DELETED_SUCCESS = "Book is deleted successfully!";
 
-    @BeforeEach
-    public void init() {
-        testStorage = new TestStorage();
-    }
+    private static final String DATETIME_FORMATTER = "dd-MM-yyyy hh:mm:ss";
 
     @SneakyThrows
     @Test
     void getAllBooks() {
         Pageable paging = PageRequest.of(0, 5);
-        when(bookRepository.findAll(paging)).thenReturn(new PageImpl<Book>(testStorage.getBooks()));
+        when(bookRepository.findAll(paging)).thenReturn(new PageImpl<>(testStorage.getBooks()));
 
         MockHttpServletResponse response = mockMvc.perform(get("/books")
                         .param("page", "1")
@@ -88,6 +86,7 @@ class BookControllerTest {
         assertEquals("War and peace", jsonObject.get("title"));
         assertEquals(3, jsonArray.length());
         assertEquals("application/json", response.getContentType());
+        verify(bookRepository).findAll(paging);
     }
 
     @SneakyThrows
@@ -102,10 +101,9 @@ class BookControllerTest {
                 .getResponse();
         JSONObject jsonObject = new JSONObject(response.getContentAsString());
 
-        assertNotNull(jsonObject);
-        assertEquals("application/json", response.getContentType());
-        assertEquals("War and peace", jsonObject.get("title"));
+        assertEquals("update", jsonObject.get("title"));
         assertEquals(1, jsonObject.get("id"));
+        verify(bookRepository).findById(1L);
     }
 
     @SneakyThrows
@@ -120,8 +118,7 @@ class BookControllerTest {
                 .getResponse();
         JSONObject jsonObject = new JSONObject(response.getContentAsString());
 
-        assertEquals("application/json", response.getContentType());
-        assertEquals(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm:ss")), jsonObject.get("timestamp"));
+        assertEquals(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DATETIME_FORMATTER)), jsonObject.get("timestamp"));
     }
 
     @SneakyThrows
@@ -132,7 +129,7 @@ class BookControllerTest {
         newBook.setPublisher(testStorage.getPublisher());
         newBook.setAuthors(testStorage.getAuthors());
 
-        when(bookRepository.save(argThat(new IsSameLikeBook(newBook)))).thenReturn(newBook);
+        when(bookRepository.save(argThat(new IsSameLikeEntity<>(newBook)))).thenReturn(newBook);
 
         MockHttpServletResponse response = mockMvc.perform(post("/books")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -145,7 +142,7 @@ class BookControllerTest {
 
         assertNotNull(response);
         assertEquals(testStorage.getBook().getTitle(), jsonObject.get("title"));
-        verify(bookRepository).save(argThat(new IsSameLikeBook(newBook)));
+        verify(bookRepository).save(argThat(new IsSameLikeEntity<>(newBook)));
     }
 
     @SneakyThrows
@@ -177,7 +174,7 @@ class BookControllerTest {
         BookDto bookDto = bookMapper.mapToBookDto(book);
 
         when(bookRepository.getReferenceById(book.getId())).thenReturn(book);
-        when(bookRepository.save(argThat(new IsSameLikeBook(book)))).thenReturn(book);
+        when(bookRepository.save(argThat(new IsSameLikeEntity<>(book)))).thenReturn(book);
 
         MockHttpServletResponse response = mockMvc.perform(put("/books")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -190,13 +187,15 @@ class BookControllerTest {
 
         assertNotNull(response);
         assertEquals(book.getTitle(), jsonObject.get("title"));
-        verify(bookRepository).save(argThat(new IsSameLikeBook(book)));
+        verify(bookRepository).save(argThat(new IsSameLikeEntity<>(book)));
         verify(bookRepository).getReferenceById(book.getId());
     }
 
     @SneakyThrows
     @Test
     void softDeleteBook() {
+        doNothing().when(bookRepository).delete(1L);
+
         MvcResult mvcResult = mockMvc.perform(delete("/books/{id}", "1"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -204,5 +203,6 @@ class BookControllerTest {
         String response = mvcResult.getResponse().getContentAsString();
 
         assertEquals(DELETED_SUCCESS, response);
+        verify(bookRepository).delete(1L);
     }
 }

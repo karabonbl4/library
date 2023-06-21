@@ -2,6 +2,7 @@ package com.library.controller;
 
 import com.library.model.dto.PublisherDto;
 import com.library.service.PublisherService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,27 +25,27 @@ public class PublisherController {
     private final PublisherService publisherService;
 
     @GetMapping
-    public List<PublisherDto> getAllWithPageable(@RequestParam Integer page, @RequestParam Integer sizeOnPage){
+    public List<PublisherDto> getAllWithPageable(@Valid @RequestParam Integer page, @Valid @RequestParam Integer sizeOnPage) {
         return publisherService.findAllWithPageable(page, sizeOnPage);
     }
 
     @GetMapping(value = "/{id}")
-    public PublisherDto getPublisher(@PathVariable(name = "id") Long publisherId){
+    public PublisherDto getPublisher(@Valid @PathVariable(name = "id") Long publisherId) {
         return publisherService.findById(publisherId);
     }
 
     @PostMapping
-    public ResponseEntity<PublisherDto> savePublisher(@RequestBody PublisherDto publisherDto){
+    public ResponseEntity<PublisherDto> savePublisher(@Valid @RequestBody PublisherDto publisherDto) {
         return ResponseEntity.ok(publisherService.save(publisherDto));
     }
 
     @PutMapping
-    public ResponseEntity<PublisherDto> updatePublisher(@RequestBody PublisherDto publisherDto){
+    public ResponseEntity<PublisherDto> updatePublisher(@Valid @RequestBody PublisherDto publisherDto) {
         return ResponseEntity.ok(publisherService.update(publisherDto));
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<String> softDeletePublisher(@PathVariable(name = "id") Long publisherId){
+    public ResponseEntity<String> softDeletePublisher(@Valid @PathVariable(name = "id") Long publisherId) {
         publisherService.softDelete(publisherId);
         return ResponseEntity.ok("Publisher is deleted successfully!");
     }

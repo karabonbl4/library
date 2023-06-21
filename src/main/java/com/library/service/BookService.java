@@ -15,5 +15,4 @@ public interface BookService {
     BookDto update(BookDto bookDto);
 
     void softDelete(Long bookId);
-
 }

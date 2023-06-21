@@ -1,6 +1,5 @@
 package com.library.controller;
 
-import com.library.exception.MissingRequiredDataException;
 import com.library.model.dto.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -25,17 +24,17 @@ public class DefaultExceptionHandler {
         return errorResponse;
     }
 
-    @ExceptionHandler(MissingRequiredDataException.class)
+    @ExceptionHandler(InvalidParameterException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleMissingRequiredDataException(MissingRequiredDataException e){
+    public ErrorResponse handleInvalidParameterException(InvalidParameterException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), LocalDateTime.now(), HttpStatus.BAD_REQUEST);
         log.error(e.getClass().getSimpleName().concat(":").concat(String.valueOf(errorResponse)));
         return errorResponse;
     }
 
-    @ExceptionHandler(InvalidParameterException.class)
+    @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleInvalidParameterException(InvalidParameterException e){
+    public ErrorResponse handleIllegalArgumentException(IllegalArgumentException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), LocalDateTime.now(), HttpStatus.BAD_REQUEST);
         log.error(e.getClass().getSimpleName().concat(":").concat(String.valueOf(errorResponse)));
         return errorResponse;

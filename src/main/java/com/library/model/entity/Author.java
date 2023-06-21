@@ -5,6 +5,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,12 +19,15 @@ import java.util.List;
 @NoArgsConstructor
 public class Author extends ParentEntity {
 
+    @NotBlank
     @Column
     private String name;
 
+    @NotBlank
     @Column
     private String surname;
 
+    @NotBlank
     @Column(name = "date_of_birth")
     private LocalDate birthDay;
 
