@@ -37,13 +37,7 @@ public class PublisherServiceImpl implements PublisherService{
     }
 
     @Override
-    public PublisherDto save(PublisherDto publisherDto) {
-        Publisher publisher = publisherMapper.mapToPublisher(publisherDto);
-        return publisherMapper.mapToPublisherDto(publisherRepository.save(publisher));
-    }
-
-    @Override
-    public PublisherDto update(PublisherDto publisherDto) {
+    public PublisherDto saveOrUpdate(PublisherDto publisherDto) {
         Publisher publisher = publisherMapper.mapToPublisher(publisherDto);
         return publisherMapper.mapToPublisherDto(publisherRepository.save(publisher));
     }

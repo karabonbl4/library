@@ -35,13 +35,7 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public AuthorDto save(AuthorDto authorDto) {
-        Author author = authorRepository.save(authorMapper.mapToAuthor(authorDto));
-        return authorMapper.mapToAuthorDto(author);
-    }
-
-    @Override
-    public AuthorDto update(AuthorDto authorDto) {
+    public AuthorDto saveOrUpdate(AuthorDto authorDto) {
         Author author = authorRepository.save(authorMapper.mapToAuthor(authorDto));
         return authorMapper.mapToAuthorDto(author);
     }

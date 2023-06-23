@@ -12,9 +12,7 @@ public interface AuthorService {
 
     AuthorDto findById(Long id);
 
-    AuthorDto save(AuthorDto authorDto);
-
-    AuthorDto update(AuthorDto authorDto);
+    AuthorDto saveOrUpdate(AuthorDto authorDto);
 
     void softDelete(Long authorId);
 }

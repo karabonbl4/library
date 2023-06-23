@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,20 +17,25 @@ import java.util.List;
 @NoArgsConstructor
 public class Publisher extends ParentEntity {
 
+    @NotBlank
     @Column
     private String title;
 
+    @NotBlank
     @Column
     private String country;
 
+    @NotBlank
     @Column
     private String city;
 
+    @NotBlank
     @Column
     private String street;
 
-    @Column(name = "build_num")
-    private String buildNumber;
+    @NotBlank
+    @Column
+    private String buildingNumber;
 
     @OneToMany(mappedBy = "publisher")
     private List<Book> books;

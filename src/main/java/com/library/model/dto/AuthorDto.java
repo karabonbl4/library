@@ -10,13 +10,11 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class AuthorDto extends ParentDto {
+public class AuthorDto extends AuthorNameDto {
 
-    private String fullName;
+    private LocalDate dateOfBirth;
 
-    private LocalDate birthDay;
-
-    private LocalDate ripDay;
+    private LocalDate dateOfDeath;
 
     private List<BookTitleDto> books;
 }

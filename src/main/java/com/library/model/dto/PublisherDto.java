@@ -5,9 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PublisherDto extends ParentDto {
-
-    private String title;
+public class PublisherDto extends PublisherTitleDto {
 
     private String fullAddress;
 }

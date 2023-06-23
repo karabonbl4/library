@@ -10,9 +10,7 @@ public interface BookService {
 
     BookDto findById(Long id);
 
-    BookDto save(BookDto bookDto);
-
-    BookDto update(BookDto bookDto);
+    BookDto saveOrUpdate(BookDto bookDto);
 
     void softDelete(Long bookId);
 }

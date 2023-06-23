@@ -34,7 +34,7 @@ public class TestStorage {
         author.setId(1L);
         author.setName("Name");
         author.setSurname("Surname");
-        author.setBirthDay(LocalDate.of(1999, 5, 17));
+        author.setDateOfBirth(LocalDate.of(1999, 5, 17));
 
         publisher = new Publisher();
         publisher.setId(1L);
@@ -42,7 +42,7 @@ public class TestStorage {
         publisher.setCountry("Republic of Belarus");
         publisher.setCity("Grodno");
         publisher.setStreet("Gorkogo");
-        publisher.setBuildNumber("12A");
+        publisher.setBuildingNumber("12A");
 
         book = new Book();
         book.setId(1L);

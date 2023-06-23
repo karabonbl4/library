@@ -6,7 +6,7 @@ import com.library.model.dto.BookDto;
 import com.library.model.entity.Book;
 import com.library.model.mapper.BookMapper;
 import com.library.repository.BookRepository;
-import com.library.utils.IsSameLikeEntity;
+import com.library.utils.IsSameLikeBook;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.SneakyThrows;
 import org.json.JSONArray;
@@ -129,7 +129,7 @@ class BookControllerTest {
         newBook.setPublisher(testStorage.getPublisher());
         newBook.setAuthors(testStorage.getAuthors());
 
-        when(bookRepository.save(argThat(new IsSameLikeEntity<>(newBook)))).thenReturn(newBook);
+        when(bookRepository.save(argThat(new IsSameLikeBook(newBook)))).thenReturn(newBook);
 
         MockHttpServletResponse response = mockMvc.perform(post("/books")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -142,7 +142,7 @@ class BookControllerTest {
 
         assertNotNull(response);
         assertEquals(testStorage.getBook().getTitle(), jsonObject.get("title"));
-        verify(bookRepository).save(argThat(new IsSameLikeEntity<>(newBook)));
+        verify(bookRepository).save(argThat(new IsSameLikeBook(newBook)));
     }
 
     @SneakyThrows
@@ -174,7 +174,7 @@ class BookControllerTest {
         BookDto bookDto = bookMapper.mapToBookDto(book);
 
         when(bookRepository.getReferenceById(book.getId())).thenReturn(book);
-        when(bookRepository.save(argThat(new IsSameLikeEntity<>(book)))).thenReturn(book);
+        when(bookRepository.save(argThat(new IsSameLikeBook(book)))).thenReturn(book);
 
         MockHttpServletResponse response = mockMvc.perform(put("/books")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -187,7 +187,7 @@ class BookControllerTest {
 
         assertNotNull(response);
         assertEquals(book.getTitle(), jsonObject.get("title"));
-        verify(bookRepository).save(argThat(new IsSameLikeEntity<>(book)));
+        verify(bookRepository).save(argThat(new IsSameLikeBook(book)));
         verify(bookRepository).getReferenceById(book.getId());
     }
 

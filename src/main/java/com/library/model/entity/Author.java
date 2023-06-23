@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,12 +28,12 @@ public class Author extends ParentEntity {
     @Column
     private String surname;
 
-    @NotBlank
-    @Column(name = "date_of_birth")
-    private LocalDate birthDay;
+    @NotNull
+    @Column
+    private LocalDate dateOfBirth;
 
-    @Column(name = "date_of_death")
-    private LocalDate ripDay;
+    @Column
+    private LocalDate dateOfDeath;
 
     @ManyToMany(mappedBy = "authors")
     private List<Book> books;

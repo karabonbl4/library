@@ -19,23 +19,23 @@ public class DefaultExceptionHandler {
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleNotFoundException(EntityNotFoundException e) {
-        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), LocalDateTime.now(), HttpStatus.NOT_FOUND);
-        log.error(e.getClass().getSimpleName().concat(":").concat(String.valueOf(errorResponse)));
-        return errorResponse;
+        return buildErrorResponseByException(e);
     }
 
     @ExceptionHandler(InvalidParameterException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleInvalidParameterException(InvalidParameterException e) {
-        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), LocalDateTime.now(), HttpStatus.BAD_REQUEST);
-        log.error(e.getClass().getSimpleName().concat(":").concat(String.valueOf(errorResponse)));
-        return errorResponse;
+        return buildErrorResponseByException(e);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleIllegalArgumentException(IllegalArgumentException e) {
-        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), LocalDateTime.now(), HttpStatus.BAD_REQUEST);
+        return buildErrorResponseByException(e);
+    }
+
+    private ErrorResponse buildErrorResponseByException(Exception e){
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), LocalDateTime.now());
         log.error(e.getClass().getSimpleName().concat(":").concat(String.valueOf(errorResponse)));
         return errorResponse;
     }
