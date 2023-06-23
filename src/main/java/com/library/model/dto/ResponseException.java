@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @Getter
-public class ErrorResponse {
+public class ResponseException {
 
     private String message;
 
