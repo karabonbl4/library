@@ -29,11 +29,11 @@ public class Author extends ParentEntity {
     private String surname;
 
     @NotNull
-    @Column
-    private LocalDate dateOfBirth;
+    @Column(name = "date_of_birth")
+    private LocalDate birthDate;
 
-    @Column
-    private LocalDate dateOfDeath;
+    @Column(name = "date_of_death")
+    private LocalDate deathDate;
 
     @ManyToMany(mappedBy = "authors")
     private List<Book> books;

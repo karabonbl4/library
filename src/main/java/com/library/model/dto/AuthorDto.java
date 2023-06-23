@@ -12,9 +12,9 @@ import java.util.List;
 @NoArgsConstructor
 public class AuthorDto extends AuthorNameDto {
 
-    private LocalDate dateOfBirth;
+    private LocalDate birthDate;
 
-    private LocalDate dateOfDeath;
+    private LocalDate deathDate;
 
     private List<BookTitleDto> books;
 }

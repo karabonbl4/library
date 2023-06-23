@@ -34,7 +34,7 @@ public class TestStorage {
         author.setId(1L);
         author.setName("Name");
         author.setSurname("Surname");
-        author.setDateOfBirth(LocalDate.of(1999, 5, 17));
+        author.setBirthDate(LocalDate.of(1999, 5, 17));
 
         publisher = new Publisher();
         publisher.setId(1L);
