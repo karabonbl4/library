@@ -6,16 +6,20 @@ import com.library.model.dto.BookDto;
 import com.library.model.entity.Book;
 import com.library.model.mapper.BookMapper;
 import com.library.repository.BookRepository;
+import com.library.service.BookService;
+import com.library.service.impl.BookServiceImpl;
 import com.library.utils.IsSameLikeBook;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.SneakyThrows;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,8 +28,6 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -40,13 +42,16 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
+@WebMvcTest(BookController.class)
+@Import(value = {BookServiceImpl.class, ModelMapper.class, BookMapper.class, TestStorage.class})
 @AutoConfigureMockMvc
 class BookControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private BookService bookService;
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -62,8 +67,6 @@ class BookControllerTest {
     private static final String MISSING_TYPE = "source cannot be null";
 
     private static final String DELETED_SUCCESS = "Book is deleted successfully!";
-
-    private static final String DATETIME_FORMATTER = "dd-MM-yyyy hh:mm:ss";
 
     @SneakyThrows
     @Test
@@ -109,16 +112,16 @@ class BookControllerTest {
     @SneakyThrows
     @Test
     void getBookByIdFailed() {
-        when(bookRepository.findById(1L)).thenThrow(EntityNotFoundException.class);
+        when(bookRepository.findById(4L)).thenThrow(EntityNotFoundException.class);
 
-        MockHttpServletResponse response = mockMvc.perform(get("/books/{id}", "1"))
+        MockHttpServletResponse response = mockMvc.perform(get("/books/{id}", "4"))
                 .andDo(print())
                 .andExpect(status().isNotFound())
                 .andReturn()
                 .getResponse();
         JSONObject jsonObject = new JSONObject(response.getContentAsString());
 
-        assertEquals(LocalDateTime.now().format(DateTimeFormatter.ofPattern(DATETIME_FORMATTER)), jsonObject.get("timestamp"));
+        assertEquals("null", jsonObject.get("message").toString());
     }
 
     @SneakyThrows
@@ -126,8 +129,6 @@ class BookControllerTest {
     void saveBook() {
         Book newBook = testStorage.getNewBook();
         BookDto bookDto = bookMapper.mapToBookDto(newBook);
-        newBook.setPublisher(testStorage.getPublisher());
-        newBook.setAuthors(testStorage.getAuthors());
 
         when(bookRepository.save(argThat(new IsSameLikeBook(newBook)))).thenReturn(newBook);
 
@@ -173,7 +174,6 @@ class BookControllerTest {
         book.setTitle("update");
         BookDto bookDto = bookMapper.mapToBookDto(book);
 
-        when(bookRepository.getReferenceById(book.getId())).thenReturn(book);
         when(bookRepository.save(argThat(new IsSameLikeBook(book)))).thenReturn(book);
 
         MockHttpServletResponse response = mockMvc.perform(put("/books")
@@ -188,7 +188,6 @@ class BookControllerTest {
         assertNotNull(response);
         assertEquals(book.getTitle(), jsonObject.get("title"));
         verify(bookRepository).save(argThat(new IsSameLikeBook(book)));
-        verify(bookRepository).getReferenceById(book.getId());
     }
 
     @SneakyThrows

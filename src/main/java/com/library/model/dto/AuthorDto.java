@@ -10,7 +10,9 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class AuthorDto extends AuthorNameDto {
+public class AuthorDto extends ParentDto {
+
+    private String fullName;
 
     private LocalDate birthDate;
 

@@ -5,14 +5,14 @@ import com.library.model.entity.Book;
 import com.library.model.entity.Publisher;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.test.context.TestComponent;
 import org.springframework.util.SerializationUtils;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@TestComponent
 @Getter
 @RequiredArgsConstructor
 public class TestStorage {
