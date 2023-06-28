@@ -18,5 +18,5 @@ public class ParentEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Boolean deleted;
+    private Boolean deleted = Boolean.FALSE;
 }

@@ -4,10 +4,11 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 
 import jakarta.persistence.OneToMany;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 
 import java.util.List;
 
@@ -15,25 +16,26 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@Where(clause = "deleted=false")
 public class Publisher extends ParentEntity {
 
-    @NotBlank
+    @NotNull
     @Column
     private String title;
 
-    @NotBlank
+    @NotNull
     @Column
     private String country;
 
-    @NotBlank
+    @NotNull
     @Column
     private String city;
 
-    @NotBlank
+    @NotNull
     @Column
     private String street;
 
-    @NotBlank
+    @NotNull
     @Column
     private String buildingNumber;
 

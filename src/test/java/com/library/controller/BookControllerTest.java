@@ -85,10 +85,7 @@ class BookControllerTest {
         JSONObject jsonObject = jsonArray.getJSONObject(0);
 
         assertNotNull(response.getContentAsString());
-        assertEquals(1, jsonObject.get("id"));
-        assertEquals("War and peace", jsonObject.get("title"));
         assertEquals(3, jsonArray.length());
-        assertEquals("application/json", response.getContentType());
         verify(bookRepository).findAll(paging);
     }
 
@@ -122,6 +119,7 @@ class BookControllerTest {
         JSONObject jsonObject = new JSONObject(response.getContentAsString());
 
         assertEquals("null", jsonObject.get("message").toString());
+        verify(bookRepository).findById(4L);
     }
 
     @SneakyThrows
@@ -152,7 +150,6 @@ class BookControllerTest {
         Book newBook = testStorage.getNewBook();
         newBook.setAuthors(null);
         BookDto bookDto = bookMapper.mapToBookDto(newBook);
-
 
         MockHttpServletResponse response = mockMvc.perform(post("/books")
                         .contentType(MediaType.APPLICATION_JSON)

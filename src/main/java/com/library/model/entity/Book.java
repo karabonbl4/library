@@ -3,6 +3,7 @@ package com.library.model.entity;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import org.hibernate.annotations.Where;
 
 import java.util.List;
 
@@ -20,17 +22,18 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@Where(clause = "deleted=false")
 public class Book extends ParentEntity {
 
     @NotBlank
     @Column
     private String title;
 
-    @NotBlank
+    @NotNull
     @Column
     private Short publicationYear;
 
-    @NotBlank
+    @NotNull
     @Column
     private Integer stack;
 
@@ -38,7 +41,7 @@ public class Book extends ParentEntity {
     @Column
     private String unit;
 
-    @NotBlank
+    @NotNull
     @JoinColumn(name = "publisher_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Publisher publisher;
