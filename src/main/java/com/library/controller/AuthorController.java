@@ -1,6 +1,7 @@
 package com.library.controller;
 
 import com.library.model.dto.AuthorDto;
+import com.library.model.dto.AuthorNameDto;
 import com.library.service.AuthorService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +25,10 @@ public class AuthorController {
 
     private final AuthorService authorService;
 
+    private final String AUTHOR_IS_DELETED = "Author is deleted successfully!";
+
     @GetMapping
-    public List<AuthorDto> getAllAuthors(@Valid @RequestParam Integer page, @Valid @RequestParam Integer sizeOnPage) {
+    public List<AuthorNameDto> getAllAuthors(@Valid @RequestParam Integer page, @Valid @RequestParam Integer sizeOnPage) {
         return authorService.findAllWithPageable(page, sizeOnPage);
     }
 
@@ -47,6 +50,6 @@ public class AuthorController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> softDeleteAuthor(@Valid @PathVariable(name = "id") Long authorId) {
         authorService.softDelete(authorId);
-        return ResponseEntity.ok("Author is deleted successfully!");
+        return ResponseEntity.ok(AUTHOR_IS_DELETED);
     }
 }

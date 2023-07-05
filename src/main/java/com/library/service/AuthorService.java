@@ -2,13 +2,14 @@ package com.library.service;
 
 
 import com.library.model.dto.AuthorDto;
+import com.library.model.dto.AuthorNameDto;
 
 import java.util.List;
 
 
 public interface AuthorService {
 
-    List<AuthorDto> findAllWithPageable(Integer page, Integer sizeOnPage);
+    List<AuthorNameDto> findAllWithPageable(Integer page, Integer sizeOnPage);
 
     AuthorDto findById(Long id);
 

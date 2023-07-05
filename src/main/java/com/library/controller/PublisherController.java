@@ -1,6 +1,7 @@
 package com.library.controller;
 
 import com.library.model.dto.PublisherDto;
+import com.library.model.dto.PublisherTitleDto;
 import com.library.service.PublisherService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +25,10 @@ public class PublisherController {
 
     private final PublisherService publisherService;
 
+    private final String PUBLISHER_IS_DELETED = "Publisher is deleted successfully!";
+
     @GetMapping
-    public List<PublisherDto> getAllWithPageable(@Valid @RequestParam Integer page, @Valid @RequestParam Integer sizeOnPage) {
+    public List<PublisherTitleDto> getAllWithPageable(@Valid @RequestParam Integer page, @Valid @RequestParam Integer sizeOnPage) {
         return publisherService.findAllWithPageable(page, sizeOnPage);
     }
 
@@ -47,6 +50,6 @@ public class PublisherController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> softDeletePublisher(@Valid @PathVariable(name = "id") Long publisherId) {
         publisherService.softDelete(publisherId);
-        return ResponseEntity.ok("Publisher is deleted successfully!");
+        return ResponseEntity.ok(PUBLISHER_IS_DELETED);
     }
 }

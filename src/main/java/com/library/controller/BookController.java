@@ -24,6 +24,8 @@ public class BookController {
 
     private final BookService bookService;
 
+    private final String BOOK_IS_DELETED = "Book is deleted successfully!";
+
     @GetMapping
     public List<BookDto> getAllBooks(@Valid @RequestParam Integer page, @Valid @RequestParam Integer sizeOnPage) {
         return bookService.findAllWithPageable(page, sizeOnPage);
@@ -47,6 +49,6 @@ public class BookController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> softDeleteBook(@Valid @PathVariable(name = "id") Long bookId) {
         bookService.softDelete(bookId);
-        return ResponseEntity.ok("Book is deleted successfully!");
+        return ResponseEntity.ok(BOOK_IS_DELETED);
     }
 }

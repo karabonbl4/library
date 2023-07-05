@@ -50,6 +50,17 @@ public class AuthorMapper {
                                 .map(source.getFullName(), destination.getSurname());
                     }
                 });
+
+        modelMapper.createTypeMap(AuthorNameDto.class, Author.class)
+                .addMappings(new PropertyMap<AuthorNameDto, Author>() {
+                    @Override
+                    protected void configure() {
+                        using(name)
+                                .map(source.getFullName(), destination.getName());
+                        using(surName)
+                                .map(source.getFullName(), destination.getSurname());
+                    }
+                });
     }
 
     public Author mapToAuthor(AuthorDto authorDto){
@@ -58,5 +69,9 @@ public class AuthorMapper {
 
     public AuthorDto mapToAuthorDto(Author author){
         return modelMapper.map(author, AuthorDto.class);
+    }
+
+    public AuthorNameDto mapToAuthorNameDto(Author author){
+        return modelMapper.map(author, AuthorNameDto.class);
     }
 }

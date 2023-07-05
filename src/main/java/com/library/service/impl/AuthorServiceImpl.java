@@ -1,12 +1,14 @@
 package com.library.service.impl;
 
 import com.library.model.dto.AuthorDto;
+import com.library.model.dto.AuthorNameDto;
 import com.library.model.entity.Author;
 import com.library.model.mapper.AuthorMapper;
 import com.library.repository.AuthorRepository;
 import com.library.service.AuthorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -25,9 +27,9 @@ public class AuthorServiceImpl implements AuthorService {
     private final AuthorMapper authorMapper;
 
     @Override
-    public List<AuthorDto> findAllWithPageable(Integer page, Integer sizeOnPage) {
-        return authorRepository.findAll(PageRequest.of(page - 1, sizeOnPage)).stream()
-                .map(authorMapper::mapToAuthorDto)
+    public List<AuthorNameDto> findAllWithPageable(Integer page, Integer sizeOnPage) {
+        return authorRepository.findAll(PageRequest.of(page - 1, sizeOnPage, Sort.by("id").ascending())).stream()
+                .map(authorMapper::mapToAuthorNameDto)
                 .collect(Collectors.toList());
     }
 

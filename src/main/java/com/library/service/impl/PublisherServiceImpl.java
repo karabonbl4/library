@@ -1,6 +1,7 @@
 package com.library.service.impl;
 
 import com.library.model.dto.PublisherDto;
+import com.library.model.dto.PublisherTitleDto;
 import com.library.model.entity.Publisher;
 import com.library.model.mapper.PublisherMapper;
 import com.library.repository.PublisherRepository;
@@ -8,6 +9,7 @@ import com.library.service.PublisherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -26,10 +28,10 @@ public class PublisherServiceImpl implements PublisherService{
     private final PublisherMapper publisherMapper;
 
     @Override
-    public List<PublisherDto> findAllWithPageable(Integer page, Integer sizeOnPage) {
-        Pageable paging = PageRequest.of(page - 1, sizeOnPage);
+    public List<PublisherTitleDto> findAllWithPageable(Integer page, Integer sizeOnPage) {
+        Pageable paging = PageRequest.of(page - 1, sizeOnPage, Sort.by("id").ascending());
         return publisherRepository.findAll(paging).stream()
-                .map(publisherMapper::mapToPublisherDto)
+                .map(publisherMapper::mapToPublisherTitleDto)
                 .collect(Collectors.toList());
     }
 

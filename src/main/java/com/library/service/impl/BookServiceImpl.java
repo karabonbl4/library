@@ -8,6 +8,7 @@ import com.library.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -27,7 +28,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<BookDto> findAllWithPageable(Integer page, Integer sizeOnPage) {
-        Pageable paging = PageRequest.of(page - 1, sizeOnPage);
+        Pageable paging = PageRequest.of(page - 1, sizeOnPage, Sort.by("id").ascending());
         return bookRepository.findAll(paging).stream()
                 .map(bookMapper::mapToBookDto)
                 .collect(Collectors.toList());

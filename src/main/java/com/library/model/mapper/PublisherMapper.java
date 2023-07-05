@@ -1,6 +1,7 @@
 package com.library.model.mapper;
 
 import com.library.model.dto.PublisherDto;
+import com.library.model.dto.PublisherTitleDto;
 import com.library.model.entity.Publisher;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -60,5 +61,9 @@ public class PublisherMapper {
 
     public Publisher mapToPublisher(PublisherDto publisherDto){
         return modelMapper.map(publisherDto, Publisher.class);
+    }
+
+    public PublisherTitleDto mapToPublisherTitleDto(Publisher publisher){
+        return modelMapper.map(publisher, PublisherTitleDto.class);
     }
 }

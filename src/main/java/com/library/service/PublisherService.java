@@ -1,12 +1,13 @@
 package com.library.service;
 
 import com.library.model.dto.PublisherDto;
+import com.library.model.dto.PublisherTitleDto;
 
 import java.util.List;
 
 public interface PublisherService {
 
-    List<PublisherDto> findAllWithPageable(Integer page, Integer sizeOnPage);
+    List<PublisherTitleDto> findAllWithPageable(Integer page, Integer sizeOnPage);
 
     PublisherDto findById(Long id);
 
