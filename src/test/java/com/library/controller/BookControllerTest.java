@@ -30,6 +30,8 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.Optional;
 
+import static com.library.constant.ApplicationConstant.BOOK_IS_DELETED;
+import static com.library.constant.ApplicationConstant.FIELD_NOT_PRESENT;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.doNothing;
@@ -66,8 +68,6 @@ class BookControllerTest {
 
     private static final String MISSING_TYPE = "source cannot be null";
 
-    private static final String DELETED_SUCCESS = "Book is deleted successfully!";
-
     @SneakyThrows
     @Test
     void getAllBooks() {
@@ -82,7 +82,6 @@ class BookControllerTest {
                 .andReturn()
                 .getResponse();
         JSONArray jsonArray = new JSONArray(response.getContentAsString());
-        JSONObject jsonObject = jsonArray.getJSONObject(0);
 
         assertNotNull(response.getContentAsString());
         assertEquals(3, jsonArray.length());
@@ -189,6 +188,27 @@ class BookControllerTest {
 
     @SneakyThrows
     @Test
+    void updateBookFailedWithMethodArgumentNotValidException() {
+        Book book = testStorage.getBook();
+        book.setAuthors(null);
+        book.setPublisher(null);
+        BookDto bookDto = bookMapper.mapToBookDto(book);
+
+        MockHttpServletResponse response = mockMvc.perform(put("/books")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(bookDto)))
+                .andExpect(status().isBadRequest())
+                .andReturn()
+                .getResponse();
+
+        JSONObject jsonObject = new JSONObject(response.getContentAsString());
+
+        assertNotNull(response);
+        assertEquals(FIELD_NOT_PRESENT, jsonObject.get("message"));
+    }
+
+    @SneakyThrows
+    @Test
     void softDeleteBook() {
         doNothing().when(bookRepository).delete(1L);
 
@@ -198,7 +218,7 @@ class BookControllerTest {
                 .andReturn();
         String response = mvcResult.getResponse().getContentAsString();
 
-        assertEquals(DELETED_SUCCESS, response);
+        assertEquals(BOOK_IS_DELETED, response);
         verify(bookRepository).delete(1L);
     }
 }

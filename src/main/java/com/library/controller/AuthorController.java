@@ -2,6 +2,7 @@ package com.library.controller;
 
 import com.library.model.dto.AuthorDto;
 import com.library.model.dto.AuthorNameDto;
+import com.library.model.dto.ResponseMessage;
 import com.library.service.AuthorService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,14 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static com.library.constant.ApplicationConstant.AUTHOR_IS_DELETED;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/authors")
 public class AuthorController {
 
     private final AuthorService authorService;
-
-    private final String AUTHOR_IS_DELETED = "Author is deleted successfully!";
 
     @GetMapping
     public List<AuthorNameDto> getAllAuthors(@Valid @RequestParam Integer page, @Valid @RequestParam Integer sizeOnPage) {
@@ -48,8 +49,8 @@ public class AuthorController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<String> softDeleteAuthor(@Valid @PathVariable(name = "id") Long authorId) {
+    public ResponseEntity<ResponseMessage> softDeleteAuthor(@Valid @PathVariable(name = "id") Long authorId) {
         authorService.softDelete(authorId);
-        return ResponseEntity.ok(AUTHOR_IS_DELETED);
+        return ResponseEntity.ok(new ResponseMessage(AUTHOR_IS_DELETED));
     }
 }
