@@ -23,5 +23,16 @@ services:
       SPRING_DATASOURCE_PASSWORD: postgres
     volumes:
       - ./build/libs/library-0.1.war:/usr/local/tomcat/webapps/ROOT.war
+
+  rabbitmq:
+    container_name: 'library-rabbitmq'
+    image: rabbitmq:3.10-management
+    restart: always
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/mnesia/
+
 volumes:
   postgres-data:

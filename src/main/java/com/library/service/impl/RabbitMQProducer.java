@@ -1,5 +1,6 @@
 package com.library.service.impl;
 
+import com.library.model.dto.ResponseException;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -10,6 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
+import java.util.Arrays;
 
 @Aspect
 @Component
@@ -38,14 +42,19 @@ public class RabbitMQProducer {
     @AfterReturning("callAtBookControllerPublic()")
     public void sendHappyCaseMessage(JoinPoint joinPoint){
         String methodName = joinPoint.getStaticPart().toShortString();
-        LOGGER.info(String.format("Message sent -> %s - is done!", methodName));
-        rabbitTemplate.convertAndSend(exchange, routingKey, methodName);
+        String message = methodName + " is done!";
+        LOGGER.info(String.format("Message sent -> %s", message));
+        rabbitTemplate.convertAndSend(exchange, routingKey, message);
     }
 
     @AfterReturning("callAtExceptionHandlerPublic()")
-    public void sendUnhappyCaseMessage(JoinPoint joinPoint){
-        String methodName = joinPoint.getStaticPart().toShortString();
-        LOGGER.info(String.format("Message sent -> %s", methodName));
-        rabbitTemplate.convertAndSend(exchange, routingUnhappyKey, methodName);
+    public void sendMessage(JoinPoint joinPoint){
+        Exception e = (Exception) Arrays.stream(joinPoint.getArgs())
+                .findFirst()
+                .get();
+        ResponseException errorResponse = new ResponseException(e.getMessage(), LocalDateTime.now());
+        String message = e.getClass().getSimpleName().concat(":").concat(String.valueOf(errorResponse));
+        LOGGER.info(String.format("Message sent -> %s", message));
+        rabbitTemplate.convertAndSend(exchange, routingUnhappyKey, message);
     }
 }
