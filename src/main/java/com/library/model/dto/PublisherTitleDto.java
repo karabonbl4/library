@@ -8,4 +8,11 @@ import lombok.Setter;
 public class PublisherTitleDto extends ParentDto {
 
     private String title;
+
+    @Override
+    public String toString() {
+        return "PublisherTitleDto{" +
+                "title='" + title + '\'' +
+                '}';
+    }
 }

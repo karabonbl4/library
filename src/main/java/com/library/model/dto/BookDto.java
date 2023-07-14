@@ -21,4 +21,16 @@ public class BookDto extends ParentDto {
     private List<AuthorNameDto> authors;
 
     private PublisherTitleDto publisher;
+
+    @Override
+    public String toString() {
+        return "BookDto{" +
+                "title='" + title + '\'' +
+                ", publicationYear=" + publicationYear +
+                ", stack=" + stack +
+                ", unit='" + unit + '\'' +
+                ", authors=" + authors +
+                ", publisher=" + publisher +
+                '}';
+    }
 }
