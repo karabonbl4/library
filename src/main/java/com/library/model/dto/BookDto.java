@@ -3,11 +3,13 @@ package com.library.model.dto;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.List;
 
 @Getter
 @Setter
+@ToString
 public class BookDto extends ParentDto {
 
     private String title;
@@ -21,16 +23,4 @@ public class BookDto extends ParentDto {
     private List<AuthorNameDto> authors;
 
     private PublisherTitleDto publisher;
-
-    @Override
-    public String toString() {
-        return "BookDto{" +
-                "title='" + title + '\'' +
-                ", publicationYear=" + publicationYear +
-                ", stack=" + stack +
-                ", unit='" + unit + '\'' +
-                ", authors=" + authors +
-                ", publisher=" + publisher +
-                '}';
-    }
 }
