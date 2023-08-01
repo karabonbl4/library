@@ -3,7 +3,7 @@ package com.library.constant;
 
 import java.time.format.DateTimeFormatter;
 
-public class ApplicationConstant {
+public final class ApplicationConstant {
 
     public final static String AUTHOR_IS_DELETED = "Author is deleted successfully!";
 
