@@ -1,4 +1,4 @@
-package com.library.model.entity;
+package com.library.model.entity.postgres;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

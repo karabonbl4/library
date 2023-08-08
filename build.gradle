@@ -27,6 +27,7 @@ dependencies {
 	implementation 'ch.qos.logback:logback-classic:1.4.6'
 	implementation 'org.slf4j:slf4j-api:2.0.5'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb:3.1.0'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -35,6 +36,11 @@ dependencies {
 	testCompileOnly 'org.projectlombok:lombok'
 	testAnnotationProcessor 'org.projectlombok:lombok'
 }
+
+task cleanBuildDir(type: Delete) {
+	delete "${projectDir}/out"
+}
+tasks.clean.dependsOn(cleanBuildDir)
 
 tasks.named('test') {
 	useJUnitPlatform()

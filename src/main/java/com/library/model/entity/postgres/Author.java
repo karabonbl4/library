@@ -1,4 +1,4 @@
-package com.library.model.entity;
+package com.library.model.entity.postgres;
 
 
 import jakarta.persistence.Column;
@@ -31,10 +31,10 @@ public class Author extends ParentEntity {
     private String surname;
 
     @NotNull
-    @Column
+    @Column(name = "birth_date")
     private LocalDate birthDate;
 
-    @Column
+    @Column(name = "death_date")
     private LocalDate deathDate;
 
     @ManyToMany(mappedBy = "authors")

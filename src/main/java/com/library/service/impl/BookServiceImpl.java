@@ -1,9 +1,9 @@
 package com.library.service.impl;
 
 import com.library.model.dto.BookDto;
-import com.library.model.entity.Book;
+import com.library.model.entity.postgres.Book;
 import com.library.model.mapper.BookMapper;
-import com.library.repository.BookRepository;
+import com.library.repository.postgres.BookRepository;
 import com.library.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;

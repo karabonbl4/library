@@ -1,4 +1,4 @@
-package com.library.model.entity;
+package com.library.model.entity.postgres;
 
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
@@ -30,7 +30,7 @@ public class Book extends ParentEntity {
     private String title;
 
     @NotNull
-    @Column
+    @Column(name = "publication_year")
     private Short publicationYear;
 
     @NotNull

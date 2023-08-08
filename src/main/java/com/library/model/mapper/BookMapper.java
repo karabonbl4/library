@@ -1,7 +1,7 @@
 package com.library.model.mapper;
 
 import com.library.model.dto.BookDto;
-import com.library.model.entity.Book;
+import com.library.model.entity.postgres.Book;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
