@@ -65,9 +65,6 @@ public class BookServiceImpl implements BookService {
      */
     @Override
     public BookDto saveOrUpdate(BookDto bookDto) {
-        if (bookDto.getId() != null & !bookRepository.existsById(bookDto.getId())) {
-            throw new EntityNotFoundException();
-        }
         Book savedBook = bookMapper.mapToBook(bookDto);
         return bookMapper.mapToBookDto(bookRepository.save(savedBook));
     }
@@ -84,10 +81,5 @@ public class BookServiceImpl implements BookService {
     @Override
     public void hardDelete(Long bookId) {
         bookRepository.hardDelete(bookId);
-    }
-
-    public BookDto recovery(BookDto bookDto){
-        Book savedBook = bookMapper.mapToBook(bookDto);
-        return bookMapper.mapToBookDto(bookRepository.save(savedBook));
     }
 }

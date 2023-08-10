@@ -15,6 +15,4 @@ public interface BookService {
     void softDelete(Long bookId);
 
     void hardDelete(Long bookId);
-
-    BookDto recovery(BookDto bookDto);
 }
