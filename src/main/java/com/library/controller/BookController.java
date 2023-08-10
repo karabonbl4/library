@@ -66,7 +66,7 @@ public class BookController {
      * @return updated instance of BookDto
      */
     @PutMapping
-    public ResponseEntity<BookDto> updateBook(@Valid @RequestBody BookDto bookDto) {
+    public ResponseEntity<BookDto> updateBook(@RequestBody BookDto bookDto) {
         return ResponseEntity.ok(bookService.saveOrUpdate(bookDto));
     }
 

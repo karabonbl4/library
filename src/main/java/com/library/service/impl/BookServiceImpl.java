@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 
 /**
  * Basic implementation of BookService. Contains business logic for Book entity
+ *
  * @author Lesha Korobko
  */
 @Service
@@ -34,7 +35,8 @@ public class BookServiceImpl implements BookService {
      * Method receives two Integer parameters,
      * creates Pageable based on them,
      * converts result from repository layer in List of BookDto
-     * @param page requested page, must not be negative
+     *
+     * @param page       requested page, must not be negative
      * @param sizeOnPage number of elements on page, must be greater than 0
      * @return a list of elements according to the number and order specified in the parameters, with default sorting by id
      */
@@ -63,6 +65,9 @@ public class BookServiceImpl implements BookService {
      */
     @Override
     public BookDto saveOrUpdate(BookDto bookDto) {
+        if (bookDto.getId() != null & !bookRepository.existsById(bookDto.getId())) {
+            throw new EntityNotFoundException();
+        }
         Book savedBook = bookMapper.mapToBook(bookDto);
         return bookMapper.mapToBookDto(bookRepository.save(savedBook));
     }
@@ -74,5 +79,10 @@ public class BookServiceImpl implements BookService {
     @Override
     public void softDelete(Long bookId) {
         bookRepository.delete(bookId);
+    }
+
+    @Override
+    public void hardDelete(Long bookId) {
+        bookRepository.hardDelete(bookId);
     }
 }

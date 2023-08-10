@@ -13,4 +13,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @Modifying
     @Query("UPDATE Book b SET b.deleted = true WHERE b.id = :id")
     void delete(@Param(value = "id") Long bookId);
+
+    @Modifying
+    @Query("DELETE FROM Book b WHERE b.id = :id")
+    void hardDelete(@Param(value = "id") Long bookId);
 }

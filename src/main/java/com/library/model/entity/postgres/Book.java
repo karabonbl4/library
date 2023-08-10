@@ -22,7 +22,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@Where(clause = "deleted=false")
+//@Where(clause = "deleted=false")
 public class Book extends ParentEntity {
 
     @NotBlank

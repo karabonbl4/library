@@ -16,6 +16,9 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static com.library.constant.PostgresConstant.DATABASE_PROPERTY;
 import static com.library.constant.PostgresConstant.DATA_SOURCE;
 import static com.library.constant.PostgresConstant.ENTITY_MANAGER_FACTORY;
@@ -61,6 +64,13 @@ public class PostgresConfig {
         em.setPersistenceUnitName(ENTITY_MANAGER_FACTORY);
         em.setPackagesToScan(ENTITY_PACKAGE);
         em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+
+        final Map<String, Object> jpaPropertyMap = new HashMap<>();
+        jpaPropertyMap.put("javax.persistence.validation.mode", "none");
+        jpaPropertyMap.put("hibernate.hbm2ddl.auto", "update");
+        jpaPropertyMap.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+        jpaPropertyMap.put("hibernate.format_sql", "true");
+        em.setJpaPropertyMap(jpaPropertyMap);
         return em;
     }
 
