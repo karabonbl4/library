@@ -56,18 +56,19 @@ public class RabbitProducer {
     public void sendException(JoinPoint joinPoint){
         Exception e = (Exception) Arrays.stream(joinPoint.getArgs())
                 .findFirst()
-                .get();
+                .orElse(null);
+        assert e != null;
         LogMessage logMessage = buildMessage(joinPoint, e.getMessage(), MessageType.WARNING);
         log.debug(logMessage.toString());
         this.convertAndSend(logMessage);
     }
 
-    private LogMessage buildMessage(JoinPoint joinPoint, String body, MessageType type){
+    private LogMessage buildMessage(JoinPoint joinPoint,String body, MessageType type){
         LogMessage logMessage = new LogMessage();
         logMessage.setTime(LocalDateTime.now().format(DATE_TIME_FORMATTER));
-        logMessage.setExecutor(joinPoint.getStaticPart().getSignature().toString());
+        logMessage.setExecutor(joinPoint.getStaticPart().getSignature().getName());
         logMessage.setType(type);
-        logMessage.setMessage(body);
+        logMessage.setBody(body);
         return logMessage;
     }
 

@@ -56,9 +56,8 @@ public class BookController {
      * @return saved bookDto
      */
     @PostMapping
-    public ResponseEntity<BookDto> saveBook(@Valid @RequestBody BookDto bookDto) {
-        BookDto book = bookService.saveOrUpdate(bookDto);
-        return ResponseEntity.ok(book);
+    public BookDto saveBook(@Valid @RequestBody BookDto bookDto) {
+        return bookService.save(bookDto);
     }
 
     /**
@@ -67,9 +66,8 @@ public class BookController {
      * @return updated instance of BookDto
      */
     @PutMapping
-    public ResponseEntity<BookDto> updateBook(@Valid @RequestBody BookDto bookDto) {
-        BookDto book = bookService.saveOrUpdate(bookDto);
-        return ResponseEntity.ok(book);
+    public BookDto updateBook(@Valid @RequestBody BookDto bookDto) {
+        return bookService.update(bookDto);
     }
 
     /**
