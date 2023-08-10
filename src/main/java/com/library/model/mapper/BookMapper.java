@@ -16,11 +16,9 @@ public class BookMapper {
     public BookMapper(ModelMapper modelMapper){
         this.modelMapper = modelMapper;
         modelMapper.createTypeMap(BookDto.class, com.library.model.entity.mongo.Book.class)
-                .addMapping(BookDto::getId, com.library.model.entity.mongo.Book::setSqlId)
                 .<Integer>addMapping(BookDto::getStack, ((destination, value) -> destination.getBookshelf().setStack(value)))
                 .<String>addMapping(BookDto::getUnit, (destination, value) -> destination.getBookshelf().setUnit(value));
         modelMapper.createTypeMap(com.library.model.entity.mongo.Book.class, BookDto.class)
-                .addMapping(com.library.model.entity.mongo.Book::getSqlId, BookDto::setId)
                 .addMapping(src-> src.getBookshelf().getStack(), BookDto::setStack)
                 .addMapping(src-> src.getBookshelf().getUnit(), BookDto::setUnit);
     }

@@ -74,6 +74,7 @@ public class PostgresConfig {
         return em;
     }
 
+    @Primary
     @Bean(TRANSACTION_MANAGER)
     public PlatformTransactionManager sqlSessionTemplate(
             @Qualifier(ENTITY_MANAGER_FACTORY) LocalContainerEntityManagerFactoryBean entityManager,

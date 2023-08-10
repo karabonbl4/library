@@ -1,5 +1,7 @@
 package com.library.model.entity.mongo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.library.model.dto.AuthorNameDto;
 import com.library.model.dto.PublisherTitleDto;
 import lombok.Getter;
@@ -16,9 +18,8 @@ import java.util.List;
 public class Book {
 
     @MongoId
+    @JsonSerialize(using= ToStringSerializer.class)
     private ObjectId id;
-
-    private Long sqlId;
 
     private String title;
 

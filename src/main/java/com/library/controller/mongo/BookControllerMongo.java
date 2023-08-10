@@ -41,7 +41,7 @@ public class BookControllerMongo {
     }
 
     @DeleteMapping(value = "/recovery")
-    public BookDto recoveryFromStorage(@RequestBody ObjectId bookId){
-        return bookMongoService.recovery(bookId);
+    public BookDto recoveryFromStorage(@RequestBody ObjectId id){
+        return bookMongoService.recovery(id);
     }
 }

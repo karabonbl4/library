@@ -52,6 +52,6 @@ public class BookMongoServiceImpl implements BookMongoService {
     public BookDto recovery(ObjectId bookId) {
         BookDto bookDto = bookMapper.mapFromMongoBook(repositoryMongo.findById(bookId).orElseThrow(EntityNotFoundException::new));
         repositoryMongo.deleteById(bookId);
-        return bookService.saveOrUpdate(bookDto);
+        return bookService.recovery(bookDto);
     }
 }

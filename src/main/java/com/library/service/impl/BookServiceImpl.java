@@ -85,4 +85,9 @@ public class BookServiceImpl implements BookService {
     public void hardDelete(Long bookId) {
         bookRepository.hardDelete(bookId);
     }
+
+    public BookDto recovery(BookDto bookDto){
+        Book savedBook = bookMapper.mapToBook(bookDto);
+        return bookMapper.mapToBookDto(bookRepository.save(savedBook));
+    }
 }

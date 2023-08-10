@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
+import org.springframework.data.mongodb.MongoTransactionManager;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
@@ -32,6 +33,7 @@ public class MongoConfig {
     public static final String DATA_SOURCE = "mongoDataSource";
     public static final String DATABASE_PROPERTY = "mongoDatabaseProperty";
     public static final String TRANSACTION_MANAGER = "mongoTransactionManager";
+    public static final String DATABASE_FACTORY = "mongoDatabaseFactory";
 
     @Primary
     @Bean(DATABASE_PROPERTY)
@@ -53,7 +55,7 @@ public class MongoConfig {
                 .build());
     }
 
-    @Bean(TRANSACTION_MANAGER)
+    @Bean(DATABASE_FACTORY)
     public MongoDatabaseFactory mongoDatabaseFactory(
             @Qualifier(DATA_SOURCE) MongoClient mongoClient,
             @Qualifier(DATABASE_PROPERTY) MongoProperties mongoProperties) {
@@ -61,7 +63,12 @@ public class MongoConfig {
     }
 
     @Bean(ENTITY_MANAGER_FACTORY)
-    public MongoTemplate mongoTemplate(@Qualifier(TRANSACTION_MANAGER) MongoDatabaseFactory mongoDatabaseFactory) {
+    public MongoTemplate mongoTemplate(@Qualifier(DATABASE_FACTORY) MongoDatabaseFactory mongoDatabaseFactory) {
         return new MongoTemplate(mongoDatabaseFactory);
+    }
+
+    @Bean(TRANSACTION_MANAGER)
+    public MongoTransactionManager mongoTransactionManager(MongoDatabaseFactory mongoDatabaseFactory){
+        return new MongoTransactionManager(mongoDatabaseFactory);
     }
 }
