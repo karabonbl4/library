@@ -57,7 +57,7 @@ public class BookController {
      */
     @PostMapping
     public ResponseEntity<BookDto> saveBook(@RequestBody BookDto bookDto) {
-        return ResponseEntity.ok(bookService.saveOrUpdate(bookDto));
+        return ResponseEntity.ok(bookService.save(bookDto));
     }
 
     /**
@@ -67,7 +67,7 @@ public class BookController {
      */
     @PutMapping
     public ResponseEntity<BookDto> updateBook(@RequestBody BookDto bookDto) {
-        return ResponseEntity.ok(bookService.saveOrUpdate(bookDto));
+        return ResponseEntity.ok(bookService.update(bookDto));
     }
 
     /**

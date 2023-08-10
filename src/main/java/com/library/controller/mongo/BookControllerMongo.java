@@ -40,8 +40,8 @@ public class BookControllerMongo {
         return bookMongoService.moveToStorage(bookId);
     }
 
-    @DeleteMapping(value = "/recovery")
-    public BookDto recoveryFromStorage(@RequestBody ObjectId id){
+    @DeleteMapping(value = "/recovery/{id}")
+    public BookDto recoveryFromStorage(@PathVariable ObjectId id){
         return bookMongoService.recovery(id);
     }
 }
