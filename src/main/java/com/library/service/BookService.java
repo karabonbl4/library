@@ -15,5 +15,5 @@ public interface BookService {
 
     void softDelete(Long bookId);
 
-    void hardDelete(Long bookId);
+    void deleteById(Long bookId);
 }

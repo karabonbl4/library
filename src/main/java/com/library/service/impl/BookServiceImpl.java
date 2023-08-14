@@ -88,7 +88,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void hardDelete(Long bookId) {
-        bookRepository.hardDelete(bookId);
+    public void deleteById(Long bookId) {
+        bookRepository.deleteById(bookId);
     }
 }

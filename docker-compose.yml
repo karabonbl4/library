@@ -11,6 +11,16 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_DB=library
+  mongodb:
+    image: mongo:latest
+    container_name: mongoDB-library
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongodb
+      MONGO_INITDB_ROOT_PASSWORD: mongodb
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_cont:/data/db
 
   app:
     container_name: tomcat-library
@@ -25,3 +35,4 @@ services:
       - ./build/libs/library-0.1.war:/usr/local/tomcat/webapps/ROOT.war
 volumes:
   postgres-data:
+  mongo_data_cont:

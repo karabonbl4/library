@@ -1,11 +1,11 @@
 package com.library.service.mongo.impl;
 
 import com.library.model.dto.BookDto;
-import com.library.model.entity.mongo.Book;
+import com.library.model.entity.mongo.StoredBook;
 import com.library.model.mapper.BookMapper;
 import com.library.repository.mongo.BookRepositoryMongo;
 import com.library.service.BookService;
-import com.library.service.mongo.BookMongoService;
+import com.library.service.mongo.BookStorageService;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.PageRequest;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class BookMongoServiceImpl implements BookMongoService {
+public class BookStorageServiceImpl implements BookStorageService {
 
     private final BookRepositoryMongo repositoryMongo;
 
@@ -28,23 +28,23 @@ public class BookMongoServiceImpl implements BookMongoService {
     private final BookMapper bookMapper;
 
     @Override
-    public List<Book> findAllPageable(Integer page, Integer countOnPage) {
+    public List<StoredBook> findAllPageable(Integer page, Integer countOnPage) {
         Pageable paging = PageRequest.of(page, countOnPage);
         return repositoryMongo.findAll(paging).stream()
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Book findById(ObjectId id) {
+    public StoredBook findById(ObjectId id) {
         return repositoryMongo.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
     @Transactional
     @Override
-    public Book moveToStorage(Long bookSqlId) {
-        Book book = bookMapper.mapToMongoBook(bookService.findById(bookSqlId));
-        bookService.hardDelete(bookSqlId);
-        return repositoryMongo.save(book);
+    public StoredBook moveToStorage(Long bookSqlId) {
+        StoredBook storedBook = bookMapper.mapToMongoBook(bookService.findById(bookSqlId));
+        bookService.deleteById(bookSqlId);
+        return repositoryMongo.save(storedBook);
     }
 
     @Transactional

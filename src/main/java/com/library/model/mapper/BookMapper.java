@@ -1,6 +1,7 @@
 package com.library.model.mapper;
 
 import com.library.model.dto.BookDto;
+import com.library.model.entity.mongo.StoredBook;
 import com.library.model.entity.postgres.Book;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -15,11 +16,11 @@ public class BookMapper {
 
     public BookMapper(ModelMapper modelMapper){
         this.modelMapper = modelMapper;
-        modelMapper.createTypeMap(BookDto.class, com.library.model.entity.mongo.Book.class)
-                .addMappings(mapping -> mapping.skip(com.library.model.entity.mongo.Book::setId))
+        modelMapper.createTypeMap(BookDto.class, StoredBook.class)
+                .addMappings(mapping -> mapping.skip(StoredBook::setId))
                 .<Integer>addMapping(BookDto::getStack, ((destination, value) -> destination.getBookshelf().setStack(value)))
                 .<String>addMapping(BookDto::getUnit, (destination, value) -> destination.getBookshelf().setUnit(value));
-        modelMapper.createTypeMap(com.library.model.entity.mongo.Book.class, BookDto.class)
+        modelMapper.createTypeMap(StoredBook.class, BookDto.class)
                 .addMappings(mapping -> mapping.skip(BookDto::setId))
                 .addMapping(src-> src.getBookshelf().getStack(), BookDto::setStack)
                 .addMapping(src-> src.getBookshelf().getUnit(), BookDto::setUnit);
@@ -41,11 +42,11 @@ public class BookMapper {
         return modelMapper.map(bookDto, Book.class);
     }
 
-    public com.library.model.entity.mongo.Book mapToMongoBook(BookDto bookDto){
-        return modelMapper.map(bookDto, com.library.model.entity.mongo.Book.class);
+    public StoredBook mapToMongoBook(BookDto bookDto){
+        return modelMapper.map(bookDto, StoredBook.class);
     }
 
-    public BookDto mapFromMongoBook(com.library.model.entity.mongo.Book book){
-        return modelMapper.map(book, BookDto.class);
+    public BookDto mapFromMongoBook(StoredBook storedBook){
+        return modelMapper.map(storedBook, BookDto.class);
     }
 }

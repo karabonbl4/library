@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Bookshelf {
+public class BookShelf {
 
     private Integer stack;
 

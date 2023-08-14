@@ -15,7 +15,7 @@ import java.util.List;
 @Document
 @Getter
 @Setter
-public class Book {
+public class StoredBook {
 
     @MongoId
     @JsonSerialize(using= ToStringSerializer.class)
@@ -25,7 +25,7 @@ public class Book {
 
     private Short publicationYear;
 
-    private Bookshelf bookshelf;
+    private BookShelf bookshelf;
 
     private PublisherTitleDto publisher;
 
