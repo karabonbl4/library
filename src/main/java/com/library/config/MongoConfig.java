@@ -18,22 +18,21 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
+import static com.library.constant.MongoConstant.DATABASE_FACTORY;
+import static com.library.constant.MongoConstant.DATABASE_PROPERTY;
+import static com.library.constant.MongoConstant.DATA_SOURCE;
+import static com.library.constant.MongoConstant.MANAGER_FACTORY;
+import static com.library.constant.MongoConstant.PROPERTY_PREFIX;
+import static com.library.constant.MongoConstant.REPOSITORY_PACKAGE;
+import static com.library.constant.MongoConstant.TRANSACTION_MANAGER;
 import static java.util.Collections.singletonList;
 
 @Configuration
 @EnableMongoRepositories(
-        basePackages = {MongoConfig.JPA_REPOSITORY_PACKAGE},
-        mongoTemplateRef = MongoConfig.ENTITY_MANAGER_FACTORY)
+        basePackages = {REPOSITORY_PACKAGE},
+        mongoTemplateRef = MANAGER_FACTORY)
 @EnableConfigurationProperties
 public class MongoConfig {
-
-    public static final String PROPERTY_PREFIX = "app.mongo.datasource";
-    public static final String JPA_REPOSITORY_PACKAGE = "com.library.repository.mongo";
-    public static final String ENTITY_MANAGER_FACTORY = "mongoEntityManagerFactory";
-    public static final String DATA_SOURCE = "mongoDataSource";
-    public static final String DATABASE_PROPERTY = "mongoDatabaseProperty";
-    public static final String TRANSACTION_MANAGER = "mongoTransactionManager";
-    public static final String DATABASE_FACTORY = "mongoDatabaseFactory";
 
     @Primary
     @Bean(DATABASE_PROPERTY)
@@ -62,7 +61,7 @@ public class MongoConfig {
         return new SimpleMongoClientDatabaseFactory(mongoClient, mongoProperties.getDatabase());
     }
 
-    @Bean(ENTITY_MANAGER_FACTORY)
+    @Bean(MANAGER_FACTORY)
     public MongoTemplate mongoTemplate(@Qualifier(DATABASE_FACTORY) MongoDatabaseFactory mongoDatabaseFactory) {
         return new MongoTemplate(mongoDatabaseFactory);
     }
