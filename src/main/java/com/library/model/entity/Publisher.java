@@ -1,4 +1,4 @@
-package com.library.model.entity.postgres;
+package com.library.model.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,7 +36,7 @@ public class Publisher extends ParentEntity {
     private String street;
 
     @NotNull
-    @Column(name = "building_number")
+    @Column
     private String buildingNumber;
 
     @OneToMany(mappedBy = "publisher")

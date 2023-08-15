@@ -1,8 +1,8 @@
 package com.library.common;
 
-import com.library.model.entity.postgres.Author;
-import com.library.model.entity.postgres.Book;
-import com.library.model.entity.postgres.Publisher;
+import com.library.model.entity.Author;
+import com.library.model.entity.Book;
+import com.library.model.entity.Publisher;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.test.context.TestComponent;

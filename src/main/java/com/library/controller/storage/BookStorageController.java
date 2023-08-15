@@ -1,7 +1,8 @@
-package com.library.controller.mongo;
+package com.library.controller.storage;
 
 import com.library.model.dto.BookDto;
-import com.library.model.entity.mongo.StoredBook;
+import com.library.model.document.BookStored;
+import com.library.model.dto.BookStoredDto;
 import com.library.service.mongo.BookStorageService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,17 +25,17 @@ public class BookStorageController {
     private final BookStorageService bookStorageService;
 
     @GetMapping
-    public List<StoredBook> getAllBooksFromStorage(@Valid @RequestParam Integer page, @Valid @RequestParam Integer sizeOnPage) {
+    public List<BookStoredDto> getAllBooksFromStorage(@Valid @RequestParam Integer page, @Valid @RequestParam Integer sizeOnPage) {
         return bookStorageService.findAllPageable(page, sizeOnPage);
     }
 
     @GetMapping(value = "/{id}")
-    public StoredBook getBookById(@PathVariable ObjectId id) {
+    public BookStored getBookById(@PathVariable ObjectId id) {
         return bookStorageService.findById(id);
     }
 
     @PostMapping(value = "/deposit/{id}")
-    public StoredBook moveToStorage(@PathVariable(value = "id") Long bookId) {
+    public BookStored moveToStorage(@PathVariable(value = "id") Long bookId) {
         return bookStorageService.moveToStorage(bookId);
     }
 

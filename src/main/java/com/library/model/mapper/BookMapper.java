@@ -1,8 +1,9 @@
 package com.library.model.mapper;
 
 import com.library.model.dto.BookDto;
-import com.library.model.entity.mongo.StoredBook;
-import com.library.model.entity.postgres.Book;
+import com.library.model.document.BookStored;
+import com.library.model.dto.BookStoredDto;
+import com.library.model.entity.Book;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -16,11 +17,11 @@ public class BookMapper {
 
     public BookMapper(ModelMapper modelMapper){
         this.modelMapper = modelMapper;
-        modelMapper.createTypeMap(BookDto.class, StoredBook.class)
-                .addMappings(mapping -> mapping.skip(StoredBook::setId))
+        modelMapper.createTypeMap(BookDto.class, BookStored.class)
+                .addMappings(mapping -> mapping.skip(BookStored::setId))
                 .<Integer>addMapping(BookDto::getStack, ((destination, value) -> destination.getBookshelf().setStack(value)))
                 .<String>addMapping(BookDto::getUnit, (destination, value) -> destination.getBookshelf().setUnit(value));
-        modelMapper.createTypeMap(StoredBook.class, BookDto.class)
+        modelMapper.createTypeMap(BookStored.class, BookDto.class)
                 .addMappings(mapping -> mapping.skip(BookDto::setId))
                 .addMapping(src-> src.getBookshelf().getStack(), BookDto::setStack)
                 .addMapping(src-> src.getBookshelf().getUnit(), BookDto::setUnit);
@@ -42,11 +43,15 @@ public class BookMapper {
         return modelMapper.map(bookDto, Book.class);
     }
 
-    public StoredBook mapToMongoBook(BookDto bookDto){
-        return modelMapper.map(bookDto, StoredBook.class);
+    public BookStored mapToMongoBook(BookDto bookDto){
+        return modelMapper.map(bookDto, BookStored.class);
     }
 
-    public BookDto mapFromMongoBook(StoredBook storedBook){
-        return modelMapper.map(storedBook, BookDto.class);
+    public BookDto mapBookStoredToBookDto(BookStored bookStored){
+        return modelMapper.map(bookStored, BookDto.class);
+    }
+
+    public BookStoredDto mapToBookStoredDto(BookStored bookStored){
+        return modelMapper.map(bookStored, BookStoredDto.class);
     }
 }

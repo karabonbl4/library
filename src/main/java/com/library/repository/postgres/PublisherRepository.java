@@ -1,6 +1,6 @@
 package com.library.repository.postgres;
 
-import com.library.model.entity.postgres.Publisher;
+import com.library.model.entity.Publisher;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

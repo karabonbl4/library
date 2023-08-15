@@ -1,6 +1,6 @@
 package com.library.utils;
 
-import com.library.model.entity.postgres.Book;
+import com.library.model.entity.Book;
 import org.mockito.ArgumentMatcher;
 
 public class IsSameLikeBook implements ArgumentMatcher<Book> {

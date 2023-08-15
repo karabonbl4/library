@@ -1,4 +1,4 @@
-package com.library.model.entity.mongo;
+package com.library.model.document;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -15,7 +15,7 @@ import java.util.List;
 @Document
 @Getter
 @Setter
-public class StoredBook {
+public class BookStored {
 
     @MongoId
     @JsonSerialize(using= ToStringSerializer.class)

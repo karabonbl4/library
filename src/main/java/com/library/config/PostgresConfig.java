@@ -1,6 +1,5 @@
 package com.library.config;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -19,33 +18,21 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.library.constant.PostgresConstant.DATABASE_PROPERTY;
-import static com.library.constant.PostgresConstant.DATA_SOURCE;
-import static com.library.constant.PostgresConstant.ENTITY_MANAGER_FACTORY;
-import static com.library.constant.PostgresConstant.ENTITY_PACKAGE;
-import static com.library.constant.PostgresConstant.JPA_REPOSITORY_PACKAGE;
-import static com.library.constant.PostgresConstant.PROPERTY_PREFIX;
-import static com.library.constant.PostgresConstant.TRANSACTION_MANAGER;
 
 @EnableJpaRepositories(
-        entityManagerFactoryRef = ENTITY_MANAGER_FACTORY,
-        basePackages = JPA_REPOSITORY_PACKAGE,
-        transactionManagerRef = TRANSACTION_MANAGER)
+        basePackages = {"com.library.repository.postgres"})
 @EnableConfigurationProperties
 @Configuration
 public class PostgresConfig {
 
-    @Bean(DATABASE_PROPERTY)
-    @ConfigurationProperties(prefix = PROPERTY_PREFIX)
+    @Bean
+    @ConfigurationProperties(prefix = "app.postgres.datasource")
     public DataSourceProperties postgresDataSourceProperties() {
         return new DataSourceProperties();
     }
 
-    @Primary
-    @Bean(DATA_SOURCE)
-    public DataSource appDataSource(
-            @Qualifier(DATABASE_PROPERTY) DataSourceProperties postgresDataSourceProperties
-    ) {
+    @Bean
+    public DataSource appDataSource(DataSourceProperties postgresDataSourceProperties) {
         return DataSourceBuilder
                 .create()
                 .username(postgresDataSourceProperties.getUsername())
@@ -55,30 +42,32 @@ public class PostgresConfig {
                 .build();
     }
 
-    @Bean(ENTITY_MANAGER_FACTORY)
-    public LocalContainerEntityManagerFactoryBean appEntityManager(
-            @Qualifier(DATA_SOURCE) DataSource dataSource
-    ) {
+    @Bean
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
         final LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource);
-        em.setPersistenceUnitName(ENTITY_MANAGER_FACTORY);
-        em.setPackagesToScan(ENTITY_PACKAGE);
+        em.setPersistenceUnitName("em");
+        em.setPackagesToScan("com.library.model.entity");
         em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 
         final Map<String, Object> jpaPropertyMap = new HashMap<>();
-        jpaPropertyMap.put("javax.persistence.validation.mode", "none");
-        jpaPropertyMap.put("hibernate.hbm2ddl.auto", "update");
+        jpaPropertyMap.put("jakarta.persistence.validation.mode", "none");
+        jpaPropertyMap.put("hibernate.hbm2ddl.auto", "validate");
         jpaPropertyMap.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
-        jpaPropertyMap.put("hibernate.format_sql", "true");
+        jpaPropertyMap.put("hibernate.show_sql", "true");
+        jpaPropertyMap.put("hibernate.implicit_naming_strategy",
+                "org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy");
+        jpaPropertyMap.put("hibernate.physical_naming_strategy",
+                "org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy");
         em.setJpaPropertyMap(jpaPropertyMap);
         return em;
     }
 
     @Primary
-    @Bean(TRANSACTION_MANAGER)
-    public PlatformTransactionManager sqlSessionTemplate(
-            @Qualifier(ENTITY_MANAGER_FACTORY) LocalContainerEntityManagerFactoryBean entityManager,
-            @Qualifier(DATA_SOURCE) DataSource dataSource
+    @Bean
+    public PlatformTransactionManager transactionManager(
+            LocalContainerEntityManagerFactoryBean entityManager,
+            DataSource dataSource
     ) {
         final JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManager.getObject());
