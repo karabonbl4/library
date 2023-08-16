@@ -3,6 +3,7 @@ package com.library.model.mapper;
 import com.library.model.dto.BookDto;
 import com.library.model.document.BookStored;
 import com.library.model.dto.BookStoredDto;
+import com.library.model.dto.BookStoredTitleDto;
 import com.library.model.entity.Book;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -53,5 +54,9 @@ public class BookMapper {
 
     public BookStoredDto mapToBookStoredDto(BookStored bookStored){
         return modelMapper.map(bookStored, BookStoredDto.class);
+    }
+
+    public BookStoredTitleDto mapToBookStoredTitleDto(BookStored bookStored){
+        return modelMapper.map(bookStored, BookStoredTitleDto.class);
     }
 }

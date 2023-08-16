@@ -3,6 +3,7 @@ package com.library.controller.storage;
 import com.library.model.dto.BookDto;
 import com.library.model.document.BookStored;
 import com.library.model.dto.BookStoredDto;
+import com.library.model.dto.BookStoredTitleDto;
 import com.library.service.mongo.BookStorageService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,22 +26,22 @@ public class BookStorageController {
     private final BookStorageService bookStorageService;
 
     @GetMapping
-    public List<BookStoredDto> getAllBooksFromStorage(@Valid @RequestParam Integer page, @Valid @RequestParam Integer sizeOnPage) {
+    public List<BookStoredTitleDto> getAllBooksFromStorage(@Valid @RequestParam Integer page, @Valid @RequestParam Integer sizeOnPage) {
         return bookStorageService.findAllPageable(page, sizeOnPage);
     }
 
     @GetMapping(value = "/{id}")
-    public BookStored getBookById(@PathVariable ObjectId id) {
+    public BookStoredDto getBookById(@PathVariable String id) {
         return bookStorageService.findById(id);
     }
 
     @PostMapping(value = "/deposit/{id}")
-    public BookStored moveToStorage(@PathVariable(value = "id") Long bookId) {
+    public BookStoredDto moveToStorage(@PathVariable(value = "id") Long bookId) {
         return bookStorageService.moveToStorage(bookId);
     }
 
     @DeleteMapping(value = "/recovery/{id}")
-    public BookDto recoveryFromStorage(@PathVariable ObjectId id){
+    public BookDto recoveryFromStorage(@PathVariable String id){
         return bookStorageService.recovery(id);
     }
 }
