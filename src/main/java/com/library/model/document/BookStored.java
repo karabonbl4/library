@@ -27,7 +27,7 @@ public class BookStored {
 
     private BookShelf bookshelf;
 
-    private PublisherTitleDto publisher;
+    private PublisherStored publisher;
 
-    private List<AuthorNameDto> authors;
+    private List<AuthorStored> authors;
 }
