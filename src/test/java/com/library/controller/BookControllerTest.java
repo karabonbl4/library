@@ -2,12 +2,13 @@ package com.library.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.library.common.TestStorage;
+import com.library.controller.atheneum.BookController;
 import com.library.model.dto.BookDto;
 import com.library.model.entity.Book;
 import com.library.model.mapper.BookMapper;
 import com.library.repository.postgres.BookRepository;
-import com.library.service.BookService;
-import com.library.service.impl.BookServiceImpl;
+import com.library.service.atheneum.BookService;
+import com.library.service.atheneum.impl.BookServiceImpl;
 import com.library.utils.IsSameLikeBook;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.SneakyThrows;

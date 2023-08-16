@@ -1,4 +1,4 @@
-package com.library.controller;
+package com.library.controller.atheneum;
 
 import com.library.model.dto.ResponseException;
 import jakarta.validation.ConstraintViolationException;

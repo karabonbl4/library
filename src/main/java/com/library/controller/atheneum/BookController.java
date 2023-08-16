@@ -1,8 +1,8 @@
-package com.library.controller;
+package com.library.controller.atheneum;
 
 import com.library.model.dto.BookDto;
 import com.library.model.dto.ResponseMessage;
-import com.library.service.BookService;
+import com.library.service.atheneum.BookService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

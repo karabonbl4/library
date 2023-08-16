@@ -1,10 +1,8 @@
-package com.library.service.mongo;
+package com.library.service.storage;
 
 import com.library.model.dto.BookDto;
-import com.library.model.document.BookStored;
 import com.library.model.dto.BookStoredDto;
 import com.library.model.dto.BookStoredTitleDto;
-import org.bson.types.ObjectId;
 
 import java.util.List;
 

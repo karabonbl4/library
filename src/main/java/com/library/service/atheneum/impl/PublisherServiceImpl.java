@@ -1,11 +1,11 @@
-package com.library.service.impl;
+package com.library.service.atheneum.impl;
 
 import com.library.model.dto.PublisherDto;
 import com.library.model.dto.PublisherTitleDto;
 import com.library.model.entity.Publisher;
 import com.library.model.mapper.PublisherMapper;
 import com.library.repository.postgres.PublisherRepository;
-import com.library.service.PublisherService;
+import com.library.service.atheneum.PublisherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

@@ -1,4 +1,4 @@
-package com.library.service.mongo.impl;
+package com.library.service.storage.impl;
 
 import com.library.model.dto.BookDto;
 import com.library.model.document.BookStored;
@@ -6,8 +6,8 @@ import com.library.model.dto.BookStoredDto;
 import com.library.model.dto.BookStoredTitleDto;
 import com.library.model.mapper.BookMapper;
 import com.library.repository.mongo.BookStoredRepository;
-import com.library.service.BookService;
-import com.library.service.mongo.BookStorageService;
+import com.library.service.atheneum.BookService;
+import com.library.service.storage.BookStorageService;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.PageRequest;

@@ -1,10 +1,10 @@
-package com.library.service.impl;
+package com.library.service.atheneum.impl;
 
 import com.library.model.dto.BookDto;
 import com.library.model.entity.Book;
 import com.library.model.mapper.BookMapper;
 import com.library.repository.postgres.BookRepository;
-import com.library.service.BookService;
+import com.library.service.atheneum.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
