@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/changeset/01.create-publisher-table.sql
+  - include:
+      file: db/changelog/changeset/02.create-author-table.sql
+  - include:
+      file: db/changelog/changeset/03.create-book-table.sql
+  - include:
+      file: db/changelog/changeset/04.create-author-book-table.sql
+
