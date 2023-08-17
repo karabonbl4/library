@@ -10,10 +10,13 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.MongoTransactionManager;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
+import org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper;
+import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 
@@ -25,6 +28,7 @@ import static java.util.Collections.singletonList;
 @EnableConfigurationProperties
 public class MongoConfig {
 
+    @Primary
     @Bean
     @ConfigurationProperties(prefix = "app.mongo.datasource")
     public MongoProperties mongoProperties() {
@@ -51,8 +55,9 @@ public class MongoConfig {
     }
 
     @Bean
-    public MongoTemplate mongoTemplate(MongoDatabaseFactory mongoDatabaseFactory) {
-        return new MongoTemplate(mongoDatabaseFactory);
+    public MongoTemplate mongoTemplate(MongoDatabaseFactory mongoDatabaseFactory, MappingMongoConverter mongoConverter) {
+        mongoConverter.setTypeMapper(new DefaultMongoTypeMapper(null));
+        return new MongoTemplate(mongoDatabaseFactory, mongoConverter);
     }
 
     @Bean
