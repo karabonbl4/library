@@ -3,7 +3,7 @@ package com.library.controller.storage;
 import com.library.model.dto.BookDto;
 import com.library.model.dto.BookStoredDto;
 import com.library.model.dto.BookStoredTitleDto;
-import com.library.service.storage.BookStorageService;
+import com.library.service.storage.BookStoredService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,27 +19,27 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/storage")
-public class BookStorageController {
+public class BookStoredController {
 
-    private final BookStorageService bookStorageService;
+    private final BookStoredService bookStoredService;
 
     @GetMapping
     public List<BookStoredTitleDto> getAllBooksFromStorage(@Valid @RequestParam Integer page, @Valid @RequestParam Integer sizeOnPage) {
-        return bookStorageService.findAllPageable(page, sizeOnPage);
+        return bookStoredService.findAllPageable(page, sizeOnPage);
     }
 
     @GetMapping(value = "/{id}")
     public BookStoredDto getBookById(@PathVariable String id) {
-        return bookStorageService.findById(id);
+        return bookStoredService.findById(id);
     }
 
     @PostMapping(value = "/deposit/{id}")
     public BookStoredDto moveToStorage(@PathVariable(value = "id") Long bookId) {
-        return bookStorageService.moveToStorage(bookId);
+        return bookStoredService.moveToStorage(bookId);
     }
 
     @DeleteMapping(value = "/recovery/{id}")
     public BookDto recoveryFromStorage(@PathVariable String id){
-        return bookStorageService.recovery(id);
+        return bookStoredService.recovery(id);
     }
 }

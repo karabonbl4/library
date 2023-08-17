@@ -18,14 +18,14 @@ public class BookMapper {
 
     public BookMapper(ModelMapper modelMapper){
         this.modelMapper = modelMapper;
-        modelMapper.createTypeMap(BookDto.class, BookStored.class)
+        modelMapper.createTypeMap(Book.class, BookStored.class)
                 .addMappings(mapping -> mapping.skip(BookStored::setId))
-                .<Integer>addMapping(BookDto::getStack, ((destination, value) -> destination.getBookshelf().setStack(value)))
-                .<String>addMapping(BookDto::getUnit, (destination, value) -> destination.getBookshelf().setUnit(value));
-        modelMapper.createTypeMap(BookStored.class, BookDto.class)
-                .addMappings(mapping -> mapping.skip(BookDto::setId))
-                .addMapping(src-> src.getBookshelf().getStack(), BookDto::setStack)
-                .addMapping(src-> src.getBookshelf().getUnit(), BookDto::setUnit);
+                .<Integer>addMapping(Book::getStack, ((destination, value) -> destination.getBookshelf().setStack(value)))
+                .<String>addMapping(Book::getUnit, (destination, value) -> destination.getBookshelf().setUnit(value));
+        modelMapper.createTypeMap(BookStored.class, Book.class)
+                .addMappings(mapping -> mapping.skip(Book::setId))
+                .addMapping(src-> src.getBookshelf().getStack(), Book::setStack)
+                .addMapping(src-> src.getBookshelf().getUnit(), Book::setUnit);
     }
 
     /**
@@ -44,8 +44,8 @@ public class BookMapper {
         return modelMapper.map(bookDto, Book.class);
     }
 
-    public BookStored mapToMongoBook(BookDto bookDto){
-        return modelMapper.map(bookDto, BookStored.class);
+    public BookStored mapToBookStored(Book book){
+        return modelMapper.map(book, BookStored.class);
     }
 
     public BookDto mapBookStoredToBookDto(BookStored bookStored){

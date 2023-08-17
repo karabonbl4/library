@@ -10,4 +10,12 @@ public class PublisherStored {
     private Long id;
 
     private String title;
+
+    private String country;
+
+    private String city;
+
+    private String street;
+
+    private String buildingNumber;
 }

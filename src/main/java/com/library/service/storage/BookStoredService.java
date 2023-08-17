@@ -6,7 +6,7 @@ import com.library.model.dto.BookStoredTitleDto;
 
 import java.util.List;
 
-public interface BookStorageService {
+public interface BookStoredService {
 
     List<BookStoredTitleDto> findAllPageable(Integer page, Integer countOnPage);
 

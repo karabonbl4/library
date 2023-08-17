@@ -6,8 +6,9 @@ import com.library.model.dto.BookStoredDto;
 import com.library.model.dto.BookStoredTitleDto;
 import com.library.model.mapper.BookMapper;
 import com.library.repository.mongo.BookStoredRepository;
+import com.library.repository.postgres.BookRepository;
 import com.library.service.atheneum.BookService;
-import com.library.service.storage.BookStorageService;
+import com.library.service.storage.BookStoredService;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.PageRequest;
@@ -21,11 +22,13 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class BookStorageServiceImpl implements BookStorageService {
+public class BookStoredServiceImpl implements BookStoredService {
 
     private final BookStoredRepository repositoryMongo;
 
     private final BookService bookService;
+
+    private final BookRepository bookRepository;
 
     private final BookMapper bookMapper;
 
@@ -46,7 +49,7 @@ public class BookStorageServiceImpl implements BookStorageService {
     @Transactional
     @Override
     public BookStoredDto moveToStorage(Long bookSqlId) {
-        BookStored bookStored = bookMapper.mapToMongoBook(bookService.findById(bookSqlId));
+        BookStored bookStored = bookMapper.mapToBookStored(bookRepository.findById(bookSqlId).orElseThrow(EntityNotFoundException::new));
         bookService.deleteById(bookSqlId);
         BookStored saveBookStored = repositoryMongo.save(bookStored);
         return bookMapper.mapToBookStoredDto(saveBookStored);
