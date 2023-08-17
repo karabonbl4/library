@@ -62,9 +62,18 @@ public class BookServiceImpl implements BookService {
      * @return saved or updated bookDto
      */
     @Override
-    public BookDto saveOrUpdate(BookDto bookDto) {
+    public BookDto save(BookDto bookDto) {
         Book savedBook = bookMapper.mapToBook(bookDto);
         return bookMapper.mapToBookDto(bookRepository.save(savedBook));
+    }
+
+    @Override
+    public BookDto update(BookDto bookDto) {
+        if(!bookRepository.existsById(bookDto.getId())){
+            throw new EntityNotFoundException();
+        }
+        Book updatedBook = bookMapper.mapToBook(bookDto);
+        return bookMapper.mapToBookDto(bookRepository.save(updatedBook));
     }
 
     /**

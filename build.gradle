@@ -27,6 +27,8 @@ dependencies {
 	implementation 'ch.qos.logback:logback-classic:1.4.6'
 	implementation 'org.slf4j:slf4j-api:2.0.5'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-amqp:3.1.1'
+	//implementation 'org.springframework.boot:spring-boot-starter-tomcat:3.0.7'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -34,6 +36,7 @@ dependencies {
 	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
 	testCompileOnly 'org.projectlombok:lombok'
 	testAnnotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.amqp:spring-rabbit-test:3.0.5'
 }
 
 tasks.named('test') {

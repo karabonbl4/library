@@ -56,8 +56,8 @@ public class BookController {
      * @return saved bookDto
      */
     @PostMapping
-    public ResponseEntity<BookDto> saveBook(@Valid @RequestBody BookDto bookDto) {
-        return ResponseEntity.ok(bookService.saveOrUpdate(bookDto));
+    public BookDto saveBook(@Valid @RequestBody BookDto bookDto) {
+        return bookService.save(bookDto);
     }
 
     /**
@@ -66,8 +66,8 @@ public class BookController {
      * @return updated instance of BookDto
      */
     @PutMapping
-    public ResponseEntity<BookDto> updateBook(@Valid @RequestBody BookDto bookDto) {
-        return ResponseEntity.ok(bookService.saveOrUpdate(bookDto));
+    public BookDto updateBook(@Valid @RequestBody BookDto bookDto) {
+        return bookService.update(bookDto);
     }
 
     /**
@@ -77,6 +77,7 @@ public class BookController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<ResponseMessage> softDeleteBook(@Valid @PathVariable(name = "id") Long bookId) {
         bookService.softDelete(bookId);
-        return ResponseEntity.ok(new ResponseMessage(BOOK_IS_DELETED));
+        ResponseMessage responseMessage = new ResponseMessage(BOOK_IS_DELETED);
+        return ResponseEntity.ok(responseMessage);
     }
 }
