@@ -11,6 +11,27 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_DB=library
+  mongo1:
+    image: mongo:latest
+    container_name: mongoDB-library
+    hostname: mongo1
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongodb
+      MONGO_INITDB_ROOT_PASSWORD: mongodb
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_cont:/data/db
+    restart: always
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
+  mongosetup:
+    image: mongo:latest
+    depends_on:
+      - mongo1
+    volumes:
+      - ./scripts/rs-init.sh:/scripts/rs-init.sh
+    restart: "no"
+    entrypoint: [ "bash", "/scripts/rs-init.sh" ]
 
   app:
     container_name: tomcat-library
@@ -82,3 +103,4 @@ services:
 
 volumes:
   postgres-data:
+  mongo_data_cont:

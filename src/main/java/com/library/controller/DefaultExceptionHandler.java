@@ -25,9 +25,7 @@ public class DefaultExceptionHandler {
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseException handleNotFoundException(EntityNotFoundException e) {
-        ResponseException errorResponse = new ResponseException(ENTITY_NOT_FOUND, LocalDateTime.now());
-        log.error(e.getClass().getSimpleName().concat(":").concat(String.valueOf(errorResponse)));
-        return errorResponse;
+        return new ResponseException(ENTITY_NOT_FOUND, LocalDateTime.now());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

@@ -14,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import java.util.List;
@@ -42,7 +43,7 @@ public class Book extends ParentEntity {
     private String unit;
 
     @NotNull
-    @JoinColumn(name = "publisher_id")
+    @JoinColumn
     @ManyToOne(fetch = FetchType.LAZY)
     private Publisher publisher;
 

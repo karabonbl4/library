@@ -3,7 +3,7 @@ package com.library.service.impl;
 import com.library.model.dto.BookDto;
 import com.library.model.entity.Book;
 import com.library.model.mapper.BookMapper;
-import com.library.repository.BookRepository;
+import com.library.repository.postgres.BookRepository;
 import com.library.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 
 /**
  * Basic implementation of BookService. Contains business logic for Book entity
+ *
  * @author Lesha Korobko
  */
 @Service
@@ -34,7 +35,8 @@ public class BookServiceImpl implements BookService {
      * Method receives two Integer parameters,
      * creates Pageable based on them,
      * converts result from repository layer in List of BookDto
-     * @param page requested page, must not be negative
+     *
+     * @param page       requested page, must not be negative
      * @param sizeOnPage number of elements on page, must be greater than 0
      * @return a list of elements according to the number and order specified in the parameters, with default sorting by id
      */
@@ -59,14 +61,18 @@ public class BookServiceImpl implements BookService {
     /**
      * @param bookDto an instance of the BookDto class to save in the database,
      *                must not contain null fields: authors, publisher
-     * @return saved or updated bookDto
+     * @return saved bookDto
      */
     @Override
     public BookDto save(BookDto bookDto) {
         Book savedBook = bookMapper.mapToBook(bookDto);
         return bookMapper.mapToBookDto(bookRepository.save(savedBook));
     }
-
+  
+     /**
+     * @param bookDto an instance of the BookDto class to update in the database,
+     * @return updated bookDto
+     */
     @Override
     public BookDto update(BookDto bookDto) {
         if(!bookRepository.existsById(bookDto.getId())){

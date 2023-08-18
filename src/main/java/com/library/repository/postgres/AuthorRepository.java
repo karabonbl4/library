@@ -1,4 +1,4 @@
-package com.library.repository;
+package com.library.repository.postgres;
 
 import com.library.model.entity.Author;
 import org.springframework.data.jpa.repository.JpaRepository;

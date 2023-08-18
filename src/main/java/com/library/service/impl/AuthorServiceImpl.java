@@ -4,7 +4,7 @@ import com.library.model.dto.AuthorDto;
 import com.library.model.dto.AuthorNameDto;
 import com.library.model.entity.Author;
 import com.library.model.mapper.AuthorMapper;
-import com.library.repository.AuthorRepository;
+import com.library.repository.postgres.AuthorRepository;
 import com.library.service.AuthorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;

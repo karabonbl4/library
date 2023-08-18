@@ -5,7 +5,7 @@ import com.library.common.TestStorage;
 import com.library.model.dto.BookDto;
 import com.library.model.entity.Book;
 import com.library.model.mapper.BookMapper;
-import com.library.repository.BookRepository;
+import com.library.repository.postgres.BookRepository;
 import com.library.service.BookService;
 import com.library.service.impl.BookServiceImpl;
 import com.library.utils.IsSameLikeBook;

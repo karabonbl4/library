@@ -1,5 +1,6 @@
 package com.library.model.mapper;
 
+import com.library.model.entity.AuthorStored;
 import com.library.model.dto.AuthorDto;
 import com.library.model.dto.AuthorNameDto;
 import com.library.model.entity.Author;
@@ -59,6 +60,15 @@ public class AuthorMapper {
                                 .map(source.getFullName(), destination.getName());
                         using(surName)
                                 .map(source.getFullName(), destination.getSurname());
+                    }
+                });
+
+        modelMapper.createTypeMap(AuthorStored.class, AuthorDto.class)
+                .addMappings(new PropertyMap<AuthorStored, AuthorDto>() {
+                    @Override
+                    protected void configure() {
+                        using(fullName)
+                                .map(source, destination.getFullName());
                     }
                 });
     }
