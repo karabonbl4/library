@@ -1,4 +1,4 @@
-package com.library.controller.atheneum;
+package com.library.controller;
 
 import com.library.model.dto.ResponseException;
 import jakarta.validation.ConstraintViolationException;
@@ -25,8 +25,7 @@ public class DefaultExceptionHandler {
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseException handleNotFoundException(EntityNotFoundException e) {
-        ResponseException errorResponse = new ResponseException(ENTITY_NOT_FOUND, LocalDateTime.now());
-        return errorResponse;
+        return new ResponseException(ENTITY_NOT_FOUND, LocalDateTime.now());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

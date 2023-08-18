@@ -1,5 +1,6 @@
 package com.library.config;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -8,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.transaction.ChainedTransactionManager;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -64,14 +66,20 @@ public class PostgresConfig {
     }
 
     @Primary
-    @Bean
+    @Bean(name = "transactionManager")
     public PlatformTransactionManager transactionManager(
             LocalContainerEntityManagerFactoryBean entityManager,
-            DataSource dataSource
-    ) {
+            DataSource dataSource) {
         final JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManager.getObject());
         transactionManager.setDataSource(dataSource);
         return transactionManager;
+    }
+
+    @Bean(name = "chainedTransactionManager")
+    public ChainedTransactionManager chainedTransactionManager(
+            @Qualifier("transactionManager") PlatformTransactionManager transactionManager,
+            @Qualifier("mongoTransactionManager") PlatformTransactionManager mongoTransactionManager) {
+        return new ChainedTransactionManager(transactionManager, mongoTransactionManager);
     }
 }

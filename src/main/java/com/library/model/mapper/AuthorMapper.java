@@ -1,6 +1,6 @@
 package com.library.model.mapper;
 
-import com.library.model.document.AuthorStored;
+import com.library.model.entity.AuthorStored;
 import com.library.model.dto.AuthorDto;
 import com.library.model.dto.AuthorNameDto;
 import com.library.model.entity.Author;

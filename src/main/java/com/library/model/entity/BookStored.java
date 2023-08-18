@@ -1,9 +1,7 @@
-package com.library.model.document;
+package com.library.model.entity;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.library.model.dto.AuthorNameDto;
-import com.library.model.dto.PublisherTitleDto;
 import lombok.Getter;
 import lombok.Setter;
 import org.bson.types.ObjectId;

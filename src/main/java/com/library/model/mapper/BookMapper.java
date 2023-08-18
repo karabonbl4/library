@@ -1,7 +1,7 @@
 package com.library.model.mapper;
 
 import com.library.model.dto.BookDto;
-import com.library.model.document.BookStored;
+import com.library.model.entity.BookStored;
 import com.library.model.dto.BookStoredDto;
 import com.library.model.dto.BookStoredTitleDto;
 import com.library.model.entity.Book;
@@ -26,6 +26,13 @@ public class BookMapper {
                 .addMappings(mapping -> mapping.skip(Book::setId))
                 .addMapping(src-> src.getBookshelf().getStack(), Book::setStack)
                 .addMapping(src-> src.getBookshelf().getUnit(), Book::setUnit);
+//        modelMapper.createTypeMap(BookDto.class, BookStored.class)
+//                .addMappings(mapping -> mapping.skip(BookStored::setId))
+//                .<Integer>addMapping(BookDto::getStack, ((destination, value) -> destination.getBookshelf().setStack(value)))
+//                .<String>addMapping(BookDto::getUnit, (destination, value) -> destination.getBookshelf().setUnit(value));
+        modelMapper.createTypeMap(BookStored.class, BookDto.class)
+                .addMapping(src-> src.getBookshelf().getStack(), BookDto::setStack)
+                .addMapping(src-> src.getBookshelf().getUnit(), BookDto::setUnit);
     }
 
     /**
@@ -58,5 +65,9 @@ public class BookMapper {
 
     public BookStoredTitleDto mapToBookStoredTitleDto(BookStored bookStored){
         return modelMapper.map(bookStored, BookStoredTitleDto.class);
+    }
+
+    public Book mapBookStoredToBook(BookStored bookStored){
+        return modelMapper.map(bookStored, Book.class);
     }
 }

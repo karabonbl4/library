@@ -1,9 +1,9 @@
-package com.library.controller.atheneum;
+package com.library.controller;
 
 import com.library.model.dto.AuthorDto;
 import com.library.model.dto.AuthorNameDto;
 import com.library.model.dto.ResponseMessage;
-import com.library.service.atheneum.AuthorService;
+import com.library.service.AuthorService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

@@ -1,14 +1,14 @@
-package com.library.service.storage.impl;
+package com.library.service.impl;
 
 import com.library.model.dto.BookDto;
-import com.library.model.document.BookStored;
+import com.library.model.entity.BookStored;
 import com.library.model.dto.BookStoredDto;
 import com.library.model.dto.BookStoredTitleDto;
+import com.library.model.entity.Book;
 import com.library.model.mapper.BookMapper;
 import com.library.repository.mongo.BookStoredRepository;
 import com.library.repository.postgres.BookRepository;
-import com.library.service.atheneum.BookService;
-import com.library.service.storage.BookStoredService;
+import com.library.service.BookStoredService;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.PageRequest;
@@ -25,8 +25,6 @@ import java.util.stream.Collectors;
 public class BookStoredServiceImpl implements BookStoredService {
 
     private final BookStoredRepository repositoryMongo;
-
-    private final BookService bookService;
 
     private final BookRepository bookRepository;
 
@@ -46,21 +44,20 @@ public class BookStoredServiceImpl implements BookStoredService {
         return bookMapper.mapToBookStoredDto(bookStored);
     }
 
-    @Transactional
+    @Transactional(value = "chainedTransactionManager", rollbackFor = {Exception.class})
     @Override
     public BookStoredDto moveToStorage(Long bookSqlId) {
         BookStored bookStored = bookMapper.mapToBookStored(bookRepository.findById(bookSqlId).orElseThrow(EntityNotFoundException::new));
-        bookService.deleteById(bookSqlId);
-        BookStored saveBookStored = repositoryMongo.save(bookStored);
-        return bookMapper.mapToBookStoredDto(saveBookStored);
+        bookRepository.deleteById(bookSqlId);
+        return bookMapper.mapToBookStoredDto(repositoryMongo.save(bookStored));
     }
 
-    @Transactional
+    @Transactional(value = "chainedTransactionManager", rollbackFor = {Exception.class})
     @Override
     public BookDto recovery(String bookId) {
-        ObjectId objectId = new ObjectId(bookId);
-        BookDto bookDto = bookMapper.mapBookStoredToBookDto(repositoryMongo.findById(objectId).orElseThrow(EntityNotFoundException::new));
-        repositoryMongo.deleteById(objectId);
-        return bookService.save(bookDto);
+        BookStored bookStored = repositoryMongo.findById(new ObjectId(bookId)).orElseThrow(EntityNotFoundException::new);
+        Book book = bookMapper.mapBookStoredToBook(bookStored);
+        repositoryMongo.deleteById(new ObjectId(bookId));
+        return bookMapper.mapToBookDto(bookRepository.save(book));
     }
 }

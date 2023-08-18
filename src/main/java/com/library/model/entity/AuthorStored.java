@@ -1,4 +1,4 @@
-package com.library.model.document;
+package com.library.model.entity;
 
 import lombok.Getter;
 import lombok.Setter;

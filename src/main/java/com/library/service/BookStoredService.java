@@ -1,4 +1,4 @@
-package com.library.service.storage;
+package com.library.service;
 
 import com.library.model.dto.BookDto;
 import com.library.model.dto.BookStoredDto;

@@ -1,6 +1,6 @@
 package com.library.repository.mongo;
 
-import com.library.model.document.BookStored;
+import com.library.model.entity.BookStored;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 

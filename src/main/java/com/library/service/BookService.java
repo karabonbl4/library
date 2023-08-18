@@ -1,4 +1,4 @@
-package com.library.service.atheneum;
+package com.library.service;
 
 import com.library.model.dto.BookDto;
 
@@ -14,6 +14,4 @@ public interface BookService {
     BookDto update(BookDto bookDto);
 
     void softDelete(Long bookId);
-
-    void deleteById(Long bookId);
 }
