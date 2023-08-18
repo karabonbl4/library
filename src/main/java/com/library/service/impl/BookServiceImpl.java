@@ -61,21 +61,25 @@ public class BookServiceImpl implements BookService {
     /**
      * @param bookDto an instance of the BookDto class to save in the database,
      *                must not contain null fields: authors, publisher
-     * @return saved or updated bookDto
+     * @return saved bookDto
      */
     @Override
     public BookDto save(BookDto bookDto) {
         Book savedBook = bookMapper.mapToBook(bookDto);
         return bookMapper.mapToBookDto(bookRepository.save(savedBook));
     }
-
+  
+     /**
+     * @param bookDto an instance of the BookDto class to update in the database,
+     * @return updated bookDto
+     */
     @Override
     public BookDto update(BookDto bookDto) {
         if(!bookRepository.existsById(bookDto.getId())){
             throw new EntityNotFoundException();
         }
-        Book savedBook = bookMapper.mapToBook(bookDto);
-        return bookMapper.mapToBookDto(bookRepository.save(savedBook));
+        Book updatedBook = bookMapper.mapToBook(bookDto);
+        return bookMapper.mapToBookDto(bookRepository.save(updatedBook));
     }
 
     /**
