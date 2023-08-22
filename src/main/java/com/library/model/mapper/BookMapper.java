@@ -26,13 +26,6 @@ public class BookMapper {
                 .addMappings(mapping -> mapping.skip(Book::setId))
                 .addMapping(src-> src.getBookshelf().getStack(), Book::setStack)
                 .addMapping(src-> src.getBookshelf().getUnit(), Book::setUnit);
-//        modelMapper.createTypeMap(BookDto.class, BookStored.class)
-//                .addMappings(mapping -> mapping.skip(BookStored::setId))
-//                .<Integer>addMapping(BookDto::getStack, ((destination, value) -> destination.getBookshelf().setStack(value)))
-//                .<String>addMapping(BookDto::getUnit, (destination, value) -> destination.getBookshelf().setUnit(value));
-        modelMapper.createTypeMap(BookStored.class, BookDto.class)
-                .addMapping(src-> src.getBookshelf().getStack(), BookDto::setStack)
-                .addMapping(src-> src.getBookshelf().getUnit(), BookDto::setUnit);
     }
 
     /**
@@ -53,10 +46,6 @@ public class BookMapper {
 
     public BookStored mapToBookStored(Book book){
         return modelMapper.map(book, BookStored.class);
-    }
-
-    public BookDto mapBookStoredToBookDto(BookStored bookStored){
-        return modelMapper.map(bookStored, BookDto.class);
     }
 
     public BookStoredDto mapToBookStoredDto(BookStored bookStored){

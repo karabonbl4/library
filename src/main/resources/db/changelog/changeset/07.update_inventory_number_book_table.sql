@@ -1,0 +1,1 @@
+UPDATE book SET inventory_number = CAST(book.id AS VARCHAR(25))

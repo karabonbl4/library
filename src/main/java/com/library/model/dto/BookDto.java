@@ -19,6 +19,13 @@ public class BookDto extends ParentDto {
     private Integer stack;
 
     private String unit;
+
+    private Boolean taken;
+
+    private String inventoryNumber;
+
+    private List<BookTitleDto> referenceBooks;
+
     @NotEmpty
     private List<AuthorNameDto> authors;
 

@@ -42,10 +42,22 @@ public class Book extends ParentEntity {
     @Column
     private String unit;
 
+    @Column
+    private Boolean taken;
+
+    @Column
+    @NotNull
+    private String inventoryNumber;
+
     @NotNull
     @JoinColumn
     @ManyToOne(fetch = FetchType.LAZY)
     private Publisher publisher;
+
+    @ManyToMany
+    @JoinTable(name = "reference_book", joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "reference_id"))
+    private List<Book> referenceBooks;
 
     @NotEmpty
     @ManyToMany

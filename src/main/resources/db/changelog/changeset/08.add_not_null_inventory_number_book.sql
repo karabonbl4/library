@@ -1,0 +1,2 @@
+ALTER TABLE book
+ALTER COLUMN inventory_number SET NOT NULL
