@@ -15,5 +15,7 @@ public interface ApplicationConstant {
 
     String FIELD_NOT_PRESENT = "Required field is not present!";
 
+    String AUTHOR_CANT_BE_DELETED = "The author can't be deleted if he has books!";
+
     DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm:ss");
 }

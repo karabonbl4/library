@@ -7,6 +7,7 @@ import com.library.model.mapper.AuthorMapper;
 import com.library.repository.postgres.AuthorRepository;
 import com.library.service.AuthorService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.library.constant.ApplicationConstant.AUTHOR_CANT_BE_DELETED;
 
 @Service
 @RequiredArgsConstructor
@@ -46,6 +49,9 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public void softDelete(Long authorId) {
+        if (authorRepository.countBookByAuthor(authorId) > 0) {
+            throw new DataIntegrityViolationException(AUTHOR_CANT_BE_DELETED);
+        }
         authorRepository.delete(authorId);
     }
 }

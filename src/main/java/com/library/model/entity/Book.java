@@ -43,7 +43,7 @@ public class Book extends ParentEntity {
     private String unit;
 
     @Column
-    private Boolean taken;
+    private Boolean taken = Boolean.FALSE;
 
     @Column
     @NotNull

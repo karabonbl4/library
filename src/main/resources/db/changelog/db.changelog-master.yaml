@@ -12,8 +12,4 @@ databaseChangeLog:
   - include:
       file: db/changelog/changeset/06.add_column_inventory_number_book_table.sql
   - include:
-      file: db/changelog/changeset/07.update_inventory_number_book_table.sql
-  - include:
-      file: db/changelog/changeset/08.add_not_null_inventory_number_book.sql
-  - include:
-      file: db/changelog/changeset/09.create_referenced_book_table.sql
+      file: db/changelog/changeset/07.create_referenced_book_table.sql

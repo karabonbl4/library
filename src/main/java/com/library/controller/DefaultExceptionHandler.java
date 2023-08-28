@@ -28,6 +28,12 @@ public class DefaultExceptionHandler {
         return new ResponseException(ENTITY_NOT_FOUND, LocalDateTime.now());
     }
 
+    @ExceptionHandler(javax.persistence.EntityNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseException handleJavaxNotFoundException(javax.persistence.EntityNotFoundException e) {
+        return new ResponseException(ENTITY_NOT_FOUND, LocalDateTime.now());
+    }
+
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseException handleIllegalArgumentException(IllegalArgumentException e) {

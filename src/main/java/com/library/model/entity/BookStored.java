@@ -25,6 +25,8 @@ public class BookStored {
 
     private BookShelf bookshelf;
 
+    private String inventoryNumber;
+
     private PublisherStored publisher;
 
     private List<AuthorStored> authors;

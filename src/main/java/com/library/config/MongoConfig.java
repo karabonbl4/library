@@ -5,6 +5,9 @@ import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import liquibase.ext.mongodb.database.MongoClientDriver;
+import liquibase.integration.spring.SpringLiquibase;
+import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.autoconfigure.mongo.MongoProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -18,7 +21,10 @@ import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
 import org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper;
 import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
+
+import javax.sql.DataSource;
 
 import static java.util.Collections.singletonList;
 
@@ -63,5 +69,22 @@ public class MongoConfig {
     @Bean
     public MongoTransactionManager mongoTransactionManager(MongoDatabaseFactory mongoDatabaseFactory) {
         return new MongoTransactionManager(mongoDatabaseFactory);
+    }
+
+    @Bean
+    @ConfigurationProperties(prefix = "datasource.mongo.liquibase")
+    public LiquibaseProperties mongoLiquibaseProperties() {
+        return new LiquibaseProperties();
+    }
+
+    @Bean
+    public SpringLiquibase mongoLiquibase(DataSource appDataSource, LiquibaseProperties mongoLiquibaseProperties) {
+        SimpleDriverDataSource dataSource = new SimpleDriverDataSource(new MongoClientDriver(),
+                mongoLiquibaseProperties.getUrl(),
+                mongoLiquibaseProperties.getUser(),
+                mongoLiquibaseProperties.getPassword());
+        SpringLiquibase liquibase = new SpringLiquibase();
+        liquibase.setDataSource(dataSource);
+        return liquibase;
     }
 }

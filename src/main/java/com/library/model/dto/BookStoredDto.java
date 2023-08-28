@@ -1,5 +1,6 @@
 package com.library.model.dto;
 
+import com.library.model.entity.BookShelf;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,6 +15,8 @@ public class BookStoredDto {
     private String title;
 
     private Short publicationYear;
+
+    private BookShelf bookShelf;
 
     private PublisherTitleDto publisher;
 

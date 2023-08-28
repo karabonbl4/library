@@ -1,7 +1,9 @@
 package com.library.config;
 
+import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
+import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -81,5 +83,26 @@ public class PostgresConfig {
             @Qualifier("transactionManager") PlatformTransactionManager transactionManager,
             @Qualifier("mongoTransactionManager") PlatformTransactionManager mongoTransactionManager) {
         return new ChainedTransactionManager(transactionManager, mongoTransactionManager);
+    }
+
+    @Bean
+    @ConfigurationProperties(prefix = "datasource.postgres.liquibase")
+    public LiquibaseProperties postgresLiquibaseProperties() {
+        return new LiquibaseProperties();
+    }
+
+    @Bean
+    public SpringLiquibase postgresLiquibase(DataSource appDataSource, LiquibaseProperties postgresLiquibaseProperties) {
+        SpringLiquibase liquibase = new SpringLiquibase();
+        liquibase.setDataSource(appDataSource);
+        liquibase.setChangeLog(postgresLiquibaseProperties.getChangeLog());
+        liquibase.setContexts(postgresLiquibaseProperties.getContexts());
+        liquibase.setDefaultSchema(postgresLiquibaseProperties.getDefaultSchema());
+        liquibase.setDropFirst(postgresLiquibaseProperties.isDropFirst());
+        liquibase.setShouldRun(postgresLiquibaseProperties.isEnabled());
+        liquibase.setLabelFilter(postgresLiquibaseProperties.getLabelFilter());
+        liquibase.setChangeLogParameters(postgresLiquibaseProperties.getParameters());
+        liquibase.setRollbackFile(postgresLiquibaseProperties.getRollbackFile());
+        return liquibase;
     }
 }
