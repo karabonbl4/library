@@ -1,6 +1,7 @@
 package com.library.controller;
 
 import com.library.model.dto.BookDto;
+import com.library.model.dto.BookTitleDto;
 import com.library.model.dto.ResponseMessage;
 import com.library.service.BookService;
 import jakarta.validation.Valid;
@@ -37,7 +38,7 @@ public class BookController {
      * @return a list of elements according to the number and order specified in the parameters
      */
     @GetMapping
-    public List<BookDto> getAllBooks(@Valid @RequestParam Integer page, @Valid @RequestParam Integer sizeOnPage) {
+    public List<BookTitleDto> getAllBooks(@Valid @RequestParam Integer page, @Valid @RequestParam Integer sizeOnPage) {
         return bookService.findAllWithPageable(page, sizeOnPage);
     }
 

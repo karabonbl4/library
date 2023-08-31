@@ -18,5 +18,5 @@ public class AuthorDto extends ParentDto {
 
     private LocalDate deathDate;
 
-    private List<BookTitleDto> books;
+    private List<BookEmbeddedDto> books;
 }

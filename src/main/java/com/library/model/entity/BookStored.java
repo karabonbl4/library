@@ -2,6 +2,8 @@ package com.library.model.entity;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.library.model.dto.BookStoredDto;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.bson.types.ObjectId;
@@ -23,11 +25,13 @@ public class BookStored {
 
     private Short publicationYear;
 
-    private BookShelf bookshelf;
+    private BookShelf bookShelf;
 
     private String inventoryNumber;
 
     private PublisherStored publisher;
 
     private List<AuthorStored> authors;
+
+    private List<String> referenceBooks;
 }

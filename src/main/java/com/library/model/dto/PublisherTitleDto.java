@@ -6,7 +6,7 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true)
 public class PublisherTitleDto extends ParentDto {
 
     private String title;

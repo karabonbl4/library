@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString(callSuper = true)
-public class AuthorNameDto extends ParentDto {
+public class BookEmbeddedDto extends ParentDto {
 
-    private String fullName;
+    private String title;
 }

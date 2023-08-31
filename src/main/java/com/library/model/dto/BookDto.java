@@ -24,7 +24,7 @@ public class BookDto extends ParentDto {
 
     private String inventoryNumber;
 
-    private List<BookTitleDto> referenceBooks;
+    private List<BookEmbeddedDto> referenceBooks;
 
     @NotEmpty
     private List<AuthorNameDto> authors;

@@ -96,13 +96,6 @@ public class PostgresConfig {
         SpringLiquibase liquibase = new SpringLiquibase();
         liquibase.setDataSource(appDataSource);
         liquibase.setChangeLog(postgresLiquibaseProperties.getChangeLog());
-        liquibase.setContexts(postgresLiquibaseProperties.getContexts());
-        liquibase.setDefaultSchema(postgresLiquibaseProperties.getDefaultSchema());
-        liquibase.setDropFirst(postgresLiquibaseProperties.isDropFirst());
-        liquibase.setShouldRun(postgresLiquibaseProperties.isEnabled());
-        liquibase.setLabelFilter(postgresLiquibaseProperties.getLabelFilter());
-        liquibase.setChangeLogParameters(postgresLiquibaseProperties.getParameters());
-        liquibase.setRollbackFile(postgresLiquibaseProperties.getRollbackFile());
         return liquibase;
     }
 }
