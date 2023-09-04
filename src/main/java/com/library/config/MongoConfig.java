@@ -5,6 +5,8 @@ import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import io.mongock.driver.api.driver.ConnectionDriver;
+import io.mongock.driver.mongodb.springdata.v4.SpringDataMongoV4Driver;
 import org.springframework.boot.autoconfigure.mongo.MongoProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
