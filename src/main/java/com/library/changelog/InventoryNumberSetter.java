@@ -23,7 +23,7 @@ public class InventoryNumberSetter {
     }
 
     @RollbackExecution
-    public void rollback(){
+    public void rollback() {
         log.info("Rollback for method setInventoryNumber");
     }
 }

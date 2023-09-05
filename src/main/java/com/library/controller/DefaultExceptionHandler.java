@@ -1,6 +1,9 @@
 package com.library.controller;
 
 import com.library.model.dto.ResponseException;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -24,53 +27,74 @@ public class DefaultExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ApiResponse(responseCode = "404",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ResponseException.class)))
     public ResponseException handleNotFoundException(EntityNotFoundException e) {
         return new ResponseException(ENTITY_NOT_FOUND, LocalDateTime.now());
     }
 
     @ExceptionHandler(javax.persistence.EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ApiResponse(responseCode = "404",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ResponseException.class)))
     public ResponseException handleJavaxNotFoundException(javax.persistence.EntityNotFoundException e) {
         return new ResponseException(ENTITY_NOT_FOUND, LocalDateTime.now());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ApiResponse(responseCode = "400",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ResponseException.class)))
     public ResponseException handleIllegalArgumentException(IllegalArgumentException e) {
         return buildErrorResponseByException(e);
     }
 
     @ExceptionHandler(ConnectException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseException handleConnectException(ConnectException e){
+    @ApiResponse(responseCode = "500",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ResponseException.class)))
+    public ResponseException handleConnectException(ConnectException e) {
         return buildErrorResponseByException(e);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseException handleConstraintViolationException(ConstraintViolationException e){
+    @ApiResponse(responseCode = "400",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ResponseException.class)))
+    public ResponseException handleConstraintViolationException(ConstraintViolationException e) {
         return buildErrorResponseValidationNotPresent(e);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseException handleMethodArgumentNotValidException(MethodArgumentNotValidException e){
+    @ApiResponse(responseCode = "400",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ResponseException.class)))
+    public ResponseException handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         return buildErrorResponseValidationNotPresent(e);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseException handleDataIntegrityViolationException(DataIntegrityViolationException e){
+    @ApiResponse(responseCode = "500",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ResponseException.class)))
+    public ResponseException handleDataIntegrityViolationException(DataIntegrityViolationException e) {
         return buildErrorResponseByException(e);
     }
 
-    private ResponseException buildErrorResponseByException(Exception e){
+    private ResponseException buildErrorResponseByException(Exception e) {
         ResponseException errorResponse = new ResponseException(e.getMessage(), LocalDateTime.now());
         log.error(e.getClass().getSimpleName().concat(":").concat(String.valueOf(errorResponse)));
         return errorResponse;
     }
 
-    private ResponseException buildErrorResponseValidationNotPresent(Exception e){
+    private ResponseException buildErrorResponseValidationNotPresent(Exception e) {
         ResponseException errorResponse = new ResponseException(FIELD_NOT_PRESENT, LocalDateTime.now());
         log.error(e.getClass().getSimpleName().concat(":").concat(String.valueOf(errorResponse)));
         return errorResponse;

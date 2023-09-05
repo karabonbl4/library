@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class PublisherServiceImpl implements PublisherService{
+public class PublisherServiceImpl implements PublisherService {
 
     private final PublisherRepository publisherRepository;
 

@@ -16,7 +16,7 @@ import java.util.List;
 public class BookStored {
 
     @MongoId
-    @JsonSerialize(using= ToStringSerializer.class)
+    @JsonSerialize(using = ToStringSerializer.class)
     private ObjectId id;
 
     private String title;

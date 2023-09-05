@@ -17,7 +17,7 @@ public class BookMapper {
 
     private final ModelMapper modelMapper;
 
-    public BookMapper(ModelMapper modelMapper){
+    public BookMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
         modelMapper.createTypeMap(Book.class, BookStored.class)
                 .addMappings(mapping -> mapping.skip(BookStored::setId))
@@ -27,8 +27,8 @@ public class BookMapper {
         modelMapper.createTypeMap(BookStored.class, Book.class)
                 .addMappings(mapping -> mapping.skip(Book::setId))
                 .addMappings(mapping -> mapping.skip(Book::setReferenceBooks))
-                .addMapping(src-> src.getBookShelf().getStack(), Book::setStack)
-                .addMapping(src-> src.getBookShelf().getUnit(), Book::setUnit);
+                .addMapping(src -> src.getBookShelf().getStack(), Book::setStack)
+                .addMapping(src -> src.getBookShelf().getUnit(), Book::setUnit);
     }
 
     /**
@@ -47,23 +47,23 @@ public class BookMapper {
         return modelMapper.map(bookDto, Book.class);
     }
 
-    public BookStored mapToBookStored(Book book){
+    public BookStored mapToBookStored(Book book) {
         return modelMapper.map(book, BookStored.class);
     }
 
-    public BookTitleDto mapToBookTitleDto(Book book){
+    public BookTitleDto mapToBookTitleDto(Book book) {
         return modelMapper.map(book, BookTitleDto.class);
     }
 
-    public BookStoredDto mapToBookStoredDto(BookStored bookStored){
+    public BookStoredDto mapToBookStoredDto(BookStored bookStored) {
         return modelMapper.map(bookStored, BookStoredDto.class);
     }
 
-    public BookStoredTitleDto mapToBookStoredTitleDto(BookStored bookStored){
+    public BookStoredTitleDto mapToBookStoredTitleDto(BookStored bookStored) {
         return modelMapper.map(bookStored, BookStoredTitleDto.class);
     }
 
-    public Book mapBookStoredToBook(BookStored bookStored){
+    public Book mapBookStoredToBook(BookStored bookStored) {
         return modelMapper.map(bookStored, Book.class);
     }
 }

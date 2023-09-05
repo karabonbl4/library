@@ -8,8 +8,8 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerA
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 
 @SpringBootApplication(exclude = {MongoAutoConfiguration.class,
-                                  DataSourceAutoConfiguration.class,
-                                  DataSourceTransactionManagerAutoConfiguration.class})
+        DataSourceAutoConfiguration.class,
+        DataSourceTransactionManagerAutoConfiguration.class})
 @EnableMongock
 public class LibraryApplication {
 

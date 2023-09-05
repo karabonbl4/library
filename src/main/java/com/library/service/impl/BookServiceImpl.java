@@ -69,14 +69,14 @@ public class BookServiceImpl implements BookService {
         Book savedBook = bookMapper.mapToBook(bookDto);
         return bookMapper.mapToBookDto(bookRepository.save(savedBook));
     }
-  
-     /**
+
+    /**
      * @param bookDto an instance of the BookDto class to update in the database,
      * @return updated bookDto
      */
     @Override
     public BookDto update(BookDto bookDto) {
-        if(!bookRepository.existsById(bookDto.getId())){
+        if (!bookRepository.existsById(bookDto.getId())) {
             throw new EntityNotFoundException();
         }
         Book updatedBook = bookMapper.mapToBook(bookDto);

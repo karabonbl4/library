@@ -17,22 +17,22 @@ public class RabbitConfig {
     private final RabbitProperties rabbitProperties;
 
     @Bean
-    public Queue queue(){
+    public Queue queue() {
         return new Queue(rabbitProperties.getQueue());
     }
 
     @Bean
-    public Queue exceptionQueue(){
+    public Queue exceptionQueue() {
         return new Queue(rabbitProperties.getExceptionQueue());
     }
 
     @Bean
-    public TopicExchange exchange(){
+    public TopicExchange exchange() {
         return new TopicExchange(rabbitProperties.getExchange());
     }
 
     @Bean
-    public Binding binding(){
+    public Binding binding() {
         return BindingBuilder
                 .bind(queue())
                 .to(exchange())
@@ -40,7 +40,7 @@ public class RabbitConfig {
     }
 
     @Bean
-    public Binding exceptionBinding(){
+    public Binding exceptionBinding() {
         return BindingBuilder
                 .bind(exceptionQueue())
                 .to(exchange())
@@ -48,12 +48,12 @@ public class RabbitConfig {
     }
 
     @Bean
-    public MessageConverter converter(){
+    public MessageConverter converter() {
         return new Jackson2JsonMessageConverter();
     }
 
     @Bean
-    public AmqpTemplate amqpTemplate(ConnectionFactory connectionFactory){
+    public AmqpTemplate amqpTemplate(ConnectionFactory connectionFactory) {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
         rabbitTemplate.setMessageConverter(converter());
         return rabbitTemplate;
