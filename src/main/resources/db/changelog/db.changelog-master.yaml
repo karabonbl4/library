@@ -7,4 +7,9 @@ databaseChangeLog:
       file: db/changelog/changeset/03.create-book-table.sql
   - include:
       file: db/changelog/changeset/04.create-author-book-table.sql
-
+  - include:
+      file: db/changelog/changeset/05.add_column_taken_book_table.sql
+  - include:
+      file: db/changelog/changeset/06.add_column_inventory_number_book_table.sql
+  - include:
+      file: db/changelog/changeset/07.create_referenced_book_table.sql

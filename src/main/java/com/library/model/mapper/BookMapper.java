@@ -1,6 +1,7 @@
 package com.library.model.mapper;
 
 import com.library.model.dto.BookDto;
+import com.library.model.dto.BookTitleDto;
 import com.library.model.entity.BookStored;
 import com.library.model.dto.BookStoredDto;
 import com.library.model.dto.BookStoredTitleDto;
@@ -20,19 +21,14 @@ public class BookMapper {
         this.modelMapper = modelMapper;
         modelMapper.createTypeMap(Book.class, BookStored.class)
                 .addMappings(mapping -> mapping.skip(BookStored::setId))
-                .<Integer>addMapping(Book::getStack, ((destination, value) -> destination.getBookshelf().setStack(value)))
-                .<String>addMapping(Book::getUnit, (destination, value) -> destination.getBookshelf().setUnit(value));
+                .addMappings(mapping -> mapping.skip(BookStored::setReferenceBooks))
+                .<Integer>addMapping(Book::getStack, ((destination, value) -> destination.getBookShelf().setStack(value)))
+                .<String>addMapping(Book::getUnit, (destination, value) -> destination.getBookShelf().setUnit(value));
         modelMapper.createTypeMap(BookStored.class, Book.class)
                 .addMappings(mapping -> mapping.skip(Book::setId))
-                .addMapping(src-> src.getBookshelf().getStack(), Book::setStack)
-                .addMapping(src-> src.getBookshelf().getUnit(), Book::setUnit);
-//        modelMapper.createTypeMap(BookDto.class, BookStored.class)
-//                .addMappings(mapping -> mapping.skip(BookStored::setId))
-//                .<Integer>addMapping(BookDto::getStack, ((destination, value) -> destination.getBookshelf().setStack(value)))
-//                .<String>addMapping(BookDto::getUnit, (destination, value) -> destination.getBookshelf().setUnit(value));
-        modelMapper.createTypeMap(BookStored.class, BookDto.class)
-                .addMapping(src-> src.getBookshelf().getStack(), BookDto::setStack)
-                .addMapping(src-> src.getBookshelf().getUnit(), BookDto::setUnit);
+                .addMappings(mapping -> mapping.skip(Book::setReferenceBooks))
+                .addMapping(src-> src.getBookShelf().getStack(), Book::setStack)
+                .addMapping(src-> src.getBookShelf().getUnit(), Book::setUnit);
     }
 
     /**
@@ -55,8 +51,8 @@ public class BookMapper {
         return modelMapper.map(book, BookStored.class);
     }
 
-    public BookDto mapBookStoredToBookDto(BookStored bookStored){
-        return modelMapper.map(bookStored, BookDto.class);
+    public BookTitleDto mapToBookTitleDto(Book book){
+        return modelMapper.map(book, BookTitleDto.class);
     }
 
     public BookStoredDto mapToBookStoredDto(BookStored bookStored){

@@ -16,6 +16,7 @@ public class AuthorMapper {
 
     private final Converter<Author, String> fullName = context -> context.getSource().getName() + " " + context.getSource().getSurname();
 
+    private final Converter<AuthorStored, String> fullNameStored = context -> context.getSource().getName() + " " + context.getSource().getSurname();
     private final Converter<String, String> name = context -> context.getSource().split(" ")[0];
 
     private final Converter<String, String> surName = context -> context.getSource().split(" ")[1];
@@ -63,11 +64,11 @@ public class AuthorMapper {
                     }
                 });
 
-        modelMapper.createTypeMap(AuthorStored.class, AuthorDto.class)
-                .addMappings(new PropertyMap<AuthorStored, AuthorDto>() {
+        modelMapper.createTypeMap(AuthorStored.class, AuthorNameDto.class)
+                .addMappings(new PropertyMap<AuthorStored, AuthorNameDto>() {
                     @Override
                     protected void configure() {
-                        using(fullName)
+                        using(fullNameStored)
                                 .map(source, destination.getFullName());
                     }
                 });

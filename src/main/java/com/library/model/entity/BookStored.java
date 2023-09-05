@@ -23,9 +23,13 @@ public class BookStored {
 
     private Short publicationYear;
 
-    private BookShelf bookshelf;
+    private BookShelf bookShelf;
+
+    private String inventoryNumber;
 
     private PublisherStored publisher;
 
     private List<AuthorStored> authors;
+
+    private List<String> referenceBooks;
 }

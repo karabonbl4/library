@@ -30,22 +30,24 @@ public class RabbitProducer {
     private final RabbitTemplate rabbitTemplate;
 
     @Pointcut("execution(public * com.library.controller.BookController.*(..))")
-    public void callAtBookControllerPublic() { }
+    public void callAtBookControllerPublic() {
+    }
 
     @Pointcut("execution(public * com.library.controller.DefaultExceptionHandler.*(..))")
-    public void callAtExceptionHandlerPublic() { }
+    public void callAtExceptionHandlerPublic() {
+    }
 
 
     @Before("callAtBookControllerPublic()")
-    public void sendRequiredArguments(JoinPoint joinPoint){
-        String s = Arrays.stream(joinPoint.getArgs()).map(Object::toString).collect(Collectors.joining(", "));
-        LogMessage logMessage = buildMessage(joinPoint, s, MessageType.ARGS);
+    public void sendRequiredArguments(JoinPoint joinPoint) {
+        String name = Arrays.stream(joinPoint.getArgs()).map(arg -> arg.getClass().getSimpleName() + ": " + arg).collect(Collectors.joining(", "));
+        LogMessage logMessage = buildMessage(joinPoint, name, MessageType.ARGS);
         log.debug(logMessage.toString());
         this.convertAndSend(logMessage);
     }
 
     @AfterReturning(pointcut = "callAtBookControllerPublic()", returning = "retVal")
-    public void sendMessage(JoinPoint joinPoint, Object retVal){
+    public void sendMessage(JoinPoint joinPoint, Object retVal) {
         String s = retVal.toString();
         LogMessage logMessage = buildMessage(joinPoint, s, MessageType.RETURNS);
         log.debug(logMessage.toString());
@@ -53,7 +55,7 @@ public class RabbitProducer {
     }
 
     @AfterReturning("callAtExceptionHandlerPublic()")
-    public void sendException(JoinPoint joinPoint){
+    public void sendException(JoinPoint joinPoint) {
         Exception e = (Exception) Arrays.stream(joinPoint.getArgs())
                 .findFirst()
                 .orElse(null);
@@ -63,19 +65,20 @@ public class RabbitProducer {
         this.convertAndSend(logMessage);
     }
 
-    private LogMessage buildMessage(JoinPoint joinPoint,String body, MessageType type){
+    private LogMessage buildMessage(JoinPoint joinPoint, String body, MessageType type) {
         LogMessage logMessage = new LogMessage();
         logMessage.setTime(LocalDateTime.now().format(DATE_TIME_FORMATTER));
-        logMessage.setExecutor(joinPoint.getStaticPart().getSignature().getName());
+        logMessage.setExecutor(joinPoint.getStaticPart().getSignature().toString());
         logMessage.setType(type);
         logMessage.setBody(body);
         return logMessage;
     }
 
-    private void convertAndSend(LogMessage message){
-        if (message.getType().equals(MessageType.WARNING)){
+    private void convertAndSend(LogMessage message) {
+        if (message.getType().equals(MessageType.WARNING)) {
             rabbitTemplate.convertAndSend(rabbitProperties.getExchange(), rabbitProperties.getRoutingExceptionKey(), message);
         } else {
-        rabbitTemplate.convertAndSend(rabbitProperties.getExchange(), rabbitProperties.getRoutingKey(), message);}
+            rabbitTemplate.convertAndSend(rabbitProperties.getExchange(), rabbitProperties.getRoutingKey(), message);
+        }
     }
 }
