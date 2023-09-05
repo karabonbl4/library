@@ -28,7 +28,7 @@ public class ReferenceBooksSetter {
     }
 
     @RollbackExecution
-    public void rollback(){
+    public void rollback() {
         log.info("Rollback for mongock method setReferencesBook");
     }
 }

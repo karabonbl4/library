@@ -13,7 +13,7 @@ public class PublisherMapper {
 
     private final ModelMapper modelMapper;
 
-    private final Converter<Publisher, String> fullAddress= context -> String.format("%s, %s, %s, %s",
+    private final Converter<Publisher, String> fullAddress = context -> String.format("%s, %s, %s, %s",
             context.getSource().getCountry(),
             context.getSource().getCity(),
             context.getSource().getStreet(),
@@ -55,15 +55,15 @@ public class PublisherMapper {
                 });
     }
 
-    public PublisherDto mapToPublisherDto(Publisher publisher){
+    public PublisherDto mapToPublisherDto(Publisher publisher) {
         return modelMapper.map(publisher, PublisherDto.class);
     }
 
-    public Publisher mapToPublisher(PublisherDto publisherDto){
+    public Publisher mapToPublisher(PublisherDto publisherDto) {
         return modelMapper.map(publisherDto, Publisher.class);
     }
 
-    public PublisherTitleDto mapToPublisherTitleDto(Publisher publisher){
+    public PublisherTitleDto mapToPublisherTitleDto(Publisher publisher) {
         return modelMapper.map(publisher, PublisherTitleDto.class);
     }
 }

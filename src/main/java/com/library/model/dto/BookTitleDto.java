@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString(callSuper = true)
-public class BookTitleDto extends ParentDto{
+public class BookTitleDto extends ParentDto {
 
     private String title;
 

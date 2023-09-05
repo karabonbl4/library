@@ -74,15 +74,15 @@ public class AuthorMapper {
                 });
     }
 
-    public Author mapToAuthor(AuthorDto authorDto){
+    public Author mapToAuthor(AuthorDto authorDto) {
         return modelMapper.map(authorDto, Author.class);
     }
 
-    public AuthorDto mapToAuthorDto(Author author){
+    public AuthorDto mapToAuthorDto(Author author) {
         return modelMapper.map(author, AuthorDto.class);
     }
 
-    public AuthorNameDto mapToAuthorNameDto(Author author){
+    public AuthorNameDto mapToAuthorNameDto(Author author) {
         return modelMapper.map(author, AuthorNameDto.class);
     }
 }

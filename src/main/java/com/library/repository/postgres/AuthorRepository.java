@@ -15,5 +15,5 @@ public interface AuthorRepository extends JpaRepository<Author, Long> {
     void delete(@Param(value = "id") Long authorId);
 
     @Query(value = "SELECT COUNT(ab.book_id) FROM author_book ab WHERE ab.author_id = :id", nativeQuery = true)
-    Integer countBookByAuthor(@Param(value = "id")Long authorId);
+    Integer countBookByAuthor(@Param(value = "id") Long authorId);
 }
