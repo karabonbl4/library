@@ -1,0 +1,49 @@
+databaseChangeLog:
+  - changeSet:
+      id: 3
+      author: Lesha Korobko
+      changes:
+        - createTable:
+            tableName: book
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: book_id_pk
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(256)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: publication_year
+                  type: int2
+                  constraints:
+                    nullable: false
+              - column:
+                  name: stack
+                  type: int4
+                  constraints:
+                    nullable: false
+              - column:
+                  name: unit
+                  type: varchar(64)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: publisher_id
+                  type: int8
+                  constraints:
+                    nullable: false
+                    foreignKeyName: book_publisher_fk
+                    references: publisher(id)
+                    updateCascade: true
+              - column:
+                  name: deleted
+                  type: bool
+                  defaultValueBoolean: false
+
