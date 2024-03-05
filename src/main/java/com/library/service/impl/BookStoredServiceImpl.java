@@ -9,6 +9,7 @@ import com.library.model.mapper.BookMapper;
 import com.library.repository.mongo.BookStoredRepository;
 import com.library.repository.postgres.BookRepository;
 import com.library.service.BookStoredService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.PageRequest;
@@ -16,7 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 

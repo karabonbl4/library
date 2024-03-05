@@ -7,5 +7,5 @@ CREATE TABLE IF NOT EXISTS book (
 	publisher_id      int8 NOT NULL,
 	deleted bool      NULL DEFAULT false,
 	CONSTRAINT book_id_pk PRIMARY KEY (id),
-	CONSTRAINT book_publisher_fk FOREIGN KEY (publisher_id) REFERENCES public.publisher(id) ON UPDATE CASCADE
+	CONSTRAINT book_publisher_fk FOREIGN KEY (publisher_id) REFERENCES public.publisher(id)
 )

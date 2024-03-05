@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Getter
 public class RabbitProperties {
 
-    @Value("${rabbitmq.queue}")
+    @Value("${rabbitmq.queue.log}")
     private String queue;
 
     @Value("${rabbitmq.queue.exception}")

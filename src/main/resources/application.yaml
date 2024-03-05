@@ -1,0 +1,50 @@
+app:
+  postgres:
+    datasource:
+      driver: org.postgresql.Driver
+      url: jdbc:postgresql://localhost:5432/library
+      username: postgres
+      password: postgres
+  mongo:
+    datasource:
+      host: localhost
+      database: library
+      authenticationDatabase: admin
+      username: mongodb
+      password: mongodb
+      port: 27017
+
+spring:
+  datasource:
+    hikari:
+      connectionTimeout: 1000
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+rabbitmq:
+  queue:
+    log: library
+    exception: library_exception
+  exchange: library_exchange
+  routing:
+    key: library_routing_key
+    exception:
+      key: library_routing_exception_key
+
+datasource:
+  postgres:
+    liquibase:
+      changelog: classpath:db/changelog/db.changelog-master.yaml
+
+mongock:
+  migration-scan-package: com.library.changelog
+  transaction-enabled: true
+
+springdoc:
+  show-actuator: false
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui/index.html
