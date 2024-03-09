@@ -26,17 +26,9 @@ public class CriteriaBookRepositoryImpl implements CriteriaBookRepository {
         Root<Book> from = cq.from(Book.class);
         List<Predicate> predicates = new ArrayList<>();
         Join<Object, Object> book = (Join<Object, Object>) from.fetch(Book_.PUBLISHER);
+        if (stack != null) predicates.add(cb.equal(from.get("stack"), unit));
+        if (unit != null) predicates.add(cb.like(from.get("unit"), unit));
 
-        if (stack == null && unit != null) {
-            predicates.add(cb.like(from.get("unit"), unit));
-        } else if (stack != null && unit == null) {
-            predicates.add(cb.equal(from.get("stack"), stack.toString()));
-        } else {
-            assert stack != null;
-            assert !unit.isBlank();
-            predicates.add(cb.like(from.get("unit"), unit));
-            predicates.add(cb.equal(from.get("stack"), stack.toString()));
-        }
         cq.select(from).where(predicates.toArray(new Predicate[0]));
 
         return em.createQuery(cq).getResultList();

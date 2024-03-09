@@ -23,6 +23,11 @@ spring:
     port: 5672
     username: guest
     password: guest
+  kafka:
+    bootstrap-servers: localhost:29092
+    topic:
+      message: 'kafka.library.message'
+      exception: 'kafka.library.exception'
 
 rabbitmq:
   queue:
