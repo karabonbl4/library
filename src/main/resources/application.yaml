@@ -2,14 +2,14 @@ app:
   postgres:
     datasource:
       driver: org.postgresql.Driver
-      url: jdbc:postgresql://postgresqldb:5432/library
+      url: jdbc:postgresql://localhost:5432/library
       username: postgres
       password: postgres
   mongo:
     datasource:
-      host: mongo1
+      host: localhost
       database: library
-      authentication-database: admin
+      authenticationDatabase: admin
       username: mongodb
       password: mongodb
       port: 27017
@@ -19,10 +19,15 @@ spring:
     hikari:
       connectionTimeout: 1000
   rabbitmq:
-    host: rabbitmq
+    host: localhost
     port: 5672
     username: guest
     password: guest
+  kafka:
+    bootstrap-servers: localhost:29092
+    topic:
+      message: 'kafka.library.message'
+      exception: 'kafka.library.exception'
 
 rabbitmq:
   queue:

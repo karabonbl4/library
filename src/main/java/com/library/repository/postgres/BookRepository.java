@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface BookRepository extends JpaRepository<Book, Long> {
+public interface BookRepository extends JpaRepository<Book, Long>, JdbcRepository<Book, Long>, JdbcTemplateRepository<Book> {
 
     @Modifying
     @Query("UPDATE Book b SET b.deleted = true WHERE b.id = :id")
