@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - changeSet:
+      id: 6
+      author: Lesha Korobko
+      changes:
+        - addColumn:
+            tableName: book
+            columns:
+              - column:
+                  name: inventory_number
+                  type: varchar(25)
+                  constraints:
+                    nullable: false
+                    unique: true
+                    uniqueConstraintName: book_inv_num_uq

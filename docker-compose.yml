@@ -12,9 +12,9 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_DB=library
   mongo1:
-    image: mongo:latest
+    image: mongo:7.0
     container_name: mongoDB-library
-    hostname: mongo1
+    hostname: localhost
     environment:
       MONGO_INITDB_ROOT_USERNAME: mongodb
       MONGO_INITDB_ROOT_PASSWORD: mongodb
@@ -24,26 +24,28 @@ services:
       - mongodb_data_cont:/data/db
     restart: always
     entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
-  mongosetup:
-    image: mongo:latest
-    depends_on:
-      - mongo1
-    volumes:
-      - ./scripts/rs-init.sh:/scripts/rs-init.sh
-    restart: "no"
-    entrypoint: [ "bash", "/scripts/rs-init.sh" ]
+#  mongosetup:
+#    image: mongo:latest
+#    depends_on:
+#      - mongo1
+#    volumes:
+#      - ./scripts/rs-init.sh:/scripts/rs-init.sh
+#    restart: "no"
+#    entrypoint: [ "bash", "/scripts/rs-init.sh" ]
 
   app:
     container_name: tomcat-library
-    image: tomcat:10.1.8-jdk17
+    build:
+      dockerfile: Dockerfile
+    image: app:latest
     ports:
       - 8080:8080
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgresqldb:5432/library
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
-    volumes:
-      - ./build/libs/library-0.1.war:/usr/local/tomcat/webapps/ROOT.war
+    depends_on:
+      - postgresqldb
+      - mongo1
+#    volumes:
+#      - ./build/libs/library-0.1.jar:/usr/local/tomcat/webapps/library-0.1.jar
+#    entrypoint: [ "java", "-jar", "/usr/local/tomcat/webapps/library-0.1.jar"]
 
   kafka-logger:
     container_name: tomcat-kafka
@@ -54,10 +56,11 @@ services:
       - SPRING_RABBITMQ_HOST=rabbitmq
       - SPRING_RABBITMQ_PORT=5672
     volumes:
-      - ./build/libs/kafka_logger.war:/usr/local/tomcat/webapps/ROOT.war
+      - ./build/libs/kafka_logger.jar:/usr/local/tomcat/webapps/kafka_logger.jar
+    entrypoint: [ "java", "-jar", "/usr/local/tomcat/webapps/kafka_logger.jar"]
 
   rabbitmq:
-    container_name: 'library-rabbitmq'
+    container_name: library-rabbitmq
     image: rabbitmq:3.10-management
     restart: always
     ports:
@@ -103,4 +106,4 @@ services:
 
 volumes:
   postgres-data:
-  mongo_data_cont:
+  mongodb_data_cont:

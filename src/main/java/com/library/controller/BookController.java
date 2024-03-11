@@ -4,6 +4,7 @@ import com.library.model.dto.BookDto;
 import com.library.model.dto.BookTitleDto;
 import com.library.model.dto.ResponseMessage;
 import com.library.service.BookService;
+import com.senlainternship.logger.annotation.LoggableMessage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -61,6 +62,7 @@ public class BookController {
     @ApiResponse(responseCode = "200",
             description = "Found the book",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookDto.class)))
+    @LoggableMessage
     public BookDto getBookById(@Valid @PathVariable("id") Long bookId) {
         return bookService.findById(bookId);
     }

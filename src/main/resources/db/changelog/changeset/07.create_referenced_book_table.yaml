@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: 7
+      author: Lesha Korobko
+      changes:
+        - createTable:
+            tableName: reference_book
+            columns:
+              - column:
+                  name: book_id
+                  type: int8
+                  constraints:
+                    nullable: false
+                    foreignKeyName: book_br_id_fk
+                    references: book(id)
+                    updateCascade: true
+              - column:
+                  name: reference_id
+                  type: int8
+                  constraints:
+                    nullable: false
+                    foreignKeyName: reference_br_id_fk
+                    references: book(id)
+                    updateCascade: true
+        - addPrimaryKey:
+            clustered: true
+            columnNames: book_id, reference_id
+            constraintName: reference_book_id_pk
+            schemaName: public
+            tableName: reference_book
+            validate: true

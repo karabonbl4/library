@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
         DataSourceAutoConfiguration.class,
         DataSourceTransactionManagerAutoConfiguration.class})
 @EnableMongock
-public class LibraryApplication {
+public class LibraryApplication{
 
     public static void main(String[] args) {
         SpringApplication.run(LibraryApplication.class, args);
