@@ -1,0 +1,48 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Lesha Korobko
+      changes:
+        - createTable:
+            tableName: publisher
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: publisher_id_pk
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(128)
+                  constraints:
+                    nullable: false
+                    unique: true
+                    uniqueConstraintName: publisher_title_key
+              - column:
+                  name: country
+                  type: varchar(128)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: city
+                  type: varchar(128)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: street
+                  type: varchar(128)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: building_number
+                  type: varchar(128)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: deleted
+                  type: bool
+                  defaultValueBoolean: false
+

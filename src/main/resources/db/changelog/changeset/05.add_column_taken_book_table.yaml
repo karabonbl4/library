@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: 5
+      author: Lesha Korobko
+      changes:
+        - addColumn:
+            tableName: book
+            columns:
+              - column:
+                  name: taken
+                  type: bool
+                  defaultValueBoolean: false
