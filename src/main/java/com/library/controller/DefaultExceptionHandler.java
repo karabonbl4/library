@@ -34,15 +34,6 @@ public class DefaultExceptionHandler {
         return new ResponseException(ENTITY_NOT_FOUND, LocalDateTime.now());
     }
 
-    @ExceptionHandler(javax.persistence.EntityNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ApiResponse(responseCode = "404",
-            content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = ResponseException.class)))
-    public ResponseException handleJavaxNotFoundException(javax.persistence.EntityNotFoundException e) {
-        return new ResponseException(ENTITY_NOT_FOUND, LocalDateTime.now());
-    }
-
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ApiResponse(responseCode = "400",
