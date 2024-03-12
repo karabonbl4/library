@@ -1,7 +1,7 @@
 package com.library.service;
 
-import com.library.model.dto.BookDto;
-import com.library.model.dto.BookTitleDto;
+import com.library.dto.BookDto;
+import com.library.dto.BookTitleDto;
 
 import java.util.List;
 

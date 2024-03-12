@@ -1,8 +1,8 @@
 package com.library.model.mapper;
 
 import com.library.model.entity.AuthorStored;
-import com.library.model.dto.AuthorDto;
-import com.library.model.dto.AuthorNameDto;
+import com.library.dto.AuthorDto;
+import com.library.dto.AuthorNameDto;
 import com.library.model.entity.Author;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -25,7 +25,7 @@ public class AuthorMapper {
         this.modelMapper = modelMapper;
 
         modelMapper.createTypeMap(Author.class, AuthorDto.class)
-                .addMappings(new PropertyMap<Author, AuthorDto>() {
+                .addMappings(new PropertyMap<>() {
                     @Override
                     protected void configure() {
                         using(fullName)
@@ -34,7 +34,7 @@ public class AuthorMapper {
                 });
 
         modelMapper.createTypeMap(Author.class, AuthorNameDto.class)
-                .addMappings(new PropertyMap<Author, AuthorNameDto>() {
+                .addMappings(new PropertyMap<>() {
                     @Override
                     protected void configure() {
                         using(fullName)
@@ -43,7 +43,7 @@ public class AuthorMapper {
                 });
 
         modelMapper.createTypeMap(AuthorDto.class, Author.class)
-                .addMappings(new PropertyMap<AuthorDto, Author>() {
+                .addMappings(new PropertyMap<>() {
                     @Override
                     protected void configure() {
                         using(name)
@@ -54,7 +54,7 @@ public class AuthorMapper {
                 });
 
         modelMapper.createTypeMap(AuthorNameDto.class, Author.class)
-                .addMappings(new PropertyMap<AuthorNameDto, Author>() {
+                .addMappings(new PropertyMap<>() {
                     @Override
                     protected void configure() {
                         using(name)
@@ -65,7 +65,7 @@ public class AuthorMapper {
                 });
 
         modelMapper.createTypeMap(AuthorStored.class, AuthorNameDto.class)
-                .addMappings(new PropertyMap<AuthorStored, AuthorNameDto>() {
+                .addMappings(new PropertyMap<>() {
                     @Override
                     protected void configure() {
                         using(fullNameStored)

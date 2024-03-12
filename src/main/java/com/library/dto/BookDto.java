@@ -1,4 +1,4 @@
-package com.library.model.dto;
+package com.library.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;

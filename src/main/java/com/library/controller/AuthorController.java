@@ -1,8 +1,8 @@
 package com.library.controller;
 
-import com.library.model.dto.AuthorDto;
-import com.library.model.dto.AuthorNameDto;
-import com.library.model.dto.ResponseMessage;
+import com.library.dto.AuthorDto;
+import com.library.dto.AuthorNameDto;
+import com.library.dto.ResponseMessage;
 import com.library.service.AuthorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

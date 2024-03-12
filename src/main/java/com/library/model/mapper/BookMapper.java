@@ -1,10 +1,10 @@
 package com.library.model.mapper;
 
-import com.library.model.dto.BookDto;
-import com.library.model.dto.BookTitleDto;
+import com.library.dto.BookDto;
+import com.library.dto.BookTitleDto;
 import com.library.model.entity.BookStored;
-import com.library.model.dto.BookStoredDto;
-import com.library.model.dto.BookStoredTitleDto;
+import com.library.dto.BookStoredDto;
+import com.library.dto.BookStoredTitleDto;
 import com.library.model.entity.Book;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;

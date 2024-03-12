@@ -1,7 +1,7 @@
 package com.library.service.impl;
 
-import com.library.model.dto.BookDto;
-import com.library.model.dto.BookTitleDto;
+import com.library.dto.BookDto;
+import com.library.dto.BookTitleDto;
 import com.library.model.entity.Book;
 import com.library.model.mapper.BookMapper;
 import com.library.repository.postgres.BookRepository;

@@ -1,14 +1,15 @@
 package com.library.controller;
 
-import com.library.model.dto.BookDto;
-import com.library.model.dto.BookTitleDto;
-import com.library.model.dto.ResponseMessage;
+import com.library.dto.BookDto;
+import com.library.dto.BookTitleDto;
+import com.library.dto.ResponseMessage;
 import com.library.service.BookService;
 import com.senlainternship.logger.annotation.LoggableMessage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -49,6 +50,7 @@ public class BookController {
     @ApiResponse(responseCode = "200",
             description = "Found the list of books",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookTitleDto.class)))
+    @LoggableMessage
     public List<BookTitleDto> getAllBooks(@Valid @RequestParam Integer page, @Valid @RequestParam Integer sizeOnPage) {
         return bookService.findAllWithPageable(page, sizeOnPage);
     }
@@ -74,9 +76,13 @@ public class BookController {
      */
     @PostMapping
     @Operation(summary = "Save getting book")
-    @ApiResponse(responseCode = "200",
+    @ApiResponses(value = {@ApiResponse(responseCode = "200",
             description = "Save the book",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookDto.class)))
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookDto.class))),
+            @ApiResponse(responseCode = "404", description = "Book not found!", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Bad request :(", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)})
+    @LoggableMessage
     public BookDto saveBook(@Valid @RequestBody BookDto bookDto) {
         return bookService.save(bookDto);
     }
@@ -91,6 +97,7 @@ public class BookController {
     @ApiResponse(responseCode = "200",
             description = "Update the book",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookDto.class)))
+    @LoggableMessage
     public BookDto updateBook(@Valid @RequestBody BookDto bookDto) {
         return bookService.update(bookDto);
     }
@@ -104,6 +111,7 @@ public class BookController {
     @ApiResponse(responseCode = "200",
             description = "Delete the book by id",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResponseMessage.class)))
+    @LoggableMessage
     public ResponseMessage softDeleteBook(@Valid @PathVariable(name = "id") Long bookId) {
         bookService.softDelete(bookId);
         return new ResponseMessage(BOOK_IS_DELETED);

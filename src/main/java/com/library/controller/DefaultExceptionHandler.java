@@ -1,9 +1,8 @@
 package com.library.controller;
 
-import com.library.model.dto.ResponseException;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import com.library.dto.ResponseException;
+import com.senlainternship.logger.annotation.LoggableException;
+import feign.FeignException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -27,55 +26,50 @@ public class DefaultExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ApiResponse(responseCode = "404",
-            content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = ResponseException.class)))
+    @LoggableException
     public ResponseException handleNotFoundException(EntityNotFoundException e) {
         return new ResponseException(ENTITY_NOT_FOUND, LocalDateTime.now());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ApiResponse(responseCode = "400",
-            content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = ResponseException.class)))
+    @LoggableException
     public ResponseException handleIllegalArgumentException(IllegalArgumentException e) {
         return buildErrorResponseByException(e);
     }
 
     @ExceptionHandler(ConnectException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ApiResponse(responseCode = "500",
-            content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = ResponseException.class)))
+    @LoggableException
     public ResponseException handleConnectException(ConnectException e) {
         return buildErrorResponseByException(e);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ApiResponse(responseCode = "400",
-            content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = ResponseException.class)))
+    @LoggableException
     public ResponseException handleConstraintViolationException(ConstraintViolationException e) {
         return buildErrorResponseValidationNotPresent(e);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ApiResponse(responseCode = "400",
-            content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = ResponseException.class)))
+    @LoggableException
     public ResponseException handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         return buildErrorResponseValidationNotPresent(e);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ApiResponse(responseCode = "500",
-            content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = ResponseException.class)))
+    @LoggableException
     public ResponseException handleDataIntegrityViolationException(DataIntegrityViolationException e) {
+        return buildErrorResponseByException(e);
+    }
+
+    @ExceptionHandler(FeignException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @LoggableException
+    public ResponseException handleFeignException(FeignException e) {
         return buildErrorResponseByException(e);
     }
 
