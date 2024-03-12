@@ -17,7 +17,7 @@ public class LogFeignController {
     private final LogFeignClient logFeignClient;
 
     @GetMapping
-    public List<LogDto> getLogs(@RequestParam(name = "page") Integer page, @RequestParam(name = "sizeOnPage") Integer sizeOnPage) {
+    public List<LogDto> getLogs(@RequestParam Integer page, @RequestParam Integer sizeOnPage) {
         return logFeignClient.getAllLogs(page, sizeOnPage);
     }
 
