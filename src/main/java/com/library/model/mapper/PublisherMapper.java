@@ -1,7 +1,7 @@
 package com.library.model.mapper;
 
-import com.library.model.dto.PublisherDto;
-import com.library.model.dto.PublisherTitleDto;
+import com.library.dto.PublisherDto;
+import com.library.dto.PublisherTitleDto;
 import com.library.model.entity.Publisher;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -31,7 +31,7 @@ public class PublisherMapper {
         this.modelMapper = modelMapper;
 
         modelMapper.createTypeMap(Publisher.class, PublisherDto.class)
-                .addMappings(new PropertyMap<Publisher, PublisherDto>() {
+                .addMappings(new PropertyMap<>() {
                     @Override
                     protected void configure() {
                         using(fullAddress)
@@ -40,7 +40,7 @@ public class PublisherMapper {
                 });
 
         modelMapper.createTypeMap(PublisherDto.class, Publisher.class)
-                .addMappings(new PropertyMap<PublisherDto, Publisher>() {
+                .addMappings(new PropertyMap<>() {
                     @Override
                     protected void configure() {
                         using(country)

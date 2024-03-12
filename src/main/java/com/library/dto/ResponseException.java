@@ -1,4 +1,4 @@
-package com.library.model.dto;
+package com.library.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;

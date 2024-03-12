@@ -1,7 +1,7 @@
 package com.library.service;
 
-import com.library.model.dto.PublisherDto;
-import com.library.model.dto.PublisherTitleDto;
+import com.library.dto.PublisherDto;
+import com.library.dto.PublisherTitleDto;
 
 import java.util.List;
 

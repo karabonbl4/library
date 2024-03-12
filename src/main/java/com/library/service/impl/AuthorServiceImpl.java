@@ -1,7 +1,7 @@
 package com.library.service.impl;
 
-import com.library.model.dto.AuthorDto;
-import com.library.model.dto.AuthorNameDto;
+import com.library.dto.AuthorDto;
+import com.library.dto.AuthorNameDto;
 import com.library.model.entity.Author;
 import com.library.model.mapper.AuthorMapper;
 import com.library.repository.postgres.AuthorRepository;

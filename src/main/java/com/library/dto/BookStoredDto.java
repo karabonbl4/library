@@ -1,4 +1,4 @@
-package com.library.model.dto;
+package com.library.dto;
 
 import com.library.model.entity.AuthorStored;
 import com.library.model.entity.BookShelf;

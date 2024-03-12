@@ -1,7 +1,7 @@
 package com.library.service.impl;
 
-import com.library.model.dto.PublisherDto;
-import com.library.model.dto.PublisherTitleDto;
+import com.library.dto.PublisherDto;
+import com.library.dto.PublisherTitleDto;
 import com.library.model.entity.Publisher;
 import com.library.model.mapper.PublisherMapper;
 import com.library.repository.postgres.PublisherRepository;
